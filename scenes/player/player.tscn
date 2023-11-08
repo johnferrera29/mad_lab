@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyjcg33e37son"]
+[gd_scene load_steps=8 format=3 uid="uid://dyjcg33e37son"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_iwvof"]
 [ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_c4mf3"]
+[ext_resource type="Script" path="res://scripts/states/state_machine.gd" id="3_xo4ab"]
+[ext_resource type="Script" path="res://scripts/player/states/player_idle_state.gd" id="4_pp7cs"]
+[ext_resource type="Script" path="res://scripts/player/states/player_run_state.gd" id="5_wss2c"]
+[ext_resource type="Script" path="res://scripts/player/states/player_jump_state.gd" id="6_ytueb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxt50"]
 
@@ -17,3 +21,15 @@ texture = ExtResource("2_c4mf3")
 shape = SubResource("RectangleShape2D_xxt50")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_xo4ab")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_pp7cs")
+
+[node name="Run" type="Node" parent="StateMachine"]
+script = ExtResource("5_wss2c")
+
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource("6_ytueb")
