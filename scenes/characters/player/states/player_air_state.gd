@@ -10,29 +10,19 @@ signal actor_ran
 
 func state_enter(msg: Dictionary = {}) -> void:
 	if msg.has("jump"):
-		actor.velocity.y = -actor.jump_force
+		jump(actor.jump_force)
 		actor.move_and_slide()
 
 
 func state_physics_process(delta: float) -> void:
-	# Move player based on direction.
 	var direction: float = Input.get_axis("move_left", "move_right")
 	if not is_zero_approx(direction):
-		actor.velocity.x = direction * actor.movement_speed
+		run(direction, actor.movement_speed)
 	else:
-		actor.velocity.x = move_toward(actor.velocity.x, 0, actor.movement_speed)
+		decelerate(actor.movement_speed)
 	
-	# Add gravity to player while falling.
 	if not actor.is_on_floor():
-		# Apply gravity multiplier once jump force has reached 0. Prevents sticky jump.
-		if actor.velocity.y > 0:
-			actor.velocity.y += actor.gravity * actor.gravity_multiplier * delta
-		else:
-			actor.velocity.y += actor.gravity * delta
-		
-		# Limit fall speed by specifying terminal velocity.
-		if actor.velocity.y > actor.terminal_velocity:
-			actor.velocity.y = actor.terminal_velocity
+		apply_gravity(delta, actor.gravity, actor.gravity_multiplier, actor.terminal_velocity)
 	else:
 		# When player is grounded transition to either idle or run states.
 		if is_zero_approx(actor.velocity.x):
@@ -41,3 +31,32 @@ func state_physics_process(delta: float) -> void:
 			actor_ran.emit()
 	
 	actor.move_and_slide()
+
+
+## Adds gravity to actor while falling.
+func apply_gravity(delta: float, gravity: float, gravity_multiplier: float, terminal_velocity: float) -> void:
+	# Apply gravity multiplier once jump force has reached 0. Prevents sticky jump.
+	if actor.velocity.y > 0:
+		actor.velocity.y += gravity * gravity_multiplier * delta
+	else:
+		actor.velocity.y += gravity * delta
+	
+	# Limit fall speed by specifying terminal velocity.
+	if actor.velocity.y > terminal_velocity:
+		actor.velocity.y = terminal_velocity
+
+
+## Add an upwards force to the actor.
+func jump(force: float) -> void:
+	actor.velocity.y = -actor.jump_force
+
+
+## Move the actor horizontally to the specified [param direction] at a particular [param speed].
+func run(direction: float, speed: float) -> void:
+	actor.velocity.x = direction * speed
+
+
+## Deccelerates the actor by [param speed] towards an optional [param target_speed].
+## By default decelerates towards zero.
+func decelerate(speed: float, target_speed: float = 0) -> void:
+	actor.velocity.x = move_toward(actor.velocity.x, target_speed, speed)
