@@ -26,11 +26,14 @@ shape = SubResource("RectangleShape2D_xxt50")
 script = ExtResource("3_xo4ab")
 initial_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateMachine"]
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
 script = ExtResource("4_pp7cs")
+actor = NodePath("../..")
 
-[node name="Run" type="Node" parent="StateMachine"]
+[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
 script = ExtResource("5_wss2c")
+actor = NodePath("../..")
 
-[node name="Air" type="Node" parent="StateMachine"]
+[node name="Air" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
 script = ExtResource("6_2y2n0")
+actor = NodePath("../..")

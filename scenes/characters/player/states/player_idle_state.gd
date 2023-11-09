@@ -1,21 +1,25 @@
-extends PlayerState
+class_name PlayerIdleState
+extends State
 
 
-#region State Methods
-func state_enter(msg := {}) -> void:
-	player.velocity = Vector2.ZERO
+signal actor_ran
+signal actor_jumped
+signal actor_fell
+
+@export var actor: Player
+@export var animator: AnimatedSprite2D
+
+
+func state_enter(msg: Dictionary = {}) -> void:
+	actor.velocity = Vector2.ZERO
 
 
 func state_physics_process(delta: float) -> void:
-	# Player is falling.
-	if not player.is_on_floor():
-		transition_to(self, "air")
+	if not actor.is_on_floor():
+		actor_fell.emit()
 	
-	# Player jump.
 	if Input.is_action_just_pressed("jump"):
-		transition_to(self, "air", {jump = true})
+		actor_jumped.emit()
 	
-	# Player run.
 	if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
-		transition_to(self, "run")
-#endregion
+		actor_ran.emit()

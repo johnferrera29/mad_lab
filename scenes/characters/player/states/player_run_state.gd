@@ -1,24 +1,28 @@
-extends PlayerState
+class_name PlayerRunState
+extends State
 
 
-#region State Methods
+signal actor_idle
+signal actor_jumped
+signal actor_fell
+
+@export var actor: Player
+@export var animator: AnimatedSprite2D
+
+
 func state_physics_process(delta: float) -> void:
-	# Player is falling.
-	if not player.is_on_floor():
-		transition_to(self, "air")
+	if not actor.is_on_floor():
+		actor_fell.emit()
 	
-	# Player jump.
 	if Input.is_action_just_pressed("jump"):
-		transition_to(self, "air", {jump = true})
+		actor_jumped.emit()
 	
 	# Move player based on input direction.
 	var direction: float = Input.get_axis("move_left", "move_right")
 	if not is_zero_approx(direction):
-		player.velocity.x = direction * player.movement_speed
+		actor.velocity.x = direction * actor.movement_speed
 	else:
-		# Player Idle
-		player.velocity.x = move_toward(player.velocity.x, 0, player.movement_speed)
-		transition_to(self, "idle")
+		actor.velocity.x = move_toward(actor.velocity.x, 0, actor.movement_speed)
+		actor_idle.emit()
 
-	player.move_and_slide()
-#endregion
+	actor.move_and_slide()

@@ -1,38 +1,43 @@
-extends PlayerState
+class_name PlayerAirState
+extends State
+
+signal actor_idle
+signal actor_ran
+
+@export var actor: Player
+@export var animator: AnimatedSprite2D
 
 
-#region State Methods
-func state_enter(msg := {}) -> void:
+func state_enter(msg: Dictionary = {}) -> void:
 	if msg.has("jump"):
-		player.velocity.y = -player.jump_force
-		player.move_and_slide()
+		actor.velocity.y = -actor.jump_force
+		actor.move_and_slide()
 
 
 func state_physics_process(delta: float) -> void:
 	# Move player based on direction.
 	var direction: float = Input.get_axis("move_left", "move_right")
 	if not is_zero_approx(direction):
-		player.velocity.x = direction * player.movement_speed
+		actor.velocity.x = direction * actor.movement_speed
 	else:
-		player.velocity.x = move_toward(player.velocity.x, 0, player.movement_speed)
+		actor.velocity.x = move_toward(actor.velocity.x, 0, actor.movement_speed)
 	
-	# Add gravity to player while falling
-	if not player.is_on_floor():
-		# Conditional gravity multiplier once jump force has been applied.
-		# Prevents sticky jumps by applying multiplier only after jump force has been exhausted.
-		if player.velocity.y > 0:
-			player.velocity.y += player.gravity * player.gravity_multiplier * delta
+	# Add gravity to player while falling.
+	if not actor.is_on_floor():
+		# Apply gravity multiplier once jump force has reached 0. Prevents sticky jump.
+		if actor.velocity.y > 0:
+			actor.velocity.y += actor.gravity * actor.gravity_multiplier * delta
 		else:
-			player.velocity.y += player.gravity * delta
+			actor.velocity.y += actor.gravity * delta
 		
-		# Limit terminal velocity
-		if player.velocity.y > player.terminal_velocity:
-			player.velocity.y = player.terminal_velocity
+		# Limit fall speed by specifying terminal velocity.
+		if actor.velocity.y > actor.terminal_velocity:
+			actor.velocity.y = actor.terminal_velocity
 	else:
-		if is_zero_approx(player.velocity.x):
-			transition_to(self, "idle")
+		# When player is grounded transition to either idle or run states.
+		if is_zero_approx(actor.velocity.x):
+			actor_idle.emit()
 		else:
-			transition_to(self, "run")
+			actor_ran.emit()
 	
-	player.move_and_slide()
-#endregion
+	actor.move_and_slide()
