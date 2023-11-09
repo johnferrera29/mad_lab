@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://shared_scripts/states/state_machine.gd" id="3_xo4ab"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_idle_state.gd" id="4_pp7cs"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_run_state.gd" id="5_wss2c"]
-[ext_resource type="Script" path="res://scenes/characters/player/states/player_jump_state.gd" id="6_ytueb"]
+[ext_resource type="Script" path="res://scenes/characters/player/states/player_air_state.gd" id="6_2y2n0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxt50"]
 
@@ -22,8 +22,9 @@ shape = SubResource("RectangleShape2D_xxt50")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_xo4ab")
+initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("4_pp7cs")
@@ -31,5 +32,5 @@ script = ExtResource("4_pp7cs")
 [node name="Run" type="Node" parent="StateMachine"]
 script = ExtResource("5_wss2c")
 
-[node name="Jump" type="Node" parent="StateMachine"]
-script = ExtResource("6_ytueb")
+[node name="Air" type="Node" parent="StateMachine"]
+script = ExtResource("6_2y2n0")

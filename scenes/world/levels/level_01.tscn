@@ -9,7 +9,7 @@ size = Vector2(126, 125)
 [node name="Level01" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_um13x")]
-position = Vector2(240, 136)
+position = Vector2(240, 181)
 gravity_multiplier = 2.0
 
 [node name="TemporaryGround" type="StaticBody2D" parent="."]
