@@ -5,11 +5,13 @@ extends CharacterBody2D
 @export_group("Movement")
 @export var movement_speed: float = 300.0
 @export var jump_force: float = 400.0
+## Jump buffering in seconds.
+@export_range(0.0, 1.0, 0.1) var jump_buffer: float = 0.1
 ## Max [member CharacterBody2D.velocity.y] the player can achieve while falling.
 @export var terminal_velocity: float = 500.0
-## Gravity multiplier when player is falling.
-## Only applied after jump force.
+## Gravity multiplier applied when player is falling.
 @export var gravity_multiplier: float = 1.0
+
 
 @onready var state_machine: StateMachine = $StateMachine as StateMachine
 @onready var player_idle_state: PlayerIdleState = $StateMachine/Idle as PlayerIdleState

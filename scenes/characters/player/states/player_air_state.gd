@@ -7,6 +7,9 @@ signal actor_ran
 @export var actor: Player
 @export var animator: AnimatedSprite2D
 
+var _jump_timer: float
+var _direction: float
+
 
 func state_enter(msg: Dictionary = {}) -> void:
 	if msg.has("jump"):
@@ -14,21 +17,30 @@ func state_enter(msg: Dictionary = {}) -> void:
 		actor.move_and_slide()
 
 
+func state_handle_input(event: InputEvent) -> void:
+	_direction = Input.get_axis("move_left", "move_right")
+
+	if Input.is_action_just_pressed("jump"):
+		_jump_timer = actor.jump_buffer
+
+
 func state_physics_process(delta: float) -> void:
-	var direction: float = Input.get_axis("move_left", "move_right")
-	if not is_zero_approx(direction):
-		run(direction, actor.movement_speed)
+	if not is_zero_approx(_direction):
+		run(_direction, actor.movement_speed)
 	else:
 		decelerate(actor.movement_speed)
 	
 	if not actor.is_on_floor():
 		apply_gravity(delta, actor.gravity, actor.gravity_multiplier, actor.terminal_velocity)
 	else:
-		# When player is grounded transition to either idle or run states.
-		if is_zero_approx(actor.velocity.x):
-			actor_idle.emit()
-		else:
-			actor_ran.emit()
+		check_for_buffered_jump(delta, actor.jump_force)
+		
+		if is_zero_approx(actor.velocity.y):
+			# When player is grounded transition to either idle or run states.
+			if is_zero_approx(actor.velocity.x):
+				actor_idle.emit()
+			else:
+				actor_ran.emit()
 	
 	actor.move_and_slide()
 
@@ -48,7 +60,19 @@ func apply_gravity(delta: float, gravity: float, gravity_multiplier: float, term
 
 ## Add an upwards force to the actor.
 func jump(force: float) -> void:
-	actor.velocity.y = -actor.jump_force
+	actor.velocity.y = -force
+
+
+## Checks for a buffered jump and executes [method jump] with a [param force].
+func check_for_buffered_jump(delta: float, force: float) -> bool:
+	_jump_timer -= delta
+
+	if _jump_timer > 0.0:
+		_jump_timer = 0.0
+		jump(force)
+		return true
+	
+	return false
 
 
 ## Move the actor horizontally to the specified [param direction] at a particular [param speed].
