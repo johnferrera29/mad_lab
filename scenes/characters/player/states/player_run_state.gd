@@ -10,12 +10,14 @@ signal actor_fell
 @export var animator: AnimatedSprite2D
 
 
+func state_handle_input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("jump"):
+		actor_jumped.emit()
+
+
 func state_physics_process(delta: float) -> void:
 	if not actor.is_on_floor():
 		actor_fell.emit()
-	
-	if Input.is_action_just_pressed("jump"):
-		actor_jumped.emit()
 	
 	var direction: float = Input.get_axis("move_left", "move_right")
 	if not is_zero_approx(direction):

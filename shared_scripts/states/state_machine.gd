@@ -48,7 +48,7 @@ func change_state(new_state: State, msg: Dictionary = {}) -> void:
 
 
 ## For DEBUG purposes only. Prints the name of the previous state and new state.
-func _print_state_change(previous_state: State, new_state: State):
+func _print_state_change(previous_state: State, new_state: State) -> void:
 	var previous_state_name = previous_state.name.to_lower() if previous_state != null else "null"
 	var new_state_name = new_state.name.to_lower()
 

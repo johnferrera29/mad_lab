@@ -8,7 +8,6 @@ signal actor_ran
 @export var animator: AnimatedSprite2D
 
 var _jump_timer: float
-var _direction: float
 
 
 func state_enter(msg: Dictionary = {}) -> void:
@@ -18,15 +17,14 @@ func state_enter(msg: Dictionary = {}) -> void:
 
 
 func state_handle_input(event: InputEvent) -> void:
-	_direction = Input.get_axis("move_left", "move_right")
-
 	if Input.is_action_just_pressed("jump"):
 		_jump_timer = actor.jump_buffer
 
 
 func state_physics_process(delta: float) -> void:
-	if not is_zero_approx(_direction):
-		run(_direction, actor.movement_speed)
+	var direction: float = Input.get_axis("move_left", "move_right")
+	if not is_zero_approx(direction):
+		run(direction, actor.movement_speed)
 	else:
 		decelerate(actor.movement_speed)
 	
@@ -68,6 +66,7 @@ func check_for_buffered_jump(delta: float, force: float) -> bool:
 	_jump_timer -= delta
 
 	if _jump_timer > 0.0:
+		# print("BUFFER JUMP")
 		_jump_timer = 0.0
 		jump(force)
 		return true
