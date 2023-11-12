@@ -18,7 +18,7 @@ func state_handle_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("jump"):
 		actor_jumped.emit()
 	
-	if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
+	if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		actor_ran.emit()
 
 
