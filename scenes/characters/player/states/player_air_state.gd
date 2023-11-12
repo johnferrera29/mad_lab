@@ -29,7 +29,7 @@ func state_physics_process(delta: float) -> void:
 		decelerate(actor.movement_speed)
 	
 	if not actor.is_on_floor():
-		apply_gravity(delta, actor.gravity, actor.gravity_multiplier, actor.terminal_velocity)
+		apply_gravity(delta, get_gravity(), actor.terminal_velocity)
 	else:
 		check_for_buffered_jump(delta, actor.jump_force)
 		
@@ -44,16 +44,17 @@ func state_physics_process(delta: float) -> void:
 
 
 ## Adds gravity to actor while falling.
-func apply_gravity(delta: float, gravity: float, gravity_multiplier: float, terminal_velocity: float) -> void:
-	# Apply gravity multiplier once jump force has reached 0. Prevents sticky jump.
-	if actor.velocity.y > 0:
-		actor.velocity.y += gravity * gravity_multiplier * delta
-	else:
-		actor.velocity.y += gravity * delta
+# Limit fall speed by specifying terminal velocity.
+func apply_gravity(delta: float, gravity: float, terminal_velocity: float) -> void:
+	actor.velocity.y += gravity * delta
 	
-	# Limit fall speed by specifying terminal velocity.
-	if actor.velocity.y > terminal_velocity:
+	if terminal_velocity > 0.0 and actor.velocity.y > terminal_velocity:
 		actor.velocity.y = terminal_velocity
+
+
+## Gets either the jump_gravity or fall_gravity depending on actor's velocity.y
+func get_gravity() -> float:
+	return actor.jump_gravity if actor.velocity.y < 0.0 else actor.fall_gravity
 
 
 ## Add an upwards force to the actor.
@@ -66,7 +67,7 @@ func check_for_buffered_jump(delta: float, force: float) -> bool:
 	_jump_timer -= delta
 
 	if _jump_timer > 0.0:
-		# print("BUFFER JUMP")
+		print("BUFFER JUMP")
 		_jump_timer = 0.0
 		jump(force)
 		return true
