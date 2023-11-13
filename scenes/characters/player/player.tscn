@@ -40,6 +40,14 @@ actor = NodePath("../..")
 script = ExtResource("5_wss2c")
 actor = NodePath("../..")
 
-[node name="Air" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
+[node name="Air" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "jump_buffer_timer", "coyote_timer")]
 script = ExtResource("6_2y2n0")
 actor = NodePath("../..")
+jump_buffer_timer = NodePath("JumpBufferTimer")
+coyote_timer = NodePath("CoyoteTimer")
+
+[node name="JumpBufferTimer" type="Timer" parent="StateMachine/Air"]
+one_shot = true
+
+[node name="CoyoteTimer" type="Timer" parent="StateMachine/Air"]
+one_shot = true
