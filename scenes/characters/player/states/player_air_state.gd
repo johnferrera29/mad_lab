@@ -1,13 +1,19 @@
 class_name PlayerAirState
 extends State
 
+
 signal actor_idle
 signal actor_ran
 
 @export var actor: Player
 @export var animator: AnimatedSprite2D
 
+# TODO: Convert these timers to actual Node Timer.
 var _jump_timer: float
+var _coyote_timer: float
+
+var _was_on_floor: bool
+var _is_jumping: bool
 
 
 func state_enter(msg: Dictionary = {}) -> void:
@@ -18,7 +24,12 @@ func state_enter(msg: Dictionary = {}) -> void:
 
 func state_handle_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("jump"):
-		_jump_timer = actor.jump_buffer
+		if _coyote_timer > 0.0:
+			print("Jump with Coyote time!")
+			_coyote_timer = 0.0
+			jump(actor.jump_force)
+		else:
+			_jump_timer = actor.jump_buffer
 
 
 func state_physics_process(delta: float) -> void:
@@ -29,11 +40,20 @@ func state_physics_process(delta: float) -> void:
 		decelerate(actor.movement_speed)
 	
 	if not actor.is_on_floor():
-		apply_gravity(delta, get_gravity(), actor.terminal_velocity)
+		check_for_coyote_time(delta)
+
+		# Only apply gravity if coyote time is not active.
+		if _coyote_timer <= 0:
+			# print("Coyote time over! Apply gravity")
+			apply_gravity(delta, get_gravity(), actor.terminal_velocity)
+		
+		_was_on_floor = false
 	else:
 		check_for_buffered_jump(delta, actor.jump_force)
 		
 		if is_zero_approx(actor.velocity.y):
+			_was_on_floor = true
+
 			# When player is grounded transition to either idle or run states.
 			if is_zero_approx(actor.velocity.x):
 				actor_idle.emit()
@@ -48,6 +68,9 @@ func state_physics_process(delta: float) -> void:
 func apply_gravity(delta: float, gravity: float, terminal_velocity: float) -> void:
 	actor.velocity.y += gravity * delta
 	
+	if actor.velocity.y >= 0.0:
+		_is_jumping = false
+	
 	if terminal_velocity > 0.0 and actor.velocity.y > terminal_velocity:
 		actor.velocity.y = terminal_velocity
 
@@ -60,6 +83,7 @@ func get_gravity() -> float:
 ## Add an upwards force to the actor.
 func jump(force: float) -> void:
 	actor.velocity.y = -force
+	_is_jumping = true
 
 
 ## Checks for a buffered jump and executes [method jump] with a [param force].
@@ -73,6 +97,15 @@ func check_for_buffered_jump(delta: float, force: float) -> bool:
 		return true
 	
 	return false
+
+
+# Checks if actor is previously on floor and not jumping. If true activate coyote time.
+func check_for_coyote_time(delta: float):
+	if _was_on_floor and not _is_jumping:
+			print("Activate COYOTE TIME")
+			_coyote_timer = actor.coyote_time
+
+	_coyote_timer -= delta
 
 
 ## Move the actor horizontally to the specified [param direction] at a particular [param speed].

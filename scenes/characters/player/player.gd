@@ -12,8 +12,11 @@ extends CharacterBody2D
 @export_range(0.0, 10.0, 0.1) var jump_time_to_peak: float
 ## Time the player should take to reach the ground in seconds.
 @export_range(0.0, 10.0, 0.1) var jump_time_to_descent: float
+## Coyote time in seconds.
+## This allows the player to jump for brief amount of time even after leaving the floor.
+@export_range(0.0, 1.0, 0.1) var coyote_time: float
 ## Jump buffering in seconds. This allows more leeway for player jump inputs.
-@export_range(0.0, 1.0, 0.1) var jump_buffer: float = 0.1
+@export_range(0.0, 1.0, 0.1) var jump_buffer: float
 ## Max [member CharacterBody2D.velocity.y] the player can achieve while falling.
 @export var terminal_velocity: float
 
