@@ -41,7 +41,7 @@ func _connect_state_transitions() -> void:
 	# Save callables to variables for reuse.
 	var change_to_idle_state: Callable = state_machine.change_state.bind(idle_state)
 	var change_to_run_state: Callable = state_machine.change_state.bind(run_state)
-	var change_to_jump_state: Callable = state_machine.change_state.bind(air_state, { jump = true })
+	var change_to_jump_state: Callable = state_machine.change_state.bind(air_state, air_state.create_state_params(true))
 	var change_to_fall_state: Callable = state_machine.change_state.bind(air_state)
 	
 	# Connect player idle transition states.

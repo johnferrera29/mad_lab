@@ -24,7 +24,7 @@ func _ready() -> void:
 
 
 func state_enter(msg: Dictionary = {}) -> void:
-	if msg.has("jump"):
+	if msg.has("should_jump"):
 		jump(actor.jump_force)
 		actor.move_and_slide()
 
@@ -48,7 +48,7 @@ func state_physics_process(delta: float) -> void:
 	if not actor.is_on_floor():
 		check_for_coyote_time(delta)
 
-		# Only apply gravity if plyaer is falling and coyote timer is inactive.
+		# Only apply gravity if actor is falling and coyote timer is inactive.
 		if coyote_timer.is_stopped():
 			apply_gravity(delta, get_gravity(), actor.terminal_velocity)
 		
@@ -59,7 +59,7 @@ func state_physics_process(delta: float) -> void:
 		if is_zero_approx(actor.velocity.y):
 			_was_on_floor = true
 
-			# When player is grounded transition to either idle or run states.
+			# When actor is grounded transition to either idle or run states.
 			if is_zero_approx(actor.velocity.x):
 				actor_idle.emit()
 			else:
@@ -73,7 +73,7 @@ func state_physics_process(delta: float) -> void:
 func apply_gravity(delta: float, gravity: float, terminal_velocity: float) -> void:
 	actor.velocity.y += gravity * delta
 	
-	# Player has reached peak height and is now falling.
+	# Actor has reached peak height and is now falling.
 	if actor.velocity.y >= 0.0:
 		_is_jumping = false
 	
@@ -83,7 +83,7 @@ func apply_gravity(delta: float, gravity: float, terminal_velocity: float) -> vo
 		actor.velocity.y = terminal_velocity
 
 
-## Gets either the [member Player.jump_gravity] or [member Player.fall_gravity].
+## Gets either the actor's [member jump_gravity] or [member fall_gravity].
 func get_gravity() -> float:
 	return actor.jump_gravity if actor.velocity.y < 0.0 else actor.fall_gravity
 
@@ -122,3 +122,12 @@ func run(direction: float, speed: float) -> void:
 ## By default decelerates towards zero.
 func decelerate(speed: float, target_speed: float = 0.0) -> void:
 	actor.velocity.x = move_toward(actor.velocity.x, target_speed, speed)
+
+
+## A method that returns a Dictionary for initializing behavior of the [PlayerAirState] on [method state_enter].
+## 
+## [param should_jump]. Flag for initiating a jump upon entering state.
+func create_state_params(should_jump: bool) -> Dictionary:
+	return {
+		"should_jump": should_jump
+	}

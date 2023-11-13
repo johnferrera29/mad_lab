@@ -29,3 +29,9 @@ func state_process(delta: float) -> void:
 ## Virtual function. Corresponds to the '_physics_process()' callback.
 func state_physics_process(delta: float) -> void:
 	pass
+
+
+# TODO: Try to create virtual function once varargs has been implmented in Godot.
+# @reference: https://github.com/godotengine/godot/pull/82808
+# func create_state_params(...args) -> Dictionary:
+# 	return {}
