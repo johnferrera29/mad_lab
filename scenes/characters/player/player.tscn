@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://dyjcg33e37son"]
+
+[ext_resource type="Script" path="res://scenes/characters/player/player.gd" id="1_iwvof"]
+[ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_c4mf3"]
+[ext_resource type="Script" path="res://shared_scripts/states/state_machine.gd" id="3_xo4ab"]
+[ext_resource type="Script" path="res://scenes/characters/player/states/player_idle_state.gd" id="4_pp7cs"]
+[ext_resource type="Script" path="res://scenes/characters/player/states/player_run_state.gd" id="5_wss2c"]
+[ext_resource type="Script" path="res://scenes/characters/player/states/player_air_state.gd" id="6_2y2n0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xxt50"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_iwvof")
+movement_speed = 300.0
+jump_height = 100.0
+jump_time_to_peak = 0.5
+jump_time_to_descent = 0.3
+coyote_time = 0.1
+jump_buffer = 0.1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(0.15625, 0.15625)
+texture = ExtResource("2_c4mf3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xxt50")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_xo4ab")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("4_pp7cs")
+actor = NodePath("../..")
+
+[node name="Run" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("5_wss2c")
+actor = NodePath("../..")
+
+[node name="Air" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "jump_buffer_timer", "coyote_timer")]
+script = ExtResource("6_2y2n0")
+actor = NodePath("../..")
+jump_buffer_timer = NodePath("JumpBufferTimer")
+coyote_timer = NodePath("CoyoteTimer")
+
+[node name="JumpBufferTimer" type="Timer" parent="StateMachine/Air"]
+one_shot = true
+
+[node name="CoyoteTimer" type="Timer" parent="StateMachine/Air"]
+one_shot = true
