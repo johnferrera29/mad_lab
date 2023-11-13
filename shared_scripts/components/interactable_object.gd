@@ -4,5 +4,6 @@ extends Node
 ##
 ## Every interactable object that wants to be detected by [TargetingSystem] should inherit this class.
 
+
 @export_group("Components")
 @export var scalable_component: ScalableComponent

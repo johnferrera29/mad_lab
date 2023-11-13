@@ -4,9 +4,9 @@ extends RayCast2D
 
 
 ## Signal emitted once target is detected.
-signal target_detected(target: Object)
+signal target_detected(target: InteractableObject)
 ## Signal emitted once interaction with object initiated.
-signal target_interacted(target: Object)
+signal target_interacted(target: InteractableObject)
 ## Signal emitted once target is lost from view.
 signal target_lost
 
