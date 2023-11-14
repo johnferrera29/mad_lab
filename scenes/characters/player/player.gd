@@ -31,6 +31,7 @@ extends CharacterBody2D
 @onready var idle_state := $StateMachine/Idle as PlayerIdleState
 @onready var run_state := $StateMachine/Run as PlayerRunState
 @onready var air_state := $StateMachine/Air as PlayerAirState
+@onready var grappling_state := $StateMachine/Grappling as PlayerGrapplingState
 
 
 func _ready() -> void:
@@ -57,3 +58,6 @@ func _connect_state_transitions() -> void:
 	# Connect player air transition states.
 	air_state.actor_idle.connect(change_to_idle_state)
 	air_state.actor_ran.connect(change_to_run_state)
+
+	# Connect player grappling transition states.
+	grappling_state.actor_fell.connect(change_to_fall_state)
