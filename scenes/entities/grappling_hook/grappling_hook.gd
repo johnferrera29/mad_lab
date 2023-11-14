@@ -6,8 +6,9 @@ extends Node2D
 
 
 @export var actor: Player
-@export var grappling_launch_force: float
-@export var grappling_speed: float
+## Time it takes for actor to reach target anchor in seconds.
+## The speed of the grappling will depend on this and the distance between actor and anchor.
+@export_range(0.1, 1.0, 0.1) var grappling_time_to_anchor: float = 0.5
 
 @export_group("Target Highlight")
 ## Outline when target is detected by [TargetingSystem]
@@ -34,10 +35,13 @@ func remove_highlight(sprite: Node2D) -> void:
 
 ## Launches the actor towards the direction of [param anchor].
 ## This will trigger a state change inside actor.
-func launch_grappling_hook(anchor: Node2D, launch_force: float, speed: float) -> void:
+func launch_grappling_hook(anchor: Node2D, time_to_anchor: float) -> void:
 	print("LAUNCH Grappling Hook")
+	var distance  := actor.global_position.distance_to(anchor.global_position)
+	var grappling_speed := (distance * 2.0) / time_to_anchor
+
 	var state := actor.grappling_state
-	var msg := state.create_state_params(anchor, launch_force, speed)
+	var msg := state.create_state_params(anchor, grappling_speed)
 
 	actor.state_machine.change_state(state, msg)
 
@@ -51,7 +55,7 @@ func _on_targeting_system_target_detected(target: InteractableObject) -> void:
 func _on_targeting_system_target_interacted(target: InteractableObject) -> void:
 	var anchor_component := target.anchor_component
 	if anchor_component:
-		launch_grappling_hook(anchor_component.target, grappling_launch_force, grappling_speed)
+		launch_grappling_hook(anchor_component.target, grappling_time_to_anchor)
 
 
 func _on_targeting_system_target_lost(target: InteractableObject) -> void:
