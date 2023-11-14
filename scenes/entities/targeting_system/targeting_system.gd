@@ -32,16 +32,16 @@ func _physics_process(delta: float) -> void:
 			# Check if object same as last detected object.
 			# This prevents target_detected signal from being emitted multiple times.
 			if not _last_detected_target or target != _last_detected_target:
-				print("target detected")
+				# print("target detected")
 				_last_detected_target = target
 				target_detected.emit(target)
 			
 			if Input.is_action_just_pressed("interact"):
-				print("target interacted")
+				# print("target interacted")
 				target_interacted.emit(target)
 	else:
 		if _last_detected_target:
-			print("target lost")
+			# print("target lost")
 			target_lost.emit(_last_detected_target)
 			_last_detected_target = null
 			
