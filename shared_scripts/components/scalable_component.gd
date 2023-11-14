@@ -16,3 +16,8 @@ extends Node
 @export var enlarge_factor: float
 
 @onready var original_scale: Vector2 = target.scale
+
+
+func _ready() -> void:
+	# Validate the export variables.
+	assert(sprite is Sprite2D or sprite is AnimatedSprite2D, "Export variable [sprite] must be of Sprite2D or AnimatedSprite2D")
