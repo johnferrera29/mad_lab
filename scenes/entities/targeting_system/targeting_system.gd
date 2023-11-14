@@ -8,7 +8,7 @@ signal target_detected(target: InteractableObject)
 ## Signal emitted once interaction with object initiated.
 signal target_interacted(target: InteractableObject)
 ## Signal emitted once target is lost from view.
-signal target_lost
+signal target_lost(target: InteractableObject)
 
 
 ## Makes the raycast line visible.
@@ -32,18 +32,19 @@ func _physics_process(delta: float) -> void:
 			# Check if object same as last detected object.
 			# This prevents target_detected signal from being emitted multiple times.
 			if not _last_detected_target or target != _last_detected_target:
+				print("target detected")
 				_last_detected_target = target
 				target_detected.emit(target)
-				print("target detected")
 			
 			if Input.is_action_just_pressed("interact"):
-				target_interacted.emit(target)
 				print("target interacted")
+				target_interacted.emit(target)
 	else:
 		if _last_detected_target:
-			_last_detected_target = null
-			target_lost.emit()
 			print("target lost")
+			target_lost.emit(_last_detected_target)
+			_last_detected_target = null
+			
 
 
 ## Draws a visible line from [param start] to [param end].

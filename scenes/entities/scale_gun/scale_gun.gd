@@ -5,6 +5,11 @@ extends Node2D
 ## Target object must extend an [InteractableObject] and contains a [ScalableComponent].
 
 
+@export_group("Target Highlight")
+## Outline when target is detected by [TargetingSystem]
+@export var target_highlight_size: float = 1.0
+@export var target_highlight_color: Color = Color.WHITE
+
 enum ScaleMode {
 	SHRINK,
 	ENLARGE,
@@ -13,6 +18,14 @@ enum ScaleMode {
 
 ## The currently selected scale mode. Defaults to [enum ScaleMode.SHRINK]
 var current_mode: ScaleMode = ScaleMode.SHRINK
+## Custom [ShaderMaterial] that contains the 2D outline shader.
+var outline_material: ShaderMaterial = preload("res://shared_resources/shaders/2D_outline_outer.tres")
+
+
+func _ready() -> void:
+	# Initialize shader material related parameters.
+	outline_material.set_shader_parameter("line_thickness", target_highlight_size)
+	outline_material.set_shader_parameter("line_color", target_highlight_color)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -58,9 +71,18 @@ func toggle_scale_mode() -> ScaleMode:
 	return index as ScaleMode
 
 
+func add_highlight(sprite: Node2D) -> void:
+	sprite.material = outline_material
+
+
+func remove_highlight(sprite: Node2D) -> void:
+	sprite.material = null
+
+
 func _on_targeting_system_target_detected(target: InteractableObject) -> void:
-	# TODO: Activate scale preview.
-	pass # Replace with function body.
+	var scalable_component := target.scalable_component
+	if scalable_component:
+		add_highlight(scalable_component.sprite)
 
 
 func _on_targeting_system_target_interacted(target: InteractableObject) -> void:
@@ -75,6 +97,7 @@ func _on_targeting_system_target_interacted(target: InteractableObject) -> void:
 				reset_scale(scalable_component.target, scalable_component.original_scale)
 
 
-func _on_targeting_system_target_lost() -> void:
-	# TODO: Deactivate scale preview.
-	pass # Replace with function body.
+func _on_targeting_system_target_lost(target: InteractableObject) -> void:
+	var scalable_component := target.scalable_component
+	if scalable_component:
+		remove_highlight(scalable_component.sprite)

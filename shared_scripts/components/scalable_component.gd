@@ -7,11 +7,12 @@ extends Node
 
 ## Target node that will be scaled.
 @export var target: Node2D
+## The target's [Sprite2D] or [AnimatedSprite2D].
+## Sprite will be highlighted when interacting with [TargetingSystem].
+@export var sprite: Node2D
 ## Factor to shrink based from original scale. Use positive values only.
 @export var shrink_factor: float
 ## Factor to enlarge based from original scale. Use positive values only.
 @export var enlarge_factor: float
 
 @onready var original_scale: Vector2 = target.scale
-
-# TODO: Implement scale "preview" on target detection.
