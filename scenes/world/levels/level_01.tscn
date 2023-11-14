@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dcibb2if05vl0"]
+[gd_scene load_steps=8 format=3 uid="uid://dcibb2if05vl0"]
 
 [ext_resource type="PackedScene" uid="uid://dyjcg33e37son" path="res://scenes/characters/player/player.tscn" id="1_um13x"]
 [ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_7h55h"]
-[ext_resource type="PackedScene" uid="uid://i8n0nugds6iy" path="res://scenes/entities/scale_gun/scale_gun.tscn" id="3_edh63"]
+[ext_resource type="PackedScene" uid="uid://vdlef4d1dnij" path="res://scenes/entities/grappling_hook/grappling_hook.tscn" id="2_ikyul"]
 [ext_resource type="Script" path="res://shared_scripts/components/scalable_component.gd" id="4_iamdp"]
+[ext_resource type="Script" path="res://shared_scripts/components/anchor_component.gd" id="5_122m1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kndp6"]
 size = Vector2(126, 125)
@@ -14,10 +15,11 @@ script/source = "extends InteractableObject
 
 [node name="Level01" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_um13x")]
+[node name="Player" parent="." groups=["player"] instance=ExtResource("1_um13x")]
 position = Vector2(240, 181)
 
-[node name="ScaleGun" parent="Player" instance=ExtResource("3_edh63")]
+[node name="GrapplingHook" parent="Player" node_paths=PackedStringArray("actor") instance=ExtResource("2_ikyul")]
+actor = NodePath("..")
 
 [node name="TemporaryGround" type="StaticBody2D" parent="."]
 position = Vector2(240, 300)
@@ -52,3 +54,63 @@ target = NodePath("..")
 sprite = NodePath("../Sprite2D")
 shrink_factor = 2.0
 enlarge_factor = 2.0
+
+[node name="Anchor" type="StaticBody2D" parent="." node_paths=PackedStringArray("anchor_component")]
+position = Vector2(136, 103)
+scale = Vector2(0.1, 0.1)
+script = SubResource("GDScript_hqynx")
+anchor_component = NodePath("AnchorComponent")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Anchor"]
+texture = ExtResource("2_7h55h")
+region_rect = Rect2(-4, -4, 128, 128)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Anchor"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_kndp6")
+
+[node name="AnchorComponent" type="Node" parent="Anchor" node_paths=PackedStringArray("target", "sprite")]
+script = ExtResource("5_122m1")
+target = NodePath("..")
+sprite = NodePath("../Sprite2D")
+
+[node name="Anchor2" type="StaticBody2D" parent="." node_paths=PackedStringArray("anchor_component")]
+position = Vector2(222, 125)
+scale = Vector2(0.1, 0.1)
+script = SubResource("GDScript_hqynx")
+anchor_component = NodePath("AnchorComponent")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Anchor2"]
+texture = ExtResource("2_7h55h")
+region_rect = Rect2(-4, -4, 128, 128)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Anchor2"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_kndp6")
+
+[node name="AnchorComponent" type="Node" parent="Anchor2" node_paths=PackedStringArray("target", "sprite")]
+script = ExtResource("5_122m1")
+target = NodePath("..")
+sprite = NodePath("../Sprite2D")
+
+[node name="Anchor3" type="StaticBody2D" parent="." node_paths=PackedStringArray("anchor_component")]
+position = Vector2(29, 214)
+scale = Vector2(0.1, 0.1)
+script = SubResource("GDScript_hqynx")
+anchor_component = NodePath("AnchorComponent")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Anchor3"]
+texture = ExtResource("2_7h55h")
+region_rect = Rect2(-4, -4, 128, 128)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Anchor3"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_kndp6")
+
+[node name="AnchorComponent" type="Node" parent="Anchor3" node_paths=PackedStringArray("target", "sprite")]
+script = ExtResource("5_122m1")
+target = NodePath("..")
+sprite = NodePath("../Sprite2D")
