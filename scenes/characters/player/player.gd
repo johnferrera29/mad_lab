@@ -60,4 +60,5 @@ func _connect_state_transitions() -> void:
 	air_state.actor_ran.connect(change_to_run_state)
 
 	# Connect player grappling transition states.
+	grappling_state.actor_idle.connect(change_to_idle_state)
 	grappling_state.actor_fell.connect(change_to_fall_state)

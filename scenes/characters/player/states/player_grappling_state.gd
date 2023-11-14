@@ -3,6 +3,7 @@ extends State
 
 
 signal actor_fell
+signal actor_idle
 
 @export var actor: Player
 @export var animator: AnimatedSprite2D
@@ -30,6 +31,11 @@ func state_physics_process(delta: float) -> void:
 	
 	grapple(_anchor.global_position, _grappling_launch_force, _grappling_speed)
 
+	if actor.is_on_floor():
+		if is_zero_approx(actor.velocity.x):
+			actor_idle.emit()
+			return
+	
 	actor.move_and_slide()
 
 
