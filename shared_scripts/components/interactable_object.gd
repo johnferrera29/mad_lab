@@ -7,3 +7,4 @@ extends Node
 
 @export_group("Components")
 @export var scalable_component: ScalableComponent
+@export var anchor_component: AnchorComponent
