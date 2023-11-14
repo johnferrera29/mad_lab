@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyjcg33e37son"]
+[gd_scene load_steps=9 format=3 uid="uid://dyjcg33e37son"]
 
 [ext_resource type="Script" path="res://scenes/characters/player/player.gd" id="1_iwvof"]
 [ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_c4mf3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_idle_state.gd" id="4_pp7cs"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_run_state.gd" id="5_wss2c"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_air_state.gd" id="6_2y2n0"]
+[ext_resource type="Script" path="res://scenes/characters/player/states/player_grappling_state.gd" id="7_lxquc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxt50"]
 
@@ -51,3 +52,7 @@ one_shot = true
 
 [node name="CoyoteTimer" type="Timer" parent="StateMachine/Air"]
 one_shot = true
+
+[node name="Grappling" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("7_lxquc")
+actor = NodePath("../..")
