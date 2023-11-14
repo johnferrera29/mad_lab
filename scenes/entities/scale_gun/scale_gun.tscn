@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://i8n0nugds6iy"]
+
+[ext_resource type="Script" path="res://scenes/entities/scale_gun/scale_gun.gd" id="1_wraol"]
+[ext_resource type="PackedScene" uid="uid://xltnp3wd2u01" path="res://scenes/entities/targeting_system/targeting_system.tscn" id="2_2ojot"]
+
+[node name="ScaleGun" type="Node2D"]
+script = ExtResource("1_wraol")
+
+[node name="TargetingSystem" parent="." instance=ExtResource("2_2ojot")]
+
+[connection signal="target_detected" from="TargetingSystem" to="." method="_on_targeting_system_target_detected"]
+[connection signal="target_interacted" from="TargetingSystem" to="." method="_on_targeting_system_target_interacted"]
+[connection signal="target_lost" from="TargetingSystem" to="." method="_on_targeting_system_target_lost"]
