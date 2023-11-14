@@ -34,6 +34,7 @@ func state_physics_process(delta: float) -> void:
 			actor_idle.emit()
 			return
 	
+	# TODO: Fix actor sliding upward when colliding with anchor sides / wall.
 	actor.move_and_slide()
 
 

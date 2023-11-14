@@ -55,7 +55,7 @@ func reset_scale(target: Node2D, original_scale: Vector2) -> void:
 func change_scale_mode(mode: ScaleMode) -> void:
 	print(ScaleMode.keys()[mode])
 	current_mode = mode
-	## TODO: Activate scale preview.
+	## TODO: Change shader depending on scale.
 
 
 ## Toggle through all available modes without going past the last index.
