@@ -1,15 +1,84 @@
-[gd_scene load_steps=8 format=3 uid="uid://dcibb2if05vl0"]
+[gd_scene load_steps=15 format=3 uid="uid://dcibb2if05vl0"]
 
 [ext_resource type="PackedScene" uid="uid://dyjcg33e37son" path="res://scenes/characters/player/player.tscn" id="1_um13x"]
 [ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_7h55h"]
-[ext_resource type="PackedScene" uid="uid://vdlef4d1dnij" path="res://scenes/entities/grappling_hook/grappling_hook.tscn" id="2_ikyul"]
+[ext_resource type="PackedScene" uid="uid://83oqdey3q8oh" path="res://scenes/entities/freeze_ray/freeze_ray.tscn" id="2_rdgp7"]
 [ext_resource type="Script" path="res://shared_scripts/components/scalable_component.gd" id="4_iamdp"]
 [ext_resource type="Script" path="res://shared_scripts/components/anchor_component.gd" id="5_122m1"]
+[ext_resource type="Script" path="res://shared_scripts/components/freezable_component.gd" id="6_n0x3n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kndp6"]
 size = Vector2(126, 125)
 
 [sub_resource type="GDScript" id="GDScript_hqynx"]
+script/source = "extends InteractableObject
+
+
+func _physics_process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="Animation" id="Animation_37oso"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MovingPlatform:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_v8pi0"]
+resource_name = "move_horizontal"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MovingPlatform:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(200, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_k678g"]
+resource_name = "move"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MovingPlatform:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 380)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_55ih1"]
+_data = {
+"RESET": SubResource("Animation_37oso"),
+"move_horizontal": SubResource("Animation_v8pi0"),
+"move_vertical": SubResource("Animation_k678g")
+}
+
+[sub_resource type="GDScript" id="GDScript_7y646"]
+script/source = "extends InteractableObject
+"
+
+[sub_resource type="GDScript" id="GDScript_gon0c"]
 script/source = "extends InteractableObject
 "
 
@@ -18,8 +87,7 @@ script/source = "extends InteractableObject
 [node name="Player" parent="." groups=["player"] instance=ExtResource("1_um13x")]
 position = Vector2(240, 181)
 
-[node name="GrapplingHook" parent="Player" node_paths=PackedStringArray("actor") instance=ExtResource("2_ikyul")]
-actor = NodePath("..")
+[node name="FreezeRay" parent="Player" instance=ExtResource("2_rdgp7")]
 
 [node name="TemporaryGround" type="StaticBody2D" parent="."]
 position = Vector2(240, 300)
@@ -56,7 +124,7 @@ shrink_factor = 2.0
 enlarge_factor = 2.0
 
 [node name="Anchor" type="StaticBody2D" parent="." node_paths=PackedStringArray("anchor_component")]
-position = Vector2(136, 103)
+position = Vector2(49, 142)
 scale = Vector2(0.1, 0.1)
 script = SubResource("GDScript_hqynx")
 anchor_component = NodePath("AnchorComponent")
@@ -76,7 +144,7 @@ target = NodePath("..")
 sprite = NodePath("../Sprite2D")
 
 [node name="Anchor2" type="StaticBody2D" parent="." node_paths=PackedStringArray("anchor_component")]
-position = Vector2(222, 125)
+position = Vector2(7.00002, 216)
 scale = Vector2(0.1, 0.1)
 script = SubResource("GDScript_hqynx")
 anchor_component = NodePath("AnchorComponent")
@@ -96,7 +164,7 @@ target = NodePath("..")
 sprite = NodePath("../Sprite2D")
 
 [node name="Anchor3" type="StaticBody2D" parent="." node_paths=PackedStringArray("anchor_component")]
-position = Vector2(29, 214)
+position = Vector2(-28, 142)
 scale = Vector2(0.1, 0.1)
 script = SubResource("GDScript_hqynx")
 anchor_component = NodePath("AnchorComponent")
@@ -114,3 +182,65 @@ shape = SubResource("RectangleShape2D_kndp6")
 script = ExtResource("5_122m1")
 target = NodePath("..")
 sprite = NodePath("../Sprite2D")
+
+[node name="MovingPlatformContainer" type="Node2D" parent="."]
+position = Vector2(550, 190)
+scale = Vector2(0.5, 0.1)
+metadata/_edit_group_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingPlatformContainer"]
+autoplay = "move_vertical"
+libraries = {
+"": SubResource("AnimationLibrary_55ih1")
+}
+
+[node name="MovingPlatform" type="AnimatableBody2D" parent="MovingPlatformContainer" node_paths=PackedStringArray("freezable_component")]
+script = SubResource("GDScript_7y646")
+freezable_component = NodePath("FreezableComponent")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="MovingPlatformContainer/MovingPlatform"]
+texture = ExtResource("2_7h55h")
+region_rect = Rect2(-4, -4, 128, 128)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingPlatformContainer/MovingPlatform"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_kndp6")
+
+[node name="FreezableComponent" type="Node" parent="MovingPlatformContainer/MovingPlatform" node_paths=PackedStringArray("target", "sprite", "animator")]
+script = ExtResource("6_n0x3n")
+target = NodePath("..")
+sprite = NodePath("../Sprite2D")
+animator = NodePath("../../AnimationPlayer")
+freeze_time = 5.0
+
+[node name="MovingPlatformContainer2" type="Node2D" parent="."]
+position = Vector2(447, 145)
+scale = Vector2(0.5, 0.1)
+metadata/_edit_group_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MovingPlatformContainer2"]
+autoplay = "move_horizontal"
+libraries = {
+"": SubResource("AnimationLibrary_55ih1")
+}
+
+[node name="MovingPlatform" type="AnimatableBody2D" parent="MovingPlatformContainer2" node_paths=PackedStringArray("freezable_component")]
+script = SubResource("GDScript_gon0c")
+freezable_component = NodePath("FreezableComponent")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="MovingPlatformContainer2/MovingPlatform"]
+texture = ExtResource("2_7h55h")
+region_rect = Rect2(-4, -4, 128, 128)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingPlatformContainer2/MovingPlatform"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_kndp6")
+
+[node name="FreezableComponent" type="Node" parent="MovingPlatformContainer2/MovingPlatform" node_paths=PackedStringArray("target", "sprite", "animator")]
+script = ExtResource("6_n0x3n")
+target = NodePath("..")
+sprite = NodePath("../Sprite2D")
+animator = NodePath("../../AnimationPlayer")
+freeze_time = 5.0
