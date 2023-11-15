@@ -9,3 +9,4 @@ extends CollisionObject2D
 @export var scalable_component: ScalableComponent
 @export var anchor_component: AnchorComponent
 @export var freezable_component: FreezableComponent
+@export var breakable_component: BreakableComponent
