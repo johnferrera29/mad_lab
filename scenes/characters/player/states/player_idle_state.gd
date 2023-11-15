@@ -25,3 +25,5 @@ func state_handle_input(event: InputEvent) -> void:
 func state_physics_process(delta: float) -> void:
 	if not actor.is_on_floor():
 		actor_fell.emit()
+	
+	actor.move_and_slide()
