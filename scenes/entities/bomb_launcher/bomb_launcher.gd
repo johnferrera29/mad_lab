@@ -72,7 +72,8 @@ func _on_targeting_system_target_detected(target: InteractableObject) -> void:
 func _on_targeting_system_target_interacted(target: InteractableObject) -> void:
 	var breakable_component := target.breakable_component
 	if breakable_component:
-		launch_bomb(breakable_component.target, launch_speed, time_before_detonation)
+		var launch_target: Node2D = breakable_component.target if not breakable_component.moving_target else breakable_component.moving_target
+		launch_bomb(launch_target, launch_speed, time_before_detonation)
 
 
 func _on_targeting_system_target_lost(target: InteractableObject) -> void:

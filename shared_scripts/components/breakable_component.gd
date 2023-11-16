@@ -7,6 +7,10 @@ extends Node
 
 ## Target node that will be destroyed. In most cases you want to destroy the scene's root or parent node.
 @export var target: Node2D
+## In most cases, the bomb's launch direction is calculated using the target's position.
+## However, for moving targets that is inside a container node, direction will always be the same.
+## If provided, will use this to calculate the launch direction.
+@export var moving_target: Node2D
 ## The target's [Sprite2D] or [AnimatedSprite2D].
 ## Sprite will be highlighted when interacting with [TargetingSystem].
 @export var sprite: Node2D
