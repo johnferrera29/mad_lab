@@ -5,9 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://xltnp3wd2u01" path="res://scenes/entities/targeting_system/targeting_system.tscn" id="2_xgeid"]
 [ext_resource type="Material" uid="uid://dv7cjaoqn0j5j" path="res://shared_resources/shaders/2D_outline_outer.tres" id="4_gvxrl"]
 
-[node name="BombLauncher" type="Node2D" node_paths=PackedStringArray("projectile_spawn_point")]
+[node name="BombLauncher" type="Node2D"]
 script = ExtResource("1_3kcbw")
-projectile_spawn_point = NodePath("ProjectileSpawnPoint")
 projectile_scene = ExtResource("2_if175")
 projectile_lifespan = 1.0
 launch_speed = 200.0
@@ -18,4 +17,6 @@ shader_material = ExtResource("4_gvxrl")
 
 [node name="ProjectileSpawnPoint" type="Marker2D" parent="."]
 
+[connection signal="target_detected" from="TargetingSystem" to="." method="_on_targeting_system_target_detected"]
 [connection signal="target_locked" from="TargetingSystem" to="." method="_on_targeting_system_target_locked"]
+[connection signal="target_lost" from="TargetingSystem" to="." method="_on_targeting_system_target_lost"]
