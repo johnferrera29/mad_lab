@@ -47,9 +47,6 @@ script = ExtResource("1_1agqk")
 animator = NodePath("AnimationPlayer")
 destroy_animation_name = "detonate"
 
-[node name="DetonationTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-4.17233e-07, -5.36442e-07)
 scale = Vector2(0.078, 0.117)
