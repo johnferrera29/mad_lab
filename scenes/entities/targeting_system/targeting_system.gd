@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 				# print("target interacted")
 				target_interacted.emit(target)
 	else:
-		if _last_detected_target:
+		if _last_detected_target and is_instance_valid(_last_detected_target):
 			# print("target lost")
 			target_lost.emit(_last_detected_target)
 			_last_detected_target = null
