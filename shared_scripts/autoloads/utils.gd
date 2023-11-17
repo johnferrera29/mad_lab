@@ -33,6 +33,8 @@ class ProcessUtils:
 	## Enables or disables built-in processing callbacks of [param target].
 	## This includes: [method _physics_process], [method _process], [method _input], [method _unhandled_input]
 	static func toggle_processing(target: Node,  flag: bool) -> void:
+		if not target: return
+		
 		if flag:
 			target.process_mode = Node.PROCESS_MODE_INHERIT
 		else:
