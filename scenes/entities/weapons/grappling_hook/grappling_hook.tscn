@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://vdlef4d1dnij"]
 
-[ext_resource type="Script" path="res://scenes/entities/grappling_hook/grappling_hook.gd" id="1_70rfx"]
+[ext_resource type="Script" path="res://scenes/entities/weapons/grappling_hook/grappling_hook.gd" id="1_70rfx"]
 [ext_resource type="PackedScene" uid="uid://xltnp3wd2u01" path="res://scenes/entities/targeting_system/targeting_system.tscn" id="1_fnbbk"]
 
 [node name="GrapplingHook" type="Node2D"]

@@ -32,12 +32,15 @@ func _init_timer() -> void:
 
 
 ## Launches a [param projectile].
-func launch_projectile(projectile: Projectile) -> void:
+## Returns a bool if projectile was successfully launched.
+func launch_projectile(projectile: Projectile) -> bool:
 	if not launch_timer.is_stopped():
-		return
+		return false
 
 	add_child(projectile)
 	launch_timer.start()
+
+	return true
 
 
 ## Returns a projectile configured based on parameters.

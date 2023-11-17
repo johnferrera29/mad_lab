@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c6jnc4oaaou4u"]
 
-[ext_resource type="Script" path="res://scenes/entities/bomb_launcher/bomb_projectile/bomb_projectile.gd" id="1_1agqk"]
-[ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_kinlu"]
+[ext_resource type="Script" path="res://scenes/entities/projectiles/bomb_projectile/bomb_projectile.gd" id="1_rn8kt"]
+[ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_1kj3m"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_twiaq"]
 
@@ -43,14 +43,14 @@ _data = {
 }
 
 [node name="BombProjectile" type="Area2D" node_paths=PackedStringArray("animator")]
-script = ExtResource("1_1agqk")
+script = ExtResource("1_rn8kt")
 animator = NodePath("AnimationPlayer")
 destroy_animation_name = "detonate"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-4.17233e-07, -5.36442e-07)
 scale = Vector2(0.078, 0.117)
-texture = ExtResource("2_kinlu")
+texture = ExtResource("2_1kj3m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.5, 0.5)
