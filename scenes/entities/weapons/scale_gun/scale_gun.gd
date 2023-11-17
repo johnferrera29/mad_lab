@@ -1,103 +1,72 @@
 class_name ScaleGun
-extends Node2D
-## A gun that can shrink or enlarge an object.
+extends Weapon
+## A gun that fires off a [ResizerDiscProjectile] that shrink or enlarge an object.
 ##
-## Target object must extend an [InteractableObject] and contains a [ScalableComponent].
+## Target object must extend an [InteractableObject] and contain a [ScalableComponent].
 
 
-@export_group("Target Highlight")
-## Outline when target is detected by [TargetingSystem]
-@export var target_highlight_size: float = 1.0
-@export var target_highlight_color: Color = Color.WHITE
+## The currently selected scale mode. Defaults to [enum Enums.ScaleMode.SHRINK]
+var current_mode := Enums.ScaleMode.SHRINK
 
-enum ScaleMode {
-	SHRINK,
-	ENLARGE,
-	RESET,
-}
+## Determines the order when changing weapon mode.
+var _scale_modes: Array[Enums.ScaleMode] = [
+	Enums.ScaleMode.SHRINK,
+	Enums.ScaleMode.ENLARGE,
+	Enums.ScaleMode.RESET
+]
 
-## The currently selected scale mode. Defaults to [enum ScaleMode.SHRINK]
-var current_mode: ScaleMode = ScaleMode.SHRINK
-## Custom [ShaderMaterial] that contains the 2D outline shader.
-var outline_material: ShaderMaterial = preload("res://shared_resources/shaders/2D_outline_outer.tres")
-
-
-func _ready() -> void:
-	# Initialize shader material related parameters.
-	outline_material.set_shader_parameter("line_thickness", target_highlight_size)
-	outline_material.set_shader_parameter("line_color", target_highlight_color)
+## Determines the spawn position and rotation of the projectile.
+@onready var targeting_system := $TargetingSystem as TargetingSystem
+@onready var projectile_launcher := $ProjectileLauncher as ProjectileLauncher
+@onready var projectile_spawn_point := $ProjectileSpawnPoint as Marker2D
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("change_weapon_mode"):
-		var new_mode = toggle_scale_mode()
+		var new_mode = _scroll_through_scale_modes()
 		change_scale_mode(new_mode)
 
 
-## Shrinks target by [param factor]. Negative values will be ignored.
-func shrink(target: Node2D, original_scale: Vector2, factor: float) -> void:
-	if (factor < 0.0): return
-	target.scale = original_scale / factor
+	if Input.is_action_just_pressed("interact"):
+		print("Launch resizer!")
+		var target_position := get_global_mouse_position()
+		var projectile_velocity := projectile_launcher.launch_speed * global_position.direction_to(target_position)
+		var projectile := projectile_launcher.create_projectile(
+			projectile_spawn_point.global_position,
+			projectile_spawn_point.rotation,
+			projectile_velocity,
+			projectile_launcher.projectile_lifespan
+		) as ResizerDiscProjectile
 
-
-## Enlarges target by [param factor]. Negative values will be ignored.
-func enlarge(target: Node2D, original_scale: Vector2, factor: float) -> void:
-	if (factor < 0.0): return
-	target.scale = original_scale * factor
-
-
-## Resets the scale to original.
-func reset_scale(target: Node2D, original_scale: Vector2) -> void:
-	target.scale = original_scale
+		projectile.scale_mode = current_mode
+	
+		projectile_launcher.launch_projectile(projectile)
 
 
 ## Change the gun's current scale mode.
-func change_scale_mode(mode: ScaleMode) -> void:
-	print(ScaleMode.keys()[mode])
+func change_scale_mode(mode: Enums.ScaleMode) -> void:
+	print("Change scale mode: ", Enums.ScaleMode.keys()[mode])
 	current_mode = mode
-	## TODO: Change shader depending on scale.
+	# TODO: Change the targeting system's shader material based on mode.
 
 
-## Toggle through all available modes without going past the last index.
-## Returns a [enum ScaleMode]
-func toggle_scale_mode() -> ScaleMode:
-	var max_index: int = ScaleMode.keys().size()
-	var index: int = current_mode
-	index += 1
+## Scrolls through all available modes without going past the last index.
+## Order will be based on [member _scale_modes].
+func _scroll_through_scale_modes() -> Enums.ScaleMode:
+	var max_index := _scale_modes.size()
+	var index := _scale_modes.find(current_mode) + 1
 	
 	if index >= max_index:
 		index = 0
 	
-	return index as ScaleMode
-
-
-func add_highlight(sprite: Node2D) -> void:
-	sprite.material = outline_material
-
-
-func remove_highlight(sprite: Node2D) -> void:
-	sprite.material = null
+	return _scale_modes[index]
 
 
 func _on_targeting_system_target_detected(target: InteractableObject) -> void:
-	var scalable_component := target.scalable_component
-	if scalable_component:
-		add_highlight(scalable_component.sprite)
-
-
-func _on_targeting_system_target_interacted(target: InteractableObject) -> void:
-	var scalable_component := target.scalable_component
-	if scalable_component:
-		match current_mode:
-			ScaleMode.SHRINK:
-				shrink(scalable_component.target, scalable_component.original_scale, scalable_component.shrink_factor)
-			ScaleMode.ENLARGE:
-				enlarge(scalable_component.target, scalable_component.original_scale, scalable_component.shrink_factor)
-			ScaleMode.RESET:
-				reset_scale(scalable_component.target, scalable_component.original_scale)
+	if target and target.scalable_component:
+		targeting_system.toggle_shader_effect(target.scalable_component.sprite, true)
 
 
 func _on_targeting_system_target_lost(target: InteractableObject) -> void:
-	var scalable_component := target.scalable_component
-	if scalable_component:
-		remove_highlight(scalable_component.sprite)
+	if target and target.scalable_component:
+		targeting_system.toggle_shader_effect(target.scalable_component.sprite, false)
