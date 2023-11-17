@@ -1,6 +1,6 @@
 class_name Projectile
 extends Area2D
-## Base class for projectiles launched by [Launcher].
+## Base class for projectiles launched by [ProjectileLauncher].
 
 
 ## Node that handles the projectile's animation, if any.

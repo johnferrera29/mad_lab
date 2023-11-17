@@ -1,6 +1,8 @@
-class_name Launcher
+class_name ProjectileLauncher
 extends Node2D
-## Base class for weapons that launches a [Projectile].
+## A launcher that fires off a [Projectile].
+## 
+## Use this component with composition.
 
 
 ## Resource that will be used to instantiate projectiles.
@@ -35,7 +37,6 @@ func launch_projectile(projectile: Projectile) -> void:
 		return
 
 	add_child(projectile)
-
 	launch_timer.start()
 
 
