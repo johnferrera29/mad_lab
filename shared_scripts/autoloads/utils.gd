@@ -1,6 +1,7 @@
 extends Node
 ## Autoload that contains a number of utility classes and methods.
 
+
 ## Animation utility class.
 class AnimationUtils:
 	## Awaitable coroutine to play animation.
@@ -26,3 +27,13 @@ class AnimationUtils:
 			return true
 		
 		return false
+
+
+class ProcessUtils:
+	## Enables or disables built-in processing callbacks of [param target].
+	## This includes: [method _physics_process], [method _process], [method _input], [method _unhandled_input]
+	static func toggle_processing(target: Node,  flag: bool) -> void:
+		if flag:
+			target.process_mode = Node.PROCESS_MODE_INHERIT
+		else:
+			target.process_mode = Node.PROCESS_MODE_DISABLED
