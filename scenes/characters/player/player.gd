@@ -42,10 +42,14 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("change_weapon"):
-		# TODO: Change weapon
-		print("WEAPON CHANGE!")
+	var change_weapon_direction := Input.get_axis("change_weapon_prev", "change_weapon_next") as int
+	if change_weapon_direction:
+		var scroll_direction := change_weapon_direction as WeaponManager.SCROLL_DIRECTION
+		var next_weapon := weapon_manager.scroll_through_weapons(scroll_direction)
 		
+		weapon_manager.change_weapon(next_weapon)
+		print("Weapon Changed! -> ", next_weapon)
+
 
 func _connect_state_transitions() -> void:
 	# Save callables to variables for reuse.
