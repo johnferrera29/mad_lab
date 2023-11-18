@@ -1,84 +1,72 @@
 class_name HookProjectile
 extends Projectile 
-## A projectile hooks onto an [AnchorComponent].
+## A projectile hooks onto an anchor.
 ##
-## Hooks into an [InteractableObject] that contains a [AnchorComponent].
+## Hooks into an [InteractableObject] that contain a [AnchorComponent].
 
 
-var spawn_point_ref: Node2D
-# var actor_ref: Player
-var launch_callable: Callable
-var retraction_speed: float
+## A reference to the projectile's spawn point.
+## Used for retracting the hook.
+var projectile_spawn_point: Node2D
+## Time it takes to retract the hook in seconds when no anchor is detected.
+## Used to compute retraction speed.
+var retraction_time: float
+## An reference to an awaitable callable that starts the grappling towards the anchor.
+var start_grappling: Callable
 
+# Boolean flags for determing the state of the hook projectile.
 var _is_retracting: bool
 var _is_hooked: bool
-var _is_grappling: bool
 
-@onready var rope_line := $RopeLine as Line2D
+var _retraction_speed: float
+
+@onready var _rope_line := $RopeLine as Line2D
 
 
 func _physics_process(delta: float) -> void:
-	# if _is_destroyed: return
-	
 	if not _is_hooked:
 		if not _is_retracting and not _lifespan_timer.is_stopped():
-			# Move towards a specified velocity while not yet collided with another body or lifespan timer not yet up.
+			# Move the projectile towards initial velocity while not yet retracting and lifespan timer not yet expired.
 			print("launching...")
-			global_position += projectile_velocity * delta
-			draw_rope(spawn_point_ref.global_position, global_position)
+			_move_projectile(delta, projectile_velocity)
 		else:
-			# Time is up, if not hooked and not yet retracting, start retraction.
-			if not _is_hooked and not _is_retracting :
+			# Once timer expires, start retraction.
+			if not _is_retracting:
 				print("start retraction -> lifespan up!")
-				_is_retracting = true
+				start_retraction()
 		
-			# Retract rope.
-			if _is_retracting:
-				retract_projectile(delta)
-				draw_rope(spawn_point_ref.global_position, global_position)
-	elif _is_grappling:
-		draw_rope(spawn_point_ref.global_position, global_position)
+			# Retracts projectile and recalculates velocity every time since actor may be moving.
+			print("retracting...")
+			var retraction_velocity := _retraction_speed * global_position.direction_to(projectile_spawn_point.global_position)
+			_move_projectile(delta, retraction_velocity)
+	else:
+		# Just draw the rope if grappling since actor  is moving towards anchor.
+		_draw_rope(projectile_spawn_point.global_position, global_position)
 
 
-## Retracts projectile. Recalculates retractiony velocity everytime since actor may be moving.
-func retract_projectile(delta: float) -> void:
-	print("retracting...")
-	var retraction_velocity := retraction_speed * global_position.direction_to(spawn_point_ref.global_position)
-	
-	global_position += retraction_velocity * delta
+## Starts retracting the projectile.
+## Usually done if no anchor is detected or projectile lifespan has ended.
+func start_retraction() -> void:
+	_is_retracting = true
 
-	# TODO: Destroy projectile on collision with player
-
-## Launch towards anchor.
-func launch_actor(anchor: Node2D) -> void:
-	print("actor launched towards anchor")
-	_is_grappling = true
-	await launch_callable.call(anchor)
-	destroy()
+	var distance := global_position.distance_to(projectile_spawn_point.global_position)
+	_retraction_speed = (distance * 2.0) / retraction_time
 
 
-	# TODO: Destroy projectile on collision with anchor
+## Moves the hook projectile at a certain velocity.
+func _move_projectile(delta: float, velocity: Vector2) -> void:
+	global_position += velocity * delta
 
-# func launch_actor(anchor: Node2D) -> void:
-# 	var distance := actor.global_position.distance_to(anchor.global_position)
-# 	var grappling_speed := (distance * 2.0) / grappling_time_to_anchor
-	
-# 	var state := actor.grappling_state
-# 	var msg := state.create_state_params(anchor, grappling_speed)
+	_draw_rope(projectile_spawn_point.global_position, global_position)
 
-# 	actor.state_machine.change_state(state, msg)
-	
-# 	await actor.grappling_state.actor_fell
-
-# 	# TODO: Replace with actual method
-# 	_on_grappling_stopped()
 
 # Draws the rope to the hook.
-func draw_rope(start: Vector2, end: Vector2) -> void:
-	rope_line.points = PackedVector2Array([
+func _draw_rope(start: Vector2, end: Vector2) -> void:
+	_rope_line.points = PackedVector2Array([
 		start,
 		end
 	])
+
 
 func _on_body_entered(body: Node2D) -> void:
 	if _is_retracting and body is Player:
@@ -88,17 +76,14 @@ func _on_body_entered(body: Node2D) -> void:
 	var interactable_object := body as InteractableObject
 
 	if not _is_retracting and interactable_object and interactable_object.anchor_component:
+		# Hook is now anchored, so start grappling.
 		print("hooked to anchor")
 		_is_hooked = true
-		await launch_actor(interactable_object.anchor_component.target)
+		await start_grappling.call(interactable_object.anchor_component.target)
+		destroy()
 	else:
-		# TODO: Handle collision via collision layers to prevent colliding with [Player] and [BombLauncher]
-		# For now, ignoring manually destroy if body is not [Player] or [BombLauncher].
+		# TODO: Handle collision via collision layers to prevent colliding with [Player] and [GrapplingHook]
 		if not (body as Player) and not (body as GrapplingHook):
 			if not _is_retracting:
 				print("start retraction -> hit an object!")
-				_is_retracting = true
-
-
-func _on_area_entered(area: Area2D) -> void:
-	pass # Replace with function body.
+				start_retraction()

@@ -18,7 +18,7 @@ script = ExtResource("4_fj7v7")
 projectile_scene = ExtResource("5_hbune")
 projectile_lifespan = 1.0
 launch_speed = 400.0
-launch_interval = 1.0
+launch_interval = 0.1
 
 [node name="ProjectileSpawnPoint" type="Marker2D" parent="."]
 

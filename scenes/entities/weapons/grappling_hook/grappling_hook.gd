@@ -1,14 +1,19 @@
 class_name GrapplingHook
 extends Weapon
-## A grappling hook that launches the actor to a specified target.
+## A grappling hook that launches a [HookProjectile] that when anchored, starts moving the player towards it.
 ##
 ## Target object must extend an [InteractableObject] and contains a [AnchorComopnent].
 
 
+## The actor that will be moved towards the anchor.
 @export var actor: Player
 ## Time it takes for actor to reach target anchor in seconds.
 ## The speed of the grappling will depend on this and the distance between actor and anchor.
 @export_range(0.1, 1.0, 0.1) var grappling_time_to_anchor: float = 0.5
+## Time it takes to retract the hook in seconds when no anchor is detected.
+@export_range(0.1, 1.0, 0.1) var retraction_time: float = 0.5
+
+var _projectile_ref: HookProjectile
 
 ## Determines the spawn position and rotation of the projectile.
 @onready var targeting_system := $TargetingSystem as TargetingSystem
@@ -17,7 +22,12 @@ extends Weapon
 
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("interact"):
+	# TODO: Add release grapple hook input that will:
+	# 1. Stops and releases the grappling hook if already hooked to anchor.
+	# 2. Immediately retracts the hook projectile.
+
+	## Launch a projectile only if there is no hook inside
+	if Input.is_action_just_pressed("interact") and not is_instance_valid(_projectile_ref):
 		print("Launch grappling hook!")
 		var target_position := get_global_mouse_position()
 		var projectile_velocity := projectile_launcher.launch_speed * global_position.direction_to(target_position)
@@ -29,15 +39,17 @@ func _input(event: InputEvent) -> void:
 		) as HookProjectile
 
 		# Custom HookProjectile properties.
-		projectile.spawn_point_ref = projectile_spawn_point
-		projectile.launch_callable = launch_actor
-		projectile.retraction_speed = projectile_launcher.launch_speed * 2.0 # TODO: Improve by using grappling_time_to_anchor computation. 
-
+		projectile.projectile_spawn_point = projectile_spawn_point
+		projectile.retraction_time = retraction_time
+		projectile.start_grappling = _start_grappling
+		
 		projectile_launcher.launch_projectile(projectile)
 
+		_projectile_ref = projectile
 
-## Launches actor towards anchor.
-func launch_actor(anchor: Node2D) -> void:
+
+## Awaitable function that starts moving the actor towards anchor until it reaches it.
+func _start_grappling(anchor: Node2D) -> void:
 	var distance := actor.global_position.distance_to(anchor.global_position)
 	var grappling_speed := (distance * 2.0) / grappling_time_to_anchor
 	
