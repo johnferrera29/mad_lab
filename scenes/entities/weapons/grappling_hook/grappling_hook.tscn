@@ -8,7 +8,8 @@
 
 [node name="GrapplingHook" type="Node2D"]
 script = ExtResource("1_70rfx")
-grappling_time_to_anchor = 1.0
+grappling_speed = 500.0
+projectile_retraction_speed = 800.0
 
 [node name="TargetingSystem" parent="." instance=ExtResource("1_fnbbk")]
 shader_material = ExtResource("3_wo6rc")

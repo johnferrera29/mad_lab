@@ -7,11 +7,10 @@ extends Weapon
 
 ## The actor that will be moved towards the anchor.
 @export var actor: Player
-## Time it takes for actor to reach target anchor in seconds.
-## The speed of the grappling will depend on this and the distance between actor and anchor.
-@export_range(0.1, 1.0, 0.1) var grappling_time_to_anchor: float = 0.5
-## Time it takes to retract the hook in seconds when no anchor is detected.
-@export_range(0.1, 1.0, 0.1) var retraction_time: float = 0.5
+## Speed of grappling once projectile hooked to an anchor.
+@export var grappling_speed: float
+## Speed of projectile retraction when no anchor is detected.
+@export var projectile_retraction_speed: float
 
 var _projectile_ref: HookProjectile
 
@@ -40,7 +39,7 @@ func _input(event: InputEvent) -> void:
 
 		# Custom HookProjectile properties.
 		projectile.projectile_spawn_point = projectile_spawn_point
-		projectile.retraction_time = retraction_time
+		projectile.projectile_retraction_speed = projectile_retraction_speed
 		projectile.start_grappling = _start_grappling
 		
 		projectile_launcher.launch_projectile(projectile)
@@ -50,9 +49,6 @@ func _input(event: InputEvent) -> void:
 
 ## Awaitable function that starts moving the actor towards anchor until it reaches it.
 func _start_grappling(anchor: Node2D) -> void:
-	var distance := actor.global_position.distance_to(anchor.global_position)
-	var grappling_speed := (distance * 2.0) / grappling_time_to_anchor
-	
 	var state := actor.grappling_state
 	var msg := state.create_state_params(anchor, grappling_speed)
 

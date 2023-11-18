@@ -8,17 +8,14 @@ extends Projectile
 ## A reference to the projectile's spawn point.
 ## Used for retracting the hook.
 var projectile_spawn_point: Node2D
-## Time it takes to retract the hook in seconds when no anchor is detected.
-## Used to compute retraction speed.
-var retraction_time: float
+## Speed of projectile retraction when no anchor is detected.
+var projectile_retraction_speed: float
 ## An reference to an awaitable callable that starts the grappling towards the anchor.
 var start_grappling: Callable
 
 # Boolean flags for determing the state of the hook projectile.
 var _is_retracting: bool
 var _is_hooked: bool
-
-var _retraction_speed: float
 
 @onready var _rope_line := $RopeLine as Line2D
 
@@ -37,7 +34,7 @@ func _physics_process(delta: float) -> void:
 		
 			# Retracts projectile and recalculates velocity every time since actor may be moving.
 			print("retracting...")
-			var retraction_velocity := _retraction_speed * global_position.direction_to(projectile_spawn_point.global_position)
+			var retraction_velocity := projectile_retraction_speed * global_position.direction_to(projectile_spawn_point.global_position)
 			_move_projectile(delta, retraction_velocity)
 	else:
 		# Just draw the rope if grappling since actor  is moving towards anchor.
@@ -48,9 +45,6 @@ func _physics_process(delta: float) -> void:
 ## Usually done if no anchor is detected or projectile lifespan has ended.
 func start_retraction() -> void:
 	_is_retracting = true
-
-	var distance := global_position.distance_to(projectile_spawn_point.global_position)
-	_retraction_speed = (distance * 2.0) / retraction_time
 
 
 ## Moves the hook projectile at a certain velocity.
