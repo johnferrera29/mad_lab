@@ -42,13 +42,15 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	var change_weapon_direction := Input.get_axis("change_weapon_prev", "change_weapon_next") as int
-	if change_weapon_direction:
-		var scroll_direction := change_weapon_direction as WeaponManager.SCROLL_DIRECTION
-		var next_weapon := weapon_manager.scroll_through_weapons(scroll_direction)
-		
+	if Input.is_action_just_pressed("change_weapon_next"):
+		var next_weapon := weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.NEXT)
 		weapon_manager.change_weapon(next_weapon)
 		print("Weapon Changed! -> ", next_weapon)
+	
+	if Input.is_action_just_pressed("change_weapon_prev"):
+		var previous_weapon := weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.PREVIOUS)
+		weapon_manager.change_weapon(previous_weapon)
+		print("Weapon Changed! -> ", previous_weapon)
 
 
 func _connect_state_transitions() -> void:
