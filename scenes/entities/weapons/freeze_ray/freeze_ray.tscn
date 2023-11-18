@@ -20,5 +20,4 @@ launch_interval = 0.5
 [node name="ProjectileSpawnPoint" type="Marker2D" parent="."]
 
 [connection signal="target_detected" from="TargetingSystem" to="." method="_on_targeting_system_target_detected"]
-[connection signal="target_interacted" from="TargetingSystem" to="." method="_on_targeting_system_target_interacted"]
 [connection signal="target_lost" from="TargetingSystem" to="." method="_on_targeting_system_target_lost"]

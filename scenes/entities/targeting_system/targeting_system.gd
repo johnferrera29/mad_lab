@@ -5,14 +5,8 @@ extends RayCast2D
 
 ## Signal emitted once target is detected.
 signal target_detected(target: InteractableObject)
-## DEPRECATED. Use target_locked instead.
-## Signal emitted once interaction with object initiated.
-signal target_interacted(target: InteractableObject)
 ## Signal emitted once target is lost from view.
 signal target_lost(target: InteractableObject)
-## Signal emitted once [InputEvent] "interact" is triggered.
-signal target_locked(target_position: Vector2)
-
 
 @export_group("Raycast Line")
 ## Makes the raycast line visible.
@@ -46,9 +40,6 @@ func _physics_process(delta: float) -> void:
 	
 	if visible_raycast_line:
 		_draw_raycast_line(global_position, target_global_position)
-	
-	if Input.is_action_just_pressed("interact"):
-		target_locked.emit(target_global_position)
 	
 	if is_colliding():
 		# Check if target extends InteractableObject.
