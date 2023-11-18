@@ -37,7 +37,8 @@ func launch_projectile(projectile: Projectile) -> bool:
 	if not launch_timer.is_stopped():
 		return false
 
-	add_child(projectile)
+	get_tree().get_first_node_in_group("world").add_child(projectile)
+	
 	launch_timer.start()
 
 	return true
