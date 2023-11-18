@@ -21,3 +21,31 @@ extends Node
 func _ready() -> void:
 	# Validate the export variables.
 	assert(sprite is Sprite2D or sprite is AnimatedSprite2D, "Export variable [sprite] must be of Sprite2D or AnimatedSprite2D")
+
+
+## Resizes the target based on the mode provided.
+func scale(mode: Enums.ScaleMode) -> void: 
+	match mode:
+		Enums.ScaleMode.SHRINK:
+			shrink(shrink_factor)
+		Enums.ScaleMode.ENLARGE:
+			enlarge(enlarge_factor)
+		Enums.ScaleMode.RESET:
+			reset_scale()
+
+
+## Shrinks target by [param factor]. Negative values will be ignored.
+func shrink(factor: float) -> void:
+	if (factor < 0.0): return
+	target.scale = original_scale / factor
+
+
+## Enlarges target by [param factor]. Negative values will be ignored.
+func enlarge(factor: float) -> void:
+	if (factor < 0.0): return
+	target.scale = original_scale * factor
+
+
+## Resets the scale to original value.
+func reset_scale() -> void:
+	target.scale = original_scale

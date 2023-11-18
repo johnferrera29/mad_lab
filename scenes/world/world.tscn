@@ -2,6 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://dcibb2if05vl0" path="res://scenes/world/levels/level_01.tscn" id="1_0s13w"]
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node2D" groups=["world"]]
 
 [node name="Level01" parent="." instance=ExtResource("1_0s13w")]

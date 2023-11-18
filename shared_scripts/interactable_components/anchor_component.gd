@@ -1,6 +1,6 @@
 class_name AnchorComponent
 extends Node
-## A component that allows [member target] to be used as an anchor of [GrapplingHook].
+## A component that allows [member target] to be used as an anchor of [GrapplingHook]'s [HookProjectile].
 ##
 ## Use this component with composition.
 
@@ -10,8 +10,3 @@ extends Node
 ## The target's [Sprite2D] or [AnimatedSprite2D].
 ## Sprite will be highlighted when interacting with [TargetingSystem].
 @export var sprite: Node2D
-
-
-func _ready() -> void:
-	# Validate the export variables.
-	assert(sprite is Sprite2D or sprite is AnimatedSprite2D, "Export variable [sprite] must be of Sprite2D or AnimatedSprite2D")

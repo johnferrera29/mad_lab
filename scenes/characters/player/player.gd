@@ -33,9 +33,24 @@ extends CharacterBody2D
 @onready var air_state := $StateMachine/Air as PlayerAirState
 @onready var grappling_state := $StateMachine/Grappling as PlayerGrapplingState
 
+# Weapon manager.
+@onready var weapon_manager := $WeaponManager as WeaponManager
+
 
 func _ready() -> void:
 	_connect_state_transitions()
+
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("change_weapon_next"):
+		var next_weapon := weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.NEXT)
+		weapon_manager.change_weapon(next_weapon)
+		print("Weapon Changed! -> ", next_weapon)
+	
+	if Input.is_action_just_pressed("change_weapon_prev"):
+		var previous_weapon := weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.PREVIOUS)
+		weapon_manager.change_weapon(previous_weapon)
+		print("Weapon Changed! -> ", previous_weapon)
 
 
 func _connect_state_transitions() -> void:
