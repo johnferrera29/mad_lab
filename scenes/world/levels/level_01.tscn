@@ -1,12 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://dcibb2if05vl0"]
+[gd_scene load_steps=18 format=3 uid="uid://dcibb2if05vl0"]
 
 [ext_resource type="PackedScene" uid="uid://dyjcg33e37son" path="res://scenes/characters/player/player.tscn" id="1_um13x"]
 [ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_7h55h"]
-[ext_resource type="PackedScene" uid="uid://ddsas1vp7q8r3" path="res://scenes/entities/bomb_launcher/bomb_launcher.tscn" id="2_whqki"]
-[ext_resource type="Script" path="res://shared_scripts/components/scalable_component.gd" id="4_iamdp"]
-[ext_resource type="Script" path="res://shared_scripts/components/anchor_component.gd" id="5_122m1"]
-[ext_resource type="Script" path="res://shared_scripts/components/freezable_component.gd" id="6_n0x3n"]
-[ext_resource type="Script" path="res://shared_scripts/components/breakable_component.gd" id="7_1e0od"]
+[ext_resource type="Script" path="res://shared_scripts/interactable_components/scalable_component.gd" id="3_fwwlr"]
+[ext_resource type="Script" path="res://shared_scripts/interactable_components/anchor_component.gd" id="4_exj20"]
+[ext_resource type="Script" path="res://shared_scripts/interactable_components/freezable_component.gd" id="5_crtvq"]
+[ext_resource type="Script" path="res://shared_scripts/interactable_components/breakable_component.gd" id="6_c06sd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kndp6"]
 size = Vector2(126, 125)
@@ -124,9 +123,6 @@ _data = {
 [node name="Player" parent="." groups=["player"] instance=ExtResource("1_um13x")]
 position = Vector2(240, 181)
 
-[node name="BombLauncher" parent="Player" instance=ExtResource("2_whqki")]
-launch_speed = 300.0
-
 [node name="TemporaryGround" type="StaticBody2D" parent="."]
 position = Vector2(240, 300)
 scale = Vector2(50, 1)
@@ -155,14 +151,14 @@ position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_kndp6")
 
 [node name="ScalableComponent" type="Node" parent="TemporaryPlatform" node_paths=PackedStringArray("target", "sprite")]
-script = ExtResource("4_iamdp")
+script = ExtResource("3_fwwlr")
 target = NodePath("..")
 sprite = NodePath("../Sprite2D")
 shrink_factor = 2.0
 enlarge_factor = 2.0
 
 [node name="Anchor" type="StaticBody2D" parent="." node_paths=PackedStringArray("anchor_component")]
-position = Vector2(49, 142)
+position = Vector2(4, 135)
 scale = Vector2(0.1, 0.1)
 script = SubResource("GDScript_hqynx")
 anchor_component = NodePath("AnchorComponent")
@@ -177,7 +173,7 @@ position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_kndp6")
 
 [node name="AnchorComponent" type="Node" parent="Anchor" node_paths=PackedStringArray("target", "sprite")]
-script = ExtResource("5_122m1")
+script = ExtResource("4_exj20")
 target = NodePath("..")
 sprite = NodePath("../Sprite2D")
 
@@ -197,12 +193,12 @@ position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_kndp6")
 
 [node name="AnchorComponent" type="Node" parent="Anchor2" node_paths=PackedStringArray("target", "sprite")]
-script = ExtResource("5_122m1")
+script = ExtResource("4_exj20")
 target = NodePath("..")
 sprite = NodePath("../Sprite2D")
 
 [node name="Anchor3" type="StaticBody2D" parent="." node_paths=PackedStringArray("anchor_component")]
-position = Vector2(-28, 142)
+position = Vector2(420, 95)
 scale = Vector2(0.1, 0.1)
 script = SubResource("GDScript_hqynx")
 anchor_component = NodePath("AnchorComponent")
@@ -217,7 +213,7 @@ position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_kndp6")
 
 [node name="AnchorComponent" type="Node" parent="Anchor3" node_paths=PackedStringArray("target", "sprite")]
-script = ExtResource("5_122m1")
+script = ExtResource("4_exj20")
 target = NodePath("..")
 sprite = NodePath("../Sprite2D")
 
@@ -245,9 +241,8 @@ region_rect = Rect2(-4, -4, 128, 128)
 position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_kndp6")
 
-[node name="FreezableComponent" type="Node" parent="MovingPlatformContainer/MovingPlatform" node_paths=PackedStringArray("target", "sprite", "animator")]
-script = ExtResource("6_n0x3n")
-target = NodePath("..")
+[node name="FreezableComponent" type="Node" parent="MovingPlatformContainer/MovingPlatform" node_paths=PackedStringArray("sprite", "animator")]
+script = ExtResource("5_crtvq")
 sprite = NodePath("../Sprite2D")
 animator = NodePath("../../AnimationPlayer")
 freeze_time = 5.0
@@ -277,17 +272,15 @@ region_rect = Rect2(-4, -4, 128, 128)
 position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_kndp6")
 
-[node name="FreezableComponent" type="Node" parent="MovingPlatformContainer2/MovingPlatform" node_paths=PackedStringArray("target", "sprite", "animator")]
-script = ExtResource("6_n0x3n")
-target = NodePath("..")
+[node name="FreezableComponent" type="Node" parent="MovingPlatformContainer2/MovingPlatform" node_paths=PackedStringArray("sprite", "animator")]
+script = ExtResource("5_crtvq")
 sprite = NodePath("../Sprite2D")
 animator = NodePath("../../AnimationPlayer")
-freeze_time = 5.0
+freeze_time = 1.0
 
-[node name="BreakableComponent" type="Node" parent="MovingPlatformContainer2/MovingPlatform" node_paths=PackedStringArray("target", "moving_target", "sprite")]
-script = ExtResource("7_1e0od")
+[node name="BreakableComponent" type="Node" parent="MovingPlatformContainer2/MovingPlatform" node_paths=PackedStringArray("target", "sprite")]
+script = ExtResource("6_c06sd")
 target = NodePath("../..")
-moving_target = NodePath("..")
 sprite = NodePath("../Sprite2D")
 
 [node name="BreakablePlatform" type="StaticBody2D" parent="." node_paths=PackedStringArray("breakable_component")]
@@ -305,7 +298,7 @@ position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_kndp6")
 
 [node name="BreakableComponent" type="Node" parent="BreakablePlatform" node_paths=PackedStringArray("target", "sprite", "animator")]
-script = ExtResource("7_1e0od")
+script = ExtResource("6_c06sd")
 target = NodePath("..")
 sprite = NodePath("../Sprite2D")
 animator = NodePath("../AnimationPlayer")
