@@ -33,10 +33,19 @@ extends CharacterBody2D
 @onready var air_state := $StateMachine/Air as PlayerAirState
 @onready var grappling_state := $StateMachine/Grappling as PlayerGrapplingState
 
+# Weapon manager.
+@onready var weapon_manager := $WeaponManager as WeaponManager
+
 
 func _ready() -> void:
 	_connect_state_transitions()
 
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("change_weapon"):
+		# TODO: Change weapon
+		print("WEAPON CHANGE!")
+		
 
 func _connect_state_transitions() -> void:
 	# Save callables to variables for reuse.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dyjcg33e37son"]
+[gd_scene load_steps=14 format=3 uid="uid://dyjcg33e37son"]
 
 [ext_resource type="Script" path="res://scenes/characters/player/player.gd" id="1_iwvof"]
 [ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_c4mf3"]
@@ -7,6 +7,11 @@
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_run_state.gd" id="5_wss2c"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_air_state.gd" id="6_2y2n0"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_grappling_state.gd" id="7_lxquc"]
+[ext_resource type="Script" path="res://shared_scripts/weapons/weapon_manager.gd" id="8_qkk0o"]
+[ext_resource type="PackedScene" uid="uid://ddsas1vp7q8r3" path="res://scenes/entities/weapons/bomb_launcher/bomb_launcher.tscn" id="9_dkjw8"]
+[ext_resource type="PackedScene" uid="uid://i8n0nugds6iy" path="res://scenes/entities/weapons/scale_gun/scale_gun.tscn" id="10_3di7c"]
+[ext_resource type="PackedScene" uid="uid://83oqdey3q8oh" path="res://scenes/entities/weapons/freeze_ray/freeze_ray.tscn" id="11_fobwq"]
+[ext_resource type="PackedScene" uid="uid://vdlef4d1dnij" path="res://scenes/entities/weapons/grappling_hook/grappling_hook.tscn" id="12_mut6s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxt50"]
 
@@ -55,4 +60,17 @@ one_shot = true
 
 [node name="Grappling" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
 script = ExtResource("7_lxquc")
+actor = NodePath("../..")
+
+[node name="WeaponManager" type="Node2D" parent="." node_paths=PackedStringArray("initial_weapon")]
+script = ExtResource("8_qkk0o")
+initial_weapon = NodePath("GrapplingHook")
+
+[node name="ScaleGun" parent="WeaponManager" instance=ExtResource("10_3di7c")]
+
+[node name="BombLauncher" parent="WeaponManager" instance=ExtResource("9_dkjw8")]
+
+[node name="FreezeRay" parent="WeaponManager" instance=ExtResource("11_fobwq")]
+
+[node name="GrapplingHook" parent="WeaponManager" node_paths=PackedStringArray("actor") instance=ExtResource("12_mut6s")]
 actor = NodePath("../..")
