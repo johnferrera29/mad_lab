@@ -22,6 +22,7 @@ Utils="*res://shared_scripts/autoloads/utils.gd"
 SignalBus="*res://shared_scripts/autoloads/signal_bus.gd"
 SceneManager="*res://shared_scripts/autoloads/scene_manager.gd"
 GameManager="*res://shared_scripts/autoloads/game_manager.gd"
+LevelManager="*res://shared_scripts/autoloads/level_manager.gd"
 
 [debug]
 
