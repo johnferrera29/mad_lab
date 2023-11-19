@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dcibb2if05vl0"]
+[gd_scene load_steps=23 format=3 uid="uid://dcibb2if05vl0"]
 
 [ext_resource type="PackedScene" uid="uid://dyjcg33e37son" path="res://scenes/characters/player/player.tscn" id="1_um13x"]
 [ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_7h55h"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/anchor_component.gd" id="4_exj20"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/freezable_component.gd" id="5_crtvq"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/breakable_component.gd" id="6_c06sd"]
+[ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/entities/triggers/trigger_area/trigger_area.tscn" id="7_hxwuw"]
+[ext_resource type="PackedScene" uid="uid://dj31dd6rfng1l" path="res://scenes/entities/traps/trap_area/trap_area.tscn" id="8_04w2w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kndp6"]
 size = Vector2(126, 125)
@@ -118,6 +120,21 @@ _data = {
 "break": SubResource("Animation_gc6uw")
 }
 
+[sub_resource type="GDScript" id="GDScript_0tr7e"]
+script/source = "extends Node2D
+
+
+func _on_trigger_area_triggered() -> void:
+	print(\"trigger effect show hidden platform\")
+	$\"../TemporaryPlatform2\".show()
+	Utils.ProcessUtils.toggle_processing($\"../TemporaryPlatform2\", true)
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6nbw6"]
+radius = 15.2315
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a730w"]
+
 [node name="Level01" type="Node2D"]
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("1_um13x")]
@@ -151,6 +168,30 @@ position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_kndp6")
 
 [node name="ScalableComponent" type="Node" parent="TemporaryPlatform" node_paths=PackedStringArray("target", "sprite")]
+script = ExtResource("3_fwwlr")
+target = NodePath("..")
+sprite = NodePath("../Sprite2D")
+shrink_factor = 2.0
+enlarge_factor = 2.0
+
+[node name="TemporaryPlatform2" type="StaticBody2D" parent="." node_paths=PackedStringArray("scalable_component")]
+process_mode = 4
+visible = false
+position = Vector2(-235, 179)
+scale = Vector2(1, 0.1)
+script = SubResource("GDScript_hqynx")
+scalable_component = NodePath("ScalableComponent")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="TemporaryPlatform2"]
+texture = ExtResource("2_7h55h")
+region_rect = Rect2(-4, -4, 128, 128)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TemporaryPlatform2"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_kndp6")
+
+[node name="ScalableComponent" type="Node" parent="TemporaryPlatform2" node_paths=PackedStringArray("target", "sprite")]
 script = ExtResource("3_fwwlr")
 target = NodePath("..")
 sprite = NodePath("../Sprite2D")
@@ -308,3 +349,24 @@ destroy_animation_name = "break"
 libraries = {
 "": SubResource("AnimationLibrary_vdc45")
 }
+
+[node name="ShowPlatformTrigger" type="Node2D" parent="."]
+position = Vector2(-114, 212)
+script = SubResource("GDScript_0tr7e")
+metadata/_edit_group_ = true
+
+[node name="TriggerArea" parent="ShowPlatformTrigger" node_paths=PackedStringArray("trigger_key") instance=ExtResource("7_hxwuw")]
+trigger_key = NodePath("../../Player")
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShowPlatformTrigger/TriggerArea"]
+shape = SubResource("CircleShape2D_6nbw6")
+
+[node name="TrapArea" parent="." node_paths=PackedStringArray("targets") instance=ExtResource("8_04w2w")]
+position = Vector2(6, 175)
+targets = [NodePath("../Player")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TrapArea"]
+shape = SubResource("CircleShape2D_a730w")
+
+[connection signal="triggered" from="ShowPlatformTrigger/TriggerArea" to="ShowPlatformTrigger" method="_on_trigger_area_triggered"]
