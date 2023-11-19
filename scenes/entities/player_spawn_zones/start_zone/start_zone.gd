@@ -3,6 +3,8 @@ extends Node2D
 ##
 ## Make sure to put this as the first node under the level scene.
 
+## Reference to the current level.
+@export var level: Level
 
 var _player_scene := preload("res://scenes/characters/player/player.tscn")
 
@@ -26,7 +28,7 @@ func _spawn_player() -> void:
 	_trigger.trigger_keys.append(GameManager.player)
 
 	# TODO: Refactor this for parent to be a export variable.
-	get_parent().add_child.call_deferred(player)
+	level.add_child.call_deferred(player)
 
 
 func _set_as_respawn_point() -> void:
