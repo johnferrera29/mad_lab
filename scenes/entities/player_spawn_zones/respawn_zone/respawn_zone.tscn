@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://wqoln4sangsd"]
+
+[ext_resource type="Script" path="res://scenes/entities/player_spawn_zones/respawn_zone/respawn_zone.gd" id="1_ynpru"]
+[ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/entities/triggers/trigger_area/trigger_area.tscn" id="2_eryog"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q2mac"]
+
+[node name="RespawnZone" type="Node2D"]
+script = ExtResource("1_ynpru")
+
+[node name="PlayerRespawnPoint" type="Marker2D" parent="."]
+
+[node name="TriggerArea" parent="." instance=ExtResource("2_eryog")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+shape = SubResource("RectangleShape2D_q2mac")
+
+[connection signal="triggered" from="TriggerArea" to="." method="_on_trigger_area_triggered"]

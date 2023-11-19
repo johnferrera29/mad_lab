@@ -1,13 +1,15 @@
-[gd_scene load_steps=23 format=3 uid="uid://dcibb2if05vl0"]
+[gd_scene load_steps=26 format=3 uid="uid://dcibb2if05vl0"]
 
-[ext_resource type="PackedScene" uid="uid://dyjcg33e37son" path="res://scenes/characters/player/player.tscn" id="1_um13x"]
+[ext_resource type="Script" path="res://scenes/world/levels/level.gd" id="1_v0p0j"]
+[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/entities/player_spawn_zones/start_zone/start_zone.tscn" id="1_wdwms"]
+[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/entities/player_spawn_zones/exit_zone/exit_zone.tscn" id="2_3enw1"]
 [ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_7h55h"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/scalable_component.gd" id="3_fwwlr"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/anchor_component.gd" id="4_exj20"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/freezable_component.gd" id="5_crtvq"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/breakable_component.gd" id="6_c06sd"]
 [ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/entities/triggers/trigger_area/trigger_area.tscn" id="7_hxwuw"]
-[ext_resource type="PackedScene" uid="uid://dj31dd6rfng1l" path="res://scenes/entities/traps/trap_area/trap_area.tscn" id="8_04w2w"]
+[ext_resource type="PackedScene" uid="uid://wqoln4sangsd" path="res://scenes/entities/player_spawn_zones/respawn_zone/respawn_zone.tscn" id="9_t2mn6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kndp6"]
 size = Vector2(126, 125)
@@ -123,6 +125,10 @@ _data = {
 [sub_resource type="GDScript" id="GDScript_0tr7e"]
 script/source = "extends Node2D
 
+@onready var trigger := $TriggerArea as TriggerArea
+
+func _ready() -> void:
+	trigger.trigger_keys.append(GameManager.player)
 
 func _on_trigger_area_triggered() -> void:
 	print(\"trigger effect show hidden platform\")
@@ -133,12 +139,34 @@ func _on_trigger_area_triggered() -> void:
 [sub_resource type="CircleShape2D" id="CircleShape2D_6nbw6"]
 radius = 15.2315
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_a730w"]
+[sub_resource type="GDScript" id="GDScript_fori6"]
+script/source = "extends Node2D
+
+@onready var trigger := $TriggerArea as TriggerArea
+
+
+func _ready() -> void:
+	trigger.trigger_keys.append(GameManager.player)
+
+
+func _on_trigger_area_triggered() -> void:
+	SignalBus.player_died.emit()
+"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ectfp"]
 
 [node name="Level01" type="Node2D"]
+script = ExtResource("1_v0p0j")
+level_id = 1
+next_level_id = 2
 
-[node name="Player" parent="." groups=["player"] instance=ExtResource("1_um13x")]
-position = Vector2(240, 181)
+[node name="StartZone" parent="." node_paths=PackedStringArray("level") instance=ExtResource("1_wdwms")]
+position = Vector2(155, 202)
+level = NodePath("..")
+
+[node name="ExitZone" parent="." node_paths=PackedStringArray("level") instance=ExtResource("2_3enw1")]
+position = Vector2(795, 226)
+level = NodePath("..")
 
 [node name="TemporaryGround" type="StaticBody2D" parent="."]
 position = Vector2(240, 300)
@@ -355,18 +383,24 @@ position = Vector2(-114, 212)
 script = SubResource("GDScript_0tr7e")
 metadata/_edit_group_ = true
 
-[node name="TriggerArea" parent="ShowPlatformTrigger" node_paths=PackedStringArray("trigger_key") instance=ExtResource("7_hxwuw")]
-trigger_key = NodePath("../../Player")
+[node name="TriggerArea" parent="ShowPlatformTrigger" instance=ExtResource("7_hxwuw")]
 one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShowPlatformTrigger/TriggerArea"]
 shape = SubResource("CircleShape2D_6nbw6")
 
-[node name="TrapArea" parent="." node_paths=PackedStringArray("targets") instance=ExtResource("8_04w2w")]
-position = Vector2(6, 175)
-targets = [NodePath("../Player")]
+[node name="KillPlayerTrap" type="Node2D" parent="."]
+position = Vector2(-64, 220)
+script = SubResource("GDScript_fori6")
+metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TrapArea"]
-shape = SubResource("CircleShape2D_a730w")
+[node name="TriggerArea" parent="KillPlayerTrap" instance=ExtResource("7_hxwuw")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillPlayerTrap/TriggerArea"]
+shape = SubResource("CapsuleShape2D_ectfp")
+
+[node name="RespawnPlatform" parent="." instance=ExtResource("9_t2mn6")]
+position = Vector2(51, 224)
 
 [connection signal="triggered" from="ShowPlatformTrigger/TriggerArea" to="ShowPlatformTrigger" method="_on_trigger_area_triggered"]
+[connection signal="triggered" from="KillPlayerTrap/TriggerArea" to="KillPlayerTrap" method="_on_trigger_area_triggered"]
