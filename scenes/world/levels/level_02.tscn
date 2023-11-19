@@ -1,3 +1,8 @@
-[gd_scene format=3 uid="uid://divc8pdl7nkys"]
+[gd_scene load_steps=2 format=3 uid="uid://divc8pdl7nkys"]
+
+[ext_resource type="Script" path="res://scenes/world/levels/level.gd" id="1_weqxg"]
 
 [node name="Level02" type="Node2D"]
+script = ExtResource("1_weqxg")
+level_id = 2
+next_level_id = 3
