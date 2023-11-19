@@ -1,13 +1,13 @@
 class_name TriggerArea
 extends Area2D
-## Trigger area that emits [signal triggered] whenever it comes into contact with a specified [member trigger_key].
+## Trigger area that emits [signal triggered] whenever it comes into contact with [member trigger_keys].
 
 
 ## Signal emitted when the area comes into contact with the trigger key
 signal triggered()
 
-## A collision object that serves as the key activate trigger.
-@export var trigger_key: CollisionObject2D
+## A list of keys that can activate this trigger.
+@export var trigger_keys: Array[CollisionObject2D]
 ## Setting this to [code]true[/code] will only allow this to be triggered once.
 @export var one_shot: bool
 
@@ -30,10 +30,10 @@ func trigger() -> bool:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if body == trigger_key:
+	if trigger_keys.has(body):
 		trigger()
 
 
 func _on_body_exited(body: Node2D) -> void:
-	if not one_shot and body == trigger_key:
+	if not one_shot and trigger_keys.has(body):
 		_is_triggered = false

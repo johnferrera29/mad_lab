@@ -7,7 +7,7 @@ extends Node2D
 
 
 func _ready() -> void:
-	_trigger.trigger_key = GameManager.player
+	_trigger.trigger_keys.append(GameManager.player)
 
 
 func _set_as_respawn_point() -> void:

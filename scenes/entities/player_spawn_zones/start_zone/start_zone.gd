@@ -20,10 +20,10 @@ func _spawn_player() -> void:
 	# This includes initializing its list of available weapons, etc.
 	player.global_position = _spawn_point.global_position
 
-	get_parent().add_child.call_deferred(player)
-
-	_trigger.trigger_key = player
 	GameManager.player = player
+	_trigger.trigger_keys.append(GameManager.player)
+
+	get_parent().add_child.call_deferred(player)
 
 
 func _set_as_respawn_point() -> void:
