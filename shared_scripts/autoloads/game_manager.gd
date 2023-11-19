@@ -7,6 +7,9 @@ var player: Player
 ## Marks the position where the player will respawn.
 var last_respawn_position: Vector2
 
+## A reference to the World scene.
+var world: Node2D
+
 
 func _ready() -> void:
 	_init_connections()
