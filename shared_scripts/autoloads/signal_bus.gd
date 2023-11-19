@@ -4,5 +4,6 @@ extends Node
 ## Commonly used to connect a deeply nested node to other nodes or updating the GUI.
 
 
-## Signal emitted once a target comes into contact with a trap.
-signal target_trapped(target: CollisionObject2D) 
+# Player related signals.
+signal player_died()
+signal player_respawn_point_set(respawn_position: Vector2)
