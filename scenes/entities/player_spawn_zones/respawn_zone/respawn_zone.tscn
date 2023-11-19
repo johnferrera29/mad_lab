@@ -5,7 +5,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q2mac"]
 
-[node name="RespawnPlatform" type="Node2D"]
+[node name="RespawnZone" type="Node2D"]
 script = ExtResource("1_ynpru")
 
 [node name="PlayerRespawnPoint" type="Marker2D" parent="."]

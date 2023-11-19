@@ -1,5 +1,5 @@
 extends Node2D
-## Respawn zone that sets the player to respawn position.
+## Respawn zone that sets the player respawn position.
 
 
 @onready var _respawn_point := $PlayerRespawnPoint as Marker2D

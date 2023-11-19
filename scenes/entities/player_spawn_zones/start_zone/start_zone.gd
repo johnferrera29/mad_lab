@@ -1,5 +1,7 @@
 extends Node2D
 ## Starting zone that spawns the [Player].
+##
+## Make sure to put this as the first node under the level scene.
 
 
 var _player_scene := preload("res://scenes/characters/player/player.tscn")
@@ -23,6 +25,7 @@ func _spawn_player() -> void:
 	GameManager.player = player
 	_trigger.trigger_keys.append(GameManager.player)
 
+	# TODO: Refactor this for parent to be a export variable.
 	get_parent().add_child.call_deferred(player)
 
 
