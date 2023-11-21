@@ -10,6 +10,10 @@ signal actor_fell
 @export var animator: AnimatedSprite2D
 
 
+func state_enter(msg: Dictionary = {}) -> void:
+	animator.play("run")
+
+
 func state_handle_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("jump"):
 		actor_jumped.emit()
@@ -25,13 +29,15 @@ func state_physics_process(delta: float) -> void:
 	else:
 		decelerate(actor.movement_speed)
 		actor_idle.emit()
-
+	
+	
 	actor.move_and_slide()
 
 
 ## Move the actor horizontally to the specified [param direction] at a particular [param speed].
 func run(direction: float, speed: float) -> void:
 	actor.velocity.x = direction * speed
+	animator.flip_h = direction == -1
 
 
 ## Deccelerates the actor by [param speed] towards an optional [param target_speed].

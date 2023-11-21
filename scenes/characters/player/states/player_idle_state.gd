@@ -12,6 +12,7 @@ signal actor_fell
 
 func state_enter(msg: Dictionary = {}) -> void:
 	actor.velocity = Vector2.ZERO
+	animator.play("idle")
 
 
 func state_handle_input(event: InputEvent) -> void:
