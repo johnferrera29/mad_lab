@@ -1,10 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://xltnp3wd2u01"]
+[gd_scene load_steps=4 format=3 uid="uid://xltnp3wd2u01"]
 
 [ext_resource type="Script" path="res://scenes/entities/targeting_system/targeting_system.gd" id="1_gxfcm"]
+[ext_resource type="Texture2D" uid="uid://c60b0lu33p3q1" path="res://scenes/entities/targeting_system/resources/textures/fx_targeting_system_trajectory.png" id="2_rx3fc"]
+[ext_resource type="Material" uid="uid://dv7cjaoqn0j5j" path="res://shared_resources/shaders/2D_outline_outer.tres" id="3_t64k3"]
 
 [node name="TargetingSystem" type="RayCast2D"]
 target_position = Vector2(0, 0)
 script = ExtResource("1_gxfcm")
+visible_raycast_line = true
+line_texture = ExtResource("2_rx3fc")
+line_width = 3.0
+shader_material = ExtResource("3_t64k3")
 
 [node name="Line2D" type="Line2D" parent="."]
 top_level = true
