@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://dyjcg33e37son"]
+[gd_scene load_steps=63 format=3 uid="uid://dyjcg33e37son"]
 
 [ext_resource type="Script" path="res://scenes/characters/player/player.gd" id="1_iwvof"]
 [ext_resource type="Texture2D" uid="uid://ruuus6g4mc2m" path="res://scenes/characters/player/resources/textures/character_mad_scientist_attack_32x32-Sheet.png" id="2_1nqf1"]
@@ -15,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://ddsas1vp7q8r3" path="res://scenes/entities/weapons/bomb_launcher/bomb_launcher.tscn" id="9_dkjw8"]
 [ext_resource type="PackedScene" uid="uid://i8n0nugds6iy" path="res://scenes/entities/weapons/scale_gun/scale_gun.tscn" id="10_3di7c"]
 [ext_resource type="PackedScene" uid="uid://83oqdey3q8oh" path="res://scenes/entities/weapons/freeze_ray/freeze_ray.tscn" id="11_fobwq"]
-[ext_resource type="PackedScene" uid="uid://vdlef4d1dnij" path="res://scenes/entities/weapons/grappling_hook/grappling_hook.tscn" id="12_mut6s"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_attack_state.gd" id="12_w2cvc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wffip"]
@@ -419,10 +418,12 @@ script = ExtResource("8_qkk0o")
 initial_weapon = NodePath("ScaleGun")
 
 [node name="ScaleGun" parent="WeaponManager" instance=ExtResource("10_3di7c")]
+position = Vector2(0, -25)
 
 [node name="BombLauncher" parent="WeaponManager" instance=ExtResource("9_dkjw8")]
+visible = false
+position = Vector2(0, -25)
 
 [node name="FreezeRay" parent="WeaponManager" instance=ExtResource("11_fobwq")]
-
-[node name="GrapplingHook" parent="WeaponManager" node_paths=PackedStringArray("actor") instance=ExtResource("12_mut6s")]
-actor = NodePath("../..")
+visible = false
+position = Vector2(0, -25)
