@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://83oqdey3q8oh"]
+[gd_scene load_steps=6 format=3 uid="uid://83oqdey3q8oh"]
 
 [ext_resource type="PackedScene" uid="uid://xltnp3wd2u01" path="res://scenes/entities/targeting_system/targeting_system.tscn" id="1_jybga"]
 [ext_resource type="Script" path="res://scenes/entities/weapons/freeze_ray/freeze_ray.gd" id="1_x8bck"]
 [ext_resource type="Script" path="res://shared_scripts/weapons/projectile_launcher.gd" id="3_pytbt"]
 [ext_resource type="PackedScene" uid="uid://c7nt6eftmy7ht" path="res://scenes/entities/projectiles/ice_beam_projectile/ice_beam_projectile.tscn" id="4_oqtla"]
+[ext_resource type="Texture2D" uid="uid://p2agu02bqgm7" path="res://scenes/entities/weapons/freeze_ray/resources/textures/weapon_freeze_ray.png" id="5_1x6r8"]
 
 [node name="FreezeRay" type="Node2D"]
 script = ExtResource("1_x8bck")
 
-[node name="TargetingSystem" parent="." instance=ExtResource("1_jybga")]
+[node name="TargetingSystem" parent="." node_paths=PackedStringArray("line_starting_point") instance=ExtResource("1_jybga")]
+line_starting_point = NodePath("../Sprite2D/ProjectileSpawnPoint")
 
 [node name="ProjectileLauncher" type="Node2D" parent="."]
 script = ExtResource("3_pytbt")
@@ -17,7 +19,11 @@ projectile_lifespan = 1.0
 launch_speed = 400.0
 launch_interval = 0.5
 
-[node name="ProjectileSpawnPoint" type="Marker2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("5_1x6r8")
+
+[node name="ProjectileSpawnPoint" type="Marker2D" parent="Sprite2D"]
+position = Vector2(16, 0)
 
 [connection signal="target_detected" from="TargetingSystem" to="." method="_on_targeting_system_target_detected"]
 [connection signal="target_lost" from="TargetingSystem" to="." method="_on_targeting_system_target_lost"]
