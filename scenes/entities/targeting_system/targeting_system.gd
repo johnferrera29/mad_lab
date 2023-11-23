@@ -24,6 +24,9 @@ signal target_lost(target: InteractableObject)
 ## Refer to the [ShaderMaterial] resource for available parameters.
 @export var shader_parameters: Dictionary
 
+## The angle from the targeting system to the global mouse position in radians.
+var target_angle: float
+
 var _last_detected_target: Object
 
 @onready var _line: Line2D = $Line2D
@@ -37,6 +40,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	target_position = get_local_mouse_position()
 	var target_global_position := get_global_mouse_position()
+	
+	target_angle = global_position.angle_to_point(target_global_position)
 	
 	if visible_raycast_line:
 		_draw_raycast_line(global_position, target_global_position)
