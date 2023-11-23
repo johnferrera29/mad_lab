@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" path="res://scenes/entities/weapons/bomb_launcher/bomb_launcher.gd" id="1_t0qoq"]
 [ext_resource type="PackedScene" uid="uid://xltnp3wd2u01" path="res://scenes/entities/targeting_system/targeting_system.tscn" id="2_mpw2h"]
-[ext_resource type="Material" uid="uid://dv7cjaoqn0j5j" path="res://shared_resources/shaders/2D_outline_outer.tres" id="3_wgwn1"]
 [ext_resource type="Script" path="res://shared_scripts/weapons/projectile_launcher.gd" id="4_ftd4u"]
 [ext_resource type="PackedScene" uid="uid://c6jnc4oaaou4u" path="res://scenes/entities/projectiles/bomb_projectile/bomb_projectile.tscn" id="5_5ejom"]
+[ext_resource type="Texture2D" uid="uid://dldxf2eed3qk" path="res://scenes/entities/weapons/bomb_launcher/resources/textures/weapon_bomb_launcher.png" id="6_3ykqp"]
 
 [node name="BombLauncher" type="Node2D"]
 script = ExtResource("1_t0qoq")
 
-[node name="TargetingSystem" parent="." instance=ExtResource("2_mpw2h")]
-shader_material = ExtResource("3_wgwn1")
+[node name="TargetingSystem" parent="." node_paths=PackedStringArray("line_starting_point") instance=ExtResource("2_mpw2h")]
+line_starting_point = NodePath("../Sprite2D/ProjectileSpawnPoint")
 
 [node name="ProjectileLauncher" type="Node2D" parent="."]
 script = ExtResource("4_ftd4u")
@@ -19,7 +19,11 @@ projectile_lifespan = 1.0
 launch_speed = 400.0
 launch_interval = 0.5
 
-[node name="ProjectileSpawnPoint" type="Marker2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("6_3ykqp")
+
+[node name="ProjectileSpawnPoint" type="Marker2D" parent="Sprite2D"]
+position = Vector2(16, 0)
 
 [connection signal="target_detected" from="TargetingSystem" to="." method="_on_targeting_system_target_detected"]
 [connection signal="target_lost" from="TargetingSystem" to="." method="_on_targeting_system_target_lost"]
