@@ -39,9 +39,9 @@ func update_sprite_rotation() -> void:
 
 func _on_targeting_system_target_detected(target: InteractableObject) -> void:
 	if target and target.freezable_component:
-		targeting_system.toggle_shader_effect(target.freezable_component.sprite, true)
+		targeting_system.toggle_shader_effect(target.sprite, true)
 
 
 func _on_targeting_system_target_lost(target: InteractableObject) -> void:
 	if target and target.freezable_component:
-		targeting_system.toggle_shader_effect(target.freezable_component.sprite, false)
+		targeting_system.toggle_shader_effect(target.sprite, false)

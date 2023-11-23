@@ -15,13 +15,12 @@ signal froze
 ## Signal emitted once component thas thawed.
 signal thawed
 
-
-## The target's [Sprite2D] or [AnimatedSprite2D].
-## Sprite will be highlighted when interacting with [TargetingSystem].
-@export var sprite: Node2D
-## Node that handles the target's animation, if any.
-## Currently supports [AnimatedSprite2D] and [AnimationPlayer].
+## Target node to be frozen.
 ## Built-in processing will be stopped once frozen.
+@export var target: Node2D
+## A reference to the target's animator. 
+## Will first attempt to find the [member target.animator] before using this one.
+## Currently supports [AnimatedSprite2D] and [AnimationPlayer].
 @export var animator: Node
 ## Time it takes to before thawing out in seconds.
 ## During this time, [method _process] and [method _physics_process] callbacks will be stopped.
@@ -40,14 +39,39 @@ var is_frozen: bool
 func freeze() -> void:
 	if is_frozen: return
 
+	var target_animator = _get_animator()
+
 	is_frozen = true
 	froze.emit()
-	Utils.ProcessUtils.toggle_processing(animator, false)
+	Utils.ProcessUtils.toggle_processing(target_animator, false)
 	
 	await get_tree().create_timer(freeze_time).timeout
 	
 	is_frozen = false
 	thawed.emit()
-	Utils.ProcessUtils.toggle_processing(animator, true)
+	Utils.ProcessUtils.toggle_processing(target_animator, true)
 	
 	# TODO: Add frozen shader effect.
+
+
+## Attempts to get the target's animator.
+## Returns null if no animator is found.
+func _get_animator() -> Node:
+	# Try to get the target's animator variable.
+	if target and target.animator:
+		return target.animator
+	# Try to find the animator in the target's child nodes.
+	elif target and not target.animator:
+		for child in target.get_children():
+			var animated_sprite := child as AnimatedSprite2D
+			if animated_sprite:
+				return animated_sprite
+
+			var animation_player := child as AnimationPlayer
+			if animation_player:
+				return animation_player
+	# Try to get custom external animator specified in the export variable.
+	elif animator:
+		return animator
+	
+	return null
