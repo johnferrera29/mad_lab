@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://i8n0nugds6iy"]
+[gd_scene load_steps=6 format=3 uid="uid://i8n0nugds6iy"]
 
 [ext_resource type="Script" path="res://scenes/entities/weapons/scale_gun/scale_gun.gd" id="1_wraol"]
 [ext_resource type="PackedScene" uid="uid://xltnp3wd2u01" path="res://scenes/entities/targeting_system/targeting_system.tscn" id="2_2ojot"]
 [ext_resource type="Script" path="res://shared_scripts/weapons/projectile_launcher.gd" id="3_6v0tf"]
 [ext_resource type="PackedScene" uid="uid://br452oy86x2ah" path="res://scenes/entities/projectiles/resizer_disc_projectile/resizer_disc_projectile.tscn" id="4_ag8oc"]
+[ext_resource type="Texture2D" uid="uid://d3hfwvv0trptc" path="res://scenes/entities/weapons/scale_gun/resources/textures/weapon_scale_gun.png" id="5_2ya7e"]
 
 [node name="ScaleGun" type="Node2D"]
 script = ExtResource("1_wraol")
 
-[node name="TargetingSystem" parent="." instance=ExtResource("2_2ojot")]
+[node name="TargetingSystem" parent="." node_paths=PackedStringArray("line_starting_point") instance=ExtResource("2_2ojot")]
+line_starting_point = NodePath("../Sprite2D/ProjectileSpawnPoint")
 
 [node name="ProjectileLauncher" type="Node2D" parent="."]
 script = ExtResource("3_6v0tf")
@@ -17,7 +19,12 @@ projectile_lifespan = 1.0
 launch_speed = 400.0
 launch_interval = 0.5
 
-[node name="ProjectileSpawnPoint" type="Marker2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_as_relative = false
+texture = ExtResource("5_2ya7e")
+
+[node name="ProjectileSpawnPoint" type="Marker2D" parent="Sprite2D"]
+position = Vector2(16, 0)
 
 [connection signal="target_detected" from="TargetingSystem" to="." method="_on_targeting_system_target_detected"]
 [connection signal="target_lost" from="TargetingSystem" to="." method="_on_targeting_system_target_lost"]
