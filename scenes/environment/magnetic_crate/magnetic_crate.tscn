@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bl0vd7ig72f4v"]
+
+[ext_resource type="Script" path="res://scenes/environment/magnetic_crate/magnetic_crate.gd" id="1_xu605"]
+[ext_resource type="Texture2D" uid="uid://dqdbb37f8fk5f" path="res://scenes/environment/magnetic_crate/resources/textures/interactable_magnetic_crate.png" id="2_bilbb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_28y7p"]
+size = Vector2(28, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7in1"]
+size = Vector2(35, 35)
+
+[node name="MagneticCrate" type="AnimatableBody2D"]
+script = ExtResource("1_xu605")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_bilbb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_28y7p")
+
+[node name="MagneticField" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MagneticField"]
+shape = SubResource("RectangleShape2D_g7in1")
+debug_color = Color(0.427451, 0.603922, 0, 0.419608)
+
+[connection signal="area_entered" from="MagneticField" to="." method="_on_magnetic_field_area_entered"]
