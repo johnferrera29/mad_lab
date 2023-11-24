@@ -7,7 +7,6 @@
 size = Vector2(28, 28)
 
 [node name="WoodenBox" type="AnimatableBody2D"]
-disable_mode = 2
 script = ExtResource("1_upeog")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
