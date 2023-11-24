@@ -1,5 +1,8 @@
 class_name MagneticCrate
 extends InteractableObject
+## A crate that emits a magnetic field which reflects certain types of projectile.
+##
+## Currently reflecting [ResizerDiscProjectile].
 
 
 ## Determines if crate emits a magnetic field that will reflect projectiles.
