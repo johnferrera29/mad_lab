@@ -5,6 +5,8 @@ extends Area2D
 
 ## Signal emitted when the area comes into contact with the trigger key
 signal triggered()
+## Signal emitted when trigger key exits area.
+signal released()
 
 ## A list of keys that can activate this trigger.
 @export var trigger_keys: Array[CollisionObject2D]
@@ -29,11 +31,23 @@ func trigger() -> bool:
 	return true
 
 
+## Releases the trigger and emits [signal released].
+func release() -> bool:
+	if one_shot and _is_triggered:
+			return false
+	
+	print("released")
+	released.emit()
+	_is_triggered = false
+
+	return true
+
+
 func _on_body_entered(body: Node2D) -> void:
 	if body is CollisionObject2D and trigger_keys.has(body):
 		trigger()
 
 
 func _on_body_exited(body: Node2D) -> void:
-	if body is CollisionObject2D and not one_shot and trigger_keys.has(body):
-		_is_triggered = false
+	if body is CollisionObject2D and trigger_keys.has(body):
+		release()
