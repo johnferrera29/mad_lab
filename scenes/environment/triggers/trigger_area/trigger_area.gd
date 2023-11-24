@@ -30,10 +30,10 @@ func trigger() -> bool:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if trigger_keys.has(body):
+	if body is CollisionObject2D and trigger_keys.has(body):
 		trigger()
 
 
 func _on_body_exited(body: Node2D) -> void:
-	if not one_shot and trigger_keys.has(body):
+	if body is CollisionObject2D and not one_shot and trigger_keys.has(body):
 		_is_triggered = false
