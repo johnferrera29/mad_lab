@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://ddqbsbl3sn081"]
+
+[ext_resource type="Script" path="res://scenes/environment/triggers/switch/switch.gd" id="1_k2eci"]
+[ext_resource type="Texture2D" uid="uid://cpl66df8dygks" path="res://scenes/environment/triggers/switch/resources/textures/interactable_switch-Sheet.png" id="2_7bddo"]
+[ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/environment/triggers/trigger_area/trigger_area.tscn" id="3_45y5w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hcd12"]
+atlas = ExtResource("2_7bddo")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8bp5"]
+atlas = ExtResource("2_7bddo")
+region = Rect2(32, 0, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8t0jw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hcd12")
+}],
+"loop": false,
+"name": &"switch_off",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8bp5")
+}],
+"loop": true,
+"name": &"switch_on",
+"speed": 1.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wp0pg"]
+size = Vector2(30, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pey37"]
+size = Vector2(24, 6)
+
+[node name="Switch" type="Node2D"]
+script = ExtResource("1_k2eci")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="StaticBody2D"]
+sprite_frames = SubResource("SpriteFrames_8t0jw")
+animation = &"switch_off"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_wp0pg")
+
+[node name="TriggerArea" parent="." instance=ExtResource("3_45y5w")]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_pey37")
+debug_color = Color(1, 1, 0, 0.419608)
+
+[connection signal="released" from="TriggerArea" to="." method="_on_trigger_area_released"]
+[connection signal="triggered" from="TriggerArea" to="." method="_on_trigger_area_triggered"]
