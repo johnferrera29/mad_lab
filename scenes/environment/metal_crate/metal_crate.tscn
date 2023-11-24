@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://sai6af3qayly"]
+
+[ext_resource type="Script" path="res://scenes/environment/metal_crate/metal_crate.gd" id="1_cunix"]
+[ext_resource type="Texture2D" uid="uid://diwx27864hckf" path="res://scenes/environment/metal_crate/resources/textures/interactable_metal_crate.png" id="2_q4jwm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_28y7p"]
+size = Vector2(28, 28)
+
+[node name="MetalCrate" type="AnimatableBody2D"]
+script = ExtResource("1_cunix")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_q4jwm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_28y7p")

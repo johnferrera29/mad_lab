@@ -31,6 +31,7 @@ extends CharacterBody2D
 @onready var idle_state := $StateMachine/Idle as PlayerIdleState
 @onready var run_state := $StateMachine/Run as PlayerRunState
 @onready var air_state := $StateMachine/Air as PlayerAirState
+@onready var attack_state := $StateMachine/Attack as PlayerAttackState
 @onready var grappling_state := $StateMachine/Grappling as PlayerGrapplingState
 
 # Weapon manager.
@@ -39,18 +40,7 @@ extends CharacterBody2D
 
 func _ready() -> void:
 	_connect_state_transitions()
-
-
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("change_weapon_next"):
-		var next_weapon := weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.NEXT)
-		weapon_manager.change_weapon(next_weapon)
-		print("Weapon Changed! -> ", next_weapon)
-	
-	if Input.is_action_just_pressed("change_weapon_prev"):
-		var previous_weapon := weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.PREVIOUS)
-		weapon_manager.change_weapon(previous_weapon)
-		print("Weapon Changed! -> ", previous_weapon)
+	weapon_manager.toggle_weapon_manager(false)
 
 
 func _connect_state_transitions() -> void:
@@ -59,11 +49,13 @@ func _connect_state_transitions() -> void:
 	var change_to_run_state: Callable = state_machine.change_state.bind(run_state)
 	var change_to_jump_state: Callable = state_machine.change_state.bind(air_state, air_state.create_state_params(true))
 	var change_to_fall_state: Callable = state_machine.change_state.bind(air_state)
+	var change_to_attack_state: Callable = state_machine.change_state.bind(attack_state)
 	
 	# Connect player idle transition states.
 	idle_state.actor_fell.connect(change_to_fall_state)
 	idle_state.actor_jumped.connect(change_to_jump_state)
 	idle_state.actor_ran.connect(change_to_run_state)
+	idle_state.actor_attacked.connect(change_to_attack_state)
 
 	# Connect player run transition states.
 	run_state.actor_idle.connect(change_to_idle_state)
@@ -73,6 +65,12 @@ func _connect_state_transitions() -> void:
 	# Connect player air transition states.
 	air_state.actor_idle.connect(change_to_idle_state)
 	air_state.actor_ran.connect(change_to_run_state)
+
+	# Connect player attack transition states.
+	attack_state.actor_idle.connect(change_to_idle_state)
+	attack_state.actor_fell.connect(change_to_fall_state)
+	attack_state.actor_jumped.connect(change_to_jump_state)
+	attack_state.actor_ran.connect(change_to_run_state)
 
 	# Connect player grappling transition states.
 	grappling_state.actor_idle.connect(change_to_idle_state)

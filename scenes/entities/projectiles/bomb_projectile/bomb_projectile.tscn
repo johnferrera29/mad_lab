@@ -1,64 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6jnc4oaaou4u"]
+[gd_scene load_steps=4 format=3 uid="uid://c6jnc4oaaou4u"]
 
 [ext_resource type="Script" path="res://scenes/entities/projectiles/bomb_projectile/bomb_projectile.gd" id="1_rn8kt"]
-[ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_1kj3m"]
+[ext_resource type="Texture2D" uid="uid://bduxl27mpdngk" path="res://scenes/entities/projectiles/bomb_projectile/resources/textures/projectile_bomb.png" id="2_nkb63"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_twiaq"]
 
-[sub_resource type="Animation" id="Animation_j63ht"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
-[sub_resource type="Animation" id="Animation_ce7r7"]
-resource_name = "detonate"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 6.28319]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_k7lx4"]
-_data = {
-"RESET": SubResource("Animation_j63ht"),
-"detonate": SubResource("Animation_ce7r7")
-}
-
-[node name="BombProjectile" type="Area2D" node_paths=PackedStringArray("animator")]
+[node name="BombProjectile" type="Area2D"]
 script = ExtResource("1_rn8kt")
-animator = NodePath("AnimationPlayer")
-destroy_animation_name = "detonate"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-4.17233e-07, -5.36442e-07)
-scale = Vector2(0.078, 0.117)
-texture = ExtResource("2_1kj3m")
+texture = ExtResource("2_nkb63")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
 scale = Vector2(0.5, 0.5)
 shape = SubResource("CapsuleShape2D_twiaq")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_k7lx4")
-}
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

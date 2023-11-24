@@ -1,16 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://br452oy86x2ah"]
 
 [ext_resource type="Script" path="res://scenes/entities/projectiles/resizer_disc_projectile/resizer_disc_projectile.gd" id="1_pdtes"]
-[ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_tgi5w"]
+[ext_resource type="Texture2D" uid="uid://d2ivm5ajg5k1b" path="res://scenes/entities/projectiles/resizer_disc_projectile/resources/textures/projectile_resizer_disc.png" id="2_7tokw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4fl5f"]
+radius = 6.0
 
 [node name="ResizerDiscProjectile" type="Area2D"]
 script = ExtResource("1_pdtes")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.148438, 0.148438)
-texture = ExtResource("2_tgi5w")
+texture = ExtResource("2_7tokw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_4fl5f")

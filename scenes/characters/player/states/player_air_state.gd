@@ -76,6 +76,7 @@ func apply_gravity(delta: float, gravity: float, terminal_velocity: float) -> vo
 	# Actor has reached peak height and is now falling.
 	if actor.velocity.y >= 0.0:
 		_is_jumping = false
+		animator.play("fall")
 	
 	# Applies terminal velocity if specified.
 	if terminal_velocity and actor.velocity.y > terminal_velocity:
@@ -92,6 +93,7 @@ func get_gravity() -> float:
 func jump(force: float) -> void:
 	actor.velocity.y = -force
 	_is_jumping = true
+	animator.play("jump")
 
 
 ## Checks for a buffered jump and executes [method jump] with a [param force].
@@ -116,6 +118,7 @@ func check_for_coyote_time(delta: float) -> bool:
 ## Move the actor horizontally to the specified [param direction] at a particular [param speed].
 func run(direction: float, speed: float) -> void:
 	actor.velocity.x = direction * speed
+	animator.flip_h = direction == -1
 
 
 ## Deccelerates the actor by [param speed] towards an optional [param target_speed].

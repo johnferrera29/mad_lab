@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://cylkxg60m55a7"]
+
+[ext_resource type="Texture2D" uid="uid://dl7a5vavigrgx" path="res://scenes/environment/wooden_box/resources/textures/interactable_wooden_box.png" id="1_0ygwk"]
+[ext_resource type="Script" path="res://scenes/environment/wooden_box/wooden_box.gd" id="1_upeog"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ddeiw"]
+size = Vector2(28, 28)
+
+[node name="WoodenBox" type="AnimatableBody2D"]
+script = ExtResource("1_upeog")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_0ygwk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ddeiw")

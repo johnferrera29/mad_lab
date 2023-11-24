@@ -1,19 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://c7nt6eftmy7ht"]
 
 [ext_resource type="Script" path="res://scenes/entities/projectiles/ice_beam_projectile/ice_beam_projectile.gd" id="1_6jnev"]
-[ext_resource type="Texture2D" uid="uid://bh35rl8ygja7m" path="res://icon.svg" id="2_kaxu1"]
+[ext_resource type="Texture2D" uid="uid://b5fjdffqqfsah" path="res://scenes/entities/projectiles/ice_beam_projectile/resources/textures/projectile_ice_beam.png" id="2_0d4ek"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fypo2"]
-size = Vector2(10, 15)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qgg0o"]
+radius = 5.0
+height = 16.0
 
 [node name="IceBeamProjectile" type="Area2D"]
 script = ExtResource("1_6jnev")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.078, 0.117)
-texture = ExtResource("2_kaxu1")
+texture = ExtResource("2_0d4ek")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_fypo2")
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_qgg0o")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

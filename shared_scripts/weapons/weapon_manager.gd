@@ -61,3 +61,13 @@ func scroll_through_weapons(scroll_direction: SCROLL_DIRECTION = SCROLL_DIRECTIO
 		index = weapon_list.size() - 1
 	
 	return weapon_list[index]
+
+
+## Enables or disables weapon manager.
+func toggle_weapon_manager(flag: bool) -> void:
+	Utils.ProcessUtils.toggle_processing(self, flag)
+
+	if flag:
+		self.show()
+	else:
+		self.hide()
