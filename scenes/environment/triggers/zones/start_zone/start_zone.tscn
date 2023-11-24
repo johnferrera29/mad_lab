@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://5aw78krg1h6c"]
 
-[ext_resource type="Script" path="res://scenes/entities/player_spawn_zones/start_zone/start_zone.gd" id="1_g17e3"]
-[ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/entities/triggers/trigger_area/trigger_area.tscn" id="2_pxxh0"]
+[ext_resource type="Script" path="res://scenes/environment/triggers/zones/start_zone/start_zone.gd" id="1_g17e3"]
+[ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/environment/triggers/trigger_area/trigger_area.tscn" id="2_pxxh0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0ntl"]
 

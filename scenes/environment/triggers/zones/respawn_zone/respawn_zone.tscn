@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://wqoln4sangsd"]
 
-[ext_resource type="Script" path="res://scenes/entities/player_spawn_zones/respawn_zone/respawn_zone.gd" id="1_ynpru"]
-[ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/entities/triggers/trigger_area/trigger_area.tscn" id="2_eryog"]
+[ext_resource type="Script" path="res://scenes/environment/triggers/zones/respawn_zone/respawn_zone.gd" id="1_ynpru"]
+[ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/environment/triggers/trigger_area/trigger_area.tscn" id="2_eryog"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q2mac"]
 
