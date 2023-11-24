@@ -5,10 +5,8 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_twiaq"]
 
-[node name="BombProjectile" type="Area2D" node_paths=PackedStringArray("animator")]
+[node name="BombProjectile" type="Area2D"]
 script = ExtResource("1_rn8kt")
-animator = NodePath("")
-destroy_animation_name = "detonate"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-4.17233e-07, -5.36442e-07)
