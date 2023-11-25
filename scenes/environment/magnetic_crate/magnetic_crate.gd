@@ -21,11 +21,13 @@ func _ready() -> void:
 	collision_shape = $CollisionShape2D
 	animator = $AnimationPlayer
 
+	_init_connections()
 
-func _physics_process(delta: float) -> void:
-	if collision_shape.scale != magnetic_field_collision_shape.scale:
-		magnetic_field_collision_shape.scale = collision_shape.scale
-		magnetic_field_fx.scale = collision_shape.scale
+
+## Initializes dynamic signal connections.
+func _init_connections() -> void:
+	if scalable_component:
+		scalable_component.scaled.connect(_on_scaled)
 
 
 func _reflect_projectile(projectile: Projectile) -> void:
@@ -45,8 +47,8 @@ func _reflect_projectile(projectile: Projectile) -> void:
 	Utils.ProcessUtils.toggle_processing(projectile, true)
 
 
+# TODO: Add a magnetic / reflectable property to the projectile specific class instead of manually specifying here.
 func _check_if_reflectable_projectile(projectile: Projectile) -> bool:
-	# TODO: Add a magnetic / reflectable property to the projectile specific class instead of manually specifying here.
 	if projectile is ResizerDiscProjectile or projectile is BombProjectile:
 		return true
 
@@ -64,6 +66,12 @@ func _toggle_magnetic_field_fx(flag: bool) -> void:
 		animation_player.stop()
 
 
+# Signal callbacks
 func _on_magnetic_field_area_entered(area: Area2D) -> void:
 	if is_magnetic:
 		_reflect_projectile(area as Projectile)
+
+
+func _on_scaled(new_scale: Vector2) -> void:
+	magnetic_field_collision_shape.scale = new_scale
+	magnetic_field_fx.scale = new_scale
