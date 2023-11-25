@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bh6aqj7u5m3dd"]
+
+[ext_resource type="Texture2D" uid="uid://gngrhvgmit4q" path="res://scenes/vfx/frozen_fx/resources/textures/fx_snow_flake.png" id="1_73kl6"]
+
+[sub_resource type="Curve" id="Curve_hmht0"]
+min_value = 0.1
+max_value = 0.8
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_narm8"]
+curve = SubResource("Curve_hmht0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gvr73"]
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 0)
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = 1.0
+radial_accel_max = 3.0
+scale_min = 0.1
+scale_max = 0.8
+scale_curve = SubResource("CurveTexture_narm8")
+
+[node name="FrozenFX" type="GPUParticles2D"]
+z_index = -1
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_gvr73")
+texture = ExtResource("1_73kl6")
+lifetime = 3.0
+local_coords = true
