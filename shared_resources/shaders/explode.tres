@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://0xj7migh1cq8"]
+
+[ext_resource type="Shader" path="res://shared_resources/shaders/explode.gdshader" id="1_ol5ap"]
+
+[resource]
+shader = ExtResource("1_ol5ap")
+shader_parameter/fragment_number = Vector2(20, 20)
+shader_parameter/dissolve_state = 1.0
