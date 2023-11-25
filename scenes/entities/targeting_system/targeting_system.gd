@@ -30,8 +30,8 @@ signal target_lost(target: InteractableObject)
 
 ## The angle from the targeting system to the global mouse position in radians.
 var target_angle: float
-
-var _last_detected_target: Object
+## The last detected target object.
+var last_detected_target: Object
 
 @onready var _line: Line2D = $Line2D
 
@@ -68,13 +68,13 @@ func _physics_process(delta: float) -> void:
 		if target:
 			# Check if object same as last detected object.
 			# This prevents [signal target_detected] from being emitted multiple times.
-			if not _last_detected_target or target != _last_detected_target:
-				_last_detected_target = target
+			if not last_detected_target or target != last_detected_target:
+				last_detected_target = target
 				target_detected.emit(target)
 	else:
-		if _last_detected_target and is_instance_valid(_last_detected_target):
-			target_lost.emit(_last_detected_target)
-			_last_detected_target = null
+		if last_detected_target and is_instance_valid(last_detected_target):
+			target_lost.emit(last_detected_target)
+			last_detected_target = null
 
 
 ## Toggles shader effect on or off. Replaces the sprite's [member CanvasItem.material].
