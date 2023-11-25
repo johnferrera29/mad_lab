@@ -1,7 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://bl0vd7ig72f4v"]
+[gd_scene load_steps=14 format=3 uid="uid://bl0vd7ig72f4v"]
 
 [ext_resource type="Script" path="res://scenes/environment/magnetic_crate/magnetic_crate.gd" id="1_xu605"]
 [ext_resource type="Texture2D" uid="uid://dqdbb37f8fk5f" path="res://scenes/environment/magnetic_crate/resources/textures/interactable_magnetic_crate.png" id="2_bilbb"]
+[ext_resource type="Texture2D" uid="uid://b1jjjvr5hjj48" path="res://scenes/environment/magnetic_crate/resources/textures/fx_magnetic_field.png" id="2_pnma0"]
+
+[sub_resource type="Gradient" id="Gradient_pkt8h"]
+offsets = PackedFloat32Array(0.147059, 0.461765, 0.717647, 0.917647)
+colors = PackedColorArray(0.211765, 0.368627, 0.639216, 1, 0.729412, 0.203922, 0.203922, 1, 0.709804, 0.788235, 0.831373, 0.670588, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_b05rv"]
+gradient = SubResource("Gradient_pkt8h")
+
+[sub_resource type="Curve" id="Curve_3nt2p"]
+min_value = 0.1
+max_value = 0.8
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_narm8"]
+curve = SubResource("Curve_3nt2p")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sy6pe"]
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 0)
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = 50.0
+radial_accel_max = 100.0
+scale_min = 0.1
+scale_max = 0.8
+scale_curve = SubResource("CurveTexture_narm8")
+color_ramp = SubResource("GradientTexture1D_b05rv")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g7in1"]
 size = Vector2(35, 35)
@@ -9,8 +42,51 @@ size = Vector2(35, 35)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28y7p"]
 size = Vector2(28, 28)
 
+[sub_resource type="Animation" id="Animation_h068v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_vtagk"]
+resource_name = "jiggle"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0349066, -0.0349066]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m6ysg"]
+_data = {
+"RESET": SubResource("Animation_h068v"),
+"jiggle": SubResource("Animation_vtagk")
+}
+
 [node name="MagneticCrate" type="AnimatableBody2D"]
 script = ExtResource("1_xu605")
+
+[node name="MagneticFieldParticle" type="GPUParticles2D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_sy6pe")
+texture = ExtResource("2_pnma0")
+local_coords = true
 
 [node name="MagneticField" type="Area2D" parent="."]
 
@@ -23,5 +99,11 @@ texture = ExtResource("2_bilbb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_28y7p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "jiggle"
+libraries = {
+"": SubResource("AnimationLibrary_m6ysg")
+}
 
 [connection signal="area_entered" from="MagneticField" to="." method="_on_magnetic_field_area_entered"]
