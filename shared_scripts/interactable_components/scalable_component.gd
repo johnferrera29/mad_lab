@@ -5,6 +5,9 @@ extends Node
 ## Use this component with composition.
 
 
+## Signal emitted once target has been scaled.
+signal scaled(new_scale: Vector2)
+
 ## Determines how fast the scaling animation happens in seconds.
 const _SCALING_TIME := 0.1
 
@@ -69,3 +72,5 @@ func _apply_scale(new_scale: Vector2) -> void:
 	tween.set_parallel(true)
 	tween.tween_property(target_sprite, "scale", new_scale, _SCALING_TIME)
 	tween.tween_property(target_collision_shape, "scale", new_scale, _SCALING_TIME)
+
+	scaled.emit(new_scale)
