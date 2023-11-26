@@ -24,10 +24,21 @@ signal thawed
 @export var animator: Node
 ## Time it takes to before thawing out in seconds.
 ## During this time, [method _process] and [method _physics_process] callbacks will be stopped.
-@export_range(0.0, 99.0, 0.1) var freeze_time: float
+@export_range(0.0, 99.0, 0.1) var freeze_time: float = 1.0
 
 ## Flag to determine if target is frozen or not.
 var is_frozen: bool
+
+var _frozen_fx_resource = preload("res://scenes/vfx/frozen_fx/frozen_fx.tscn")
+var _frozen_timer_resource = preload("res://scenes/vfx/frozen_timer_fx/frozen_timer.tscn")
+var _frozen_fx: GPUParticles2D
+var _frozen_timer: FrozenTimer
+
+
+func _ready() -> void:
+	_add_frozen_fx()
+	_add_frozen_timer()
+	_init_connections()
 
 
 ## Freezes the animator's built-in processing.
@@ -39,19 +50,33 @@ var is_frozen: bool
 func freeze() -> void:
 	if is_frozen: return
 
-	var target_animator = _get_animator()
-
 	is_frozen = true
 	froze.emit()
-	Utils.ProcessUtils.toggle_processing(target_animator, false)
-	
-	await get_tree().create_timer(freeze_time).timeout
+
+	_frozen_timer.start(freeze_time)
+	_frozen_timer.show()
+	_frozen_fx.emitting = true
+
+	Utils.ProcessUtils.toggle_processing(_get_animator(), false)
+
+
+## Thaws the frozen object.
+func thaw() -> void:
+	if not is_frozen: return
 	
 	is_frozen = false
 	thawed.emit()
-	Utils.ProcessUtils.toggle_processing(target_animator, true)
 	
-	# TODO: Add frozen shader effect.
+	_frozen_timer.hide()
+	_frozen_fx.emitting = false
+
+	Utils.ProcessUtils.toggle_processing(_get_animator(), true)	
+
+
+## Initializes dynamic signal connections.
+func _init_connections() -> void:
+	if target and target.scalable_component:
+		target.scalable_component.scaled.connect(_on_scaled)
 
 
 ## Attempts to get the target's animator.
@@ -75,3 +100,25 @@ func _get_animator() -> Node:
 		return animator
 	
 	return null
+
+
+## Adds a frozen fx particle to the target.
+func _add_frozen_fx() -> void:
+	_frozen_fx = _frozen_fx_resource.instantiate() as GPUParticles2D
+	_frozen_fx.emitting = false
+
+	target.add_child.call_deferred(_frozen_fx)
+
+
+## Adds a frozen timer countdown to the target.
+func _add_frozen_timer() -> void:
+	_frozen_timer = _frozen_timer_resource.instantiate() as FrozenTimer
+	_frozen_timer.finished.connect(thaw)
+	_frozen_timer.hide()
+
+	target.add_child.call_deferred(_frozen_timer)
+
+
+func _on_scaled(new_scale: Vector2) -> void:
+	_frozen_fx.scale = new_scale
+	_frozen_timer.scale = new_scale
