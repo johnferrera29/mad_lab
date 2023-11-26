@@ -22,7 +22,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("MetalCrate:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -39,7 +39,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("MetalCrate:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -132,7 +132,7 @@ script = ExtResource("6_c06sd")
 target = NodePath("..")
 
 [node name="MovingCrate" type="Node2D" parent="."]
-position = Vector2(496, 159)
+position = Vector2(92, 70)
 metadata/_edit_group_ = true
 
 [node name="MetalCrate" parent="MovingCrate" node_paths=PackedStringArray("scalable_component", "freezable_component", "breakable_component") instance=ExtResource("11_ckhf8")]
@@ -150,21 +150,24 @@ enlarge_factor = 2.0
 script = ExtResource("5_crtvq")
 target = NodePath("..")
 animator = NodePath("../AnimationPlayer")
-freeze_time = 2.0
+freeze_time = 5.0
 
-[node name="BreakableComponent" type="Node" parent="MovingCrate/MetalCrate" node_paths=PackedStringArray("target")]
+[node name="BreakableComponent" type="Node" parent="MovingCrate/MetalCrate" node_paths=PackedStringArray("target", "interactable_object")]
 script = ExtResource("6_c06sd")
 target = NodePath("../..")
+interactable_object = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MovingCrate/MetalCrate"]
+root_node = NodePath("../..")
 autoplay = "move_horizontally"
 libraries = {
 "": SubResource("AnimationLibrary_ylh5v")
 }
 
-[node name="MagneticCrate" parent="." node_paths=PackedStringArray("scalable_component", "breakable_component") instance=ExtResource("13_fu772")]
+[node name="MagneticCrate" parent="." node_paths=PackedStringArray("scalable_component", "freezable_component", "breakable_component") instance=ExtResource("13_fu772")]
 position = Vector2(-111, 166)
 scalable_component = NodePath("ScalableComponent")
+freezable_component = NodePath("FreezableComponent")
 breakable_component = NodePath("BreakableComponent")
 
 [node name="BreakableComponent" type="Node" parent="MagneticCrate" node_paths=PackedStringArray("target")]
@@ -176,6 +179,11 @@ script = ExtResource("3_fwwlr")
 target = NodePath("..")
 shrink_factor = 2.0
 enlarge_factor = 2.0
+
+[node name="FreezableComponent" type="Node" parent="MagneticCrate" node_paths=PackedStringArray("target")]
+script = ExtResource("5_crtvq")
+target = NodePath("..")
+freeze_time = 99.0
 
 [node name="SpikeTrap" parent="." instance=ExtResource("14_gc6ub")]
 position = Vector2(-57, 233)
