@@ -31,9 +31,6 @@ func _ready() -> void:
 ## Destroys the [member target].
 func destroy() -> void:
 	if not is_unbreakable:
-		
-		interactable_object.sprite.material = _explode_material
-
 		# Animate explosion
 		var tween = get_tree().create_tween()
 		tween.set_parallel(true)
@@ -46,4 +43,5 @@ func destroy() -> void:
 
 
 func _update_explosion_dissolve(step: float) -> void:
+	interactable_object.sprite.material = _explode_material
 	interactable_object.sprite.material.set_shader_parameter("dissolve_state", step)
