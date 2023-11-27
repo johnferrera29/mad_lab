@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dcibb2if05vl0"]
+[gd_scene load_steps=24 format=3 uid="uid://dcibb2if05vl0"]
 
 [ext_resource type="Script" path="res://scenes/world/levels/level.gd" id="1_v0p0j"]
 [ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/triggers/zones/start_zone/start_zone.tscn" id="1_wdwms"]
@@ -79,6 +79,29 @@ func _on_trigger_area_triggered() -> void:
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3d07a"]
 size = Vector2(24, 6)
+
+[sub_resource type="GDScript" id="GDScript_37y5k"]
+script/source = "extends Node2D
+
+
+@onready var trigger := $TriggerArea as TriggerArea
+
+
+func _ready() -> void:
+	trigger.trigger_keys.append(GameManager.player)
+
+
+func _on_trigger_area_triggered() -> void:
+	const lines: Array[String] = [
+		\"Hey! This is to test the dialog box.\",
+		\"Is this working properly?\",
+		\"Test, 1, 2, 3!\"
+	]
+	
+	DialogManager.start_dialog(GameManager.player.global_position, lines)
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wo6sp"]
 
 [node name="Level01" type="Node2D"]
 script = ExtResource("1_v0p0j")
@@ -208,4 +231,15 @@ one_shot = true
 position = Vector2(0, 7)
 shape = SubResource("RectangleShape2D_3d07a")
 
+[node name="ShowDialogTrigger" type="Node2D" parent="."]
+script = SubResource("GDScript_37y5k")
+
+[node name="TriggerArea" parent="ShowDialogTrigger" instance=ExtResource("7_hxwuw")]
+position = Vector2(707, 224)
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShowDialogTrigger/TriggerArea"]
+shape = SubResource("CircleShape2D_wo6sp")
+
 [connection signal="triggered" from="Show_Trigger_WoodenBox_Scalable2/TriggerArea" to="Show_Trigger_WoodenBox_Scalable2" method="_on_trigger_area_triggered"]
+[connection signal="triggered" from="ShowDialogTrigger/TriggerArea" to="ShowDialogTrigger" method="_on_trigger_area_triggered"]

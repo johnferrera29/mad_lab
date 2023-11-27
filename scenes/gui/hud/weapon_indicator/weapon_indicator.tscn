@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dwhe8kdqhjtt3"]
+[gd_scene load_steps=10 format=3 uid="uid://dwhe8kdqhjtt3"]
 
 [ext_resource type="Texture2D" uid="uid://d3hfwvv0trptc" path="res://scenes/entities/weapons/scale_gun/resources/textures/weapon_scale_gun.png" id="1_3gw1s"]
 [ext_resource type="Script" path="res://scenes/gui/hud/weapon_indicator/weapon_indicator.gd" id="2_hroqc"]
 [ext_resource type="PackedScene" uid="uid://bn3v10jbvjp4c" path="res://scenes/gui/hud/weapon_reload_progress/weapon_reload_progress.tscn" id="2_uebb8"]
 [ext_resource type="PackedScene" uid="uid://bipe013gu4lie" path="res://scenes/gui/hud/weapon_scroll_arrows/weapon_scroll_arrows.tscn" id="3_ch7mc"]
+[ext_resource type="FontFile" uid="uid://7ifmntxrukr8" path="res://shared_resources/fonts/kenvector_future_thin.ttf" id="4_kqi0f"]
 
 [sub_resource type="Animation" id="Animation_0457v"]
 length = 0.001
@@ -43,6 +44,7 @@ _data = {
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_6wbtj"]
+font = ExtResource("4_kqi0f")
 font_size = 6
 outline_size = 4
 outline_color = Color(0.129412, 0.121569, 0.188235, 1)
@@ -76,9 +78,9 @@ texture = ExtResource("1_3gw1s")
 [node name="WeaponLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = -22.0
-offset_top = 36.0
+offset_top = 40.0
 offset_right = 66.0
-offset_bottom = 53.0
+offset_bottom = 57.0
 text = "Scale Gun"
 label_settings = SubResource("LabelSettings_6wbtj")
 horizontal_alignment = 1
