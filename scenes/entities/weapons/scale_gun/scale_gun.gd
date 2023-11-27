@@ -19,7 +19,7 @@ var _scale_modes: Array[Enums.ScaleMode] = [
 @onready var targeting_system := $TargetingSystem as TargetingSystem
 @onready var projectile_launcher := $ProjectileLauncher as ProjectileLauncher
 @onready var projectile_spawn_point := $Sprite2D/ProjectileSpawnPoint as Marker2D
-
+@onready var audio_queue := $AudioQueue as AudioQueue
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("change_weapon_mode"):
@@ -27,7 +27,7 @@ func _input(event: InputEvent) -> void:
 		change_scale_mode(new_mode)
 
 
-	if Input.is_action_just_pressed("interact"):
+	if Input.is_action_just_pressed("interact") and projectile_launcher.launch_timer.is_stopped():
 		var target_position := get_global_mouse_position()
 		var projectile_velocity := projectile_launcher.launch_speed * global_position.direction_to(target_position)
 		var projectile := projectile_launcher.create_projectile(
@@ -40,6 +40,8 @@ func _input(event: InputEvent) -> void:
 		projectile.scale_mode = current_mode
 
 		projectile_launcher.launch_projectile(projectile)
+		
+		audio_queue.play_sound()
 
 
 func _physics_process(delta: float) -> void:

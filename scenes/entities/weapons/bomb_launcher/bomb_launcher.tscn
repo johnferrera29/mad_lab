@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddsas1vp7q8r3"]
+[gd_scene load_steps=8 format=3 uid="uid://ddsas1vp7q8r3"]
 
 [ext_resource type="Script" path="res://scenes/entities/weapons/bomb_launcher/bomb_launcher.gd" id="1_t0qoq"]
 [ext_resource type="PackedScene" uid="uid://xltnp3wd2u01" path="res://scenes/entities/targeting_system/targeting_system.tscn" id="2_mpw2h"]
 [ext_resource type="Script" path="res://shared_scripts/weapons/projectile_launcher.gd" id="4_ftd4u"]
 [ext_resource type="PackedScene" uid="uid://c6jnc4oaaou4u" path="res://scenes/entities/projectiles/bomb_projectile/bomb_projectile.tscn" id="5_5ejom"]
 [ext_resource type="Texture2D" uid="uid://dldxf2eed3qk" path="res://scenes/entities/weapons/bomb_launcher/resources/textures/weapon_bomb_launcher.png" id="6_3ykqp"]
+[ext_resource type="PackedScene" uid="uid://cwwc2jo7g8w8e" path="res://scenes/utils/audio_queue/audio_queue.tscn" id="6_6p38a"]
+[ext_resource type="AudioStream" uid="uid://cag4000l2b1l" path="res://scenes/entities/weapons/bomb_launcher/resources/audio/launch.ogg" id="7_yuuf5"]
 
 [node name="BombLauncher" type="Node2D"]
 script = ExtResource("1_t0qoq")
@@ -24,6 +26,13 @@ texture = ExtResource("6_3ykqp")
 
 [node name="ProjectileSpawnPoint" type="Marker2D" parent="Sprite2D"]
 position = Vector2(16, 0)
+
+[node name="AudioQueue" parent="." instance=ExtResource("6_6p38a")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioQueue"]
+stream = ExtResource("7_yuuf5")
+volume_db = -15.0
+pitch_scale = 0.5
 
 [connection signal="target_detected" from="TargetingSystem" to="." method="_on_targeting_system_target_detected"]
 [connection signal="target_lost" from="TargetingSystem" to="." method="_on_targeting_system_target_lost"]
