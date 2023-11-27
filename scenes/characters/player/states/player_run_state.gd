@@ -9,9 +9,16 @@ signal actor_fell
 @export var actor: Player
 @export var animator: AnimatedSprite2D
 
+@onready var run_audio := $RunAudio as AudioStreamPlayer
+
 
 func state_enter(msg: Dictionary = {}) -> void:
 	animator.play("run")
+	run_audio.play()
+
+
+func state_exit() -> void:
+	run_audio.stop()
 
 
 func state_handle_input(event: InputEvent) -> void:
