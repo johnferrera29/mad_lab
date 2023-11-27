@@ -8,3 +8,10 @@ enum ScaleMode {
 	ENLARGE,
 	RESET,
 }
+
+## Different weapon types the player can use.
+enum WeaponType {
+	SCALE_GUN,
+	BOMB_LAUNCHER,
+	FREEZE_RAY,
+}

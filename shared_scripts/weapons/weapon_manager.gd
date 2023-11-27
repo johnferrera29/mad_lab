@@ -1,6 +1,8 @@
 class_name WeaponManager
 extends Node2D
 ## Class that handles switching between different availble weapons.
+##
+## TODO: Make this extend StateMachine for better state handling.
 
 
 ## Determines the scroll direction when calling [method scroll_through_weapons].
@@ -57,9 +59,12 @@ func scroll_through_weapons(scroll_direction: SCROLL_DIRECTION = SCROLL_DIRECTIO
 		index = 0
 	
 	# Wend under first weapon index.
-	if index <= -2:
+	if index <= -1:
 		index = weapon_list.size() - 1
 	
+	# TODO: Move this to more appropriate location.
+	SignalBus.weapon_changed.emit(index, scroll_direction)
+
 	return weapon_list[index]
 
 

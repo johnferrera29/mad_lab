@@ -20,7 +20,7 @@ func _ready() -> void:
 	change_state(initial_state, initial_state_msg)
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if current_state:
 		current_state.state_handle_input(event)
 
