@@ -12,5 +12,6 @@
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_0xfa5")
+volume_db = -20.0
 autoplay = true
 bus = &"Music"

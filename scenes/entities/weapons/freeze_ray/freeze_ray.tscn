@@ -31,8 +31,9 @@ position = Vector2(16, 0)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioQueue"]
 stream = ExtResource("7_xt1d0")
-volume_db = -15.0
+volume_db = -25.0
 pitch_scale = 0.75
+bus = &"SFX"
 
 [connection signal="target_detected" from="TargetingSystem" to="." method="_on_targeting_system_target_detected"]
 [connection signal="target_lost" from="TargetingSystem" to="." method="_on_targeting_system_target_lost"]

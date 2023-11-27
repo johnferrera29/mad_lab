@@ -396,6 +396,7 @@ animator = NodePath("../../AnimatedSprite2D")
 
 [node name="RunAudio" type="AudioStreamPlayer" parent="StateMachine/Run"]
 stream = ExtResource("10_mtj81")
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="Air" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "animator", "jump_buffer_timer", "coyote_timer")]
@@ -413,8 +414,9 @@ one_shot = true
 
 [node name="JumpAudio" type="AudioStreamPlayer" parent="StateMachine/Air"]
 stream = ExtResource("12_xuta4")
-volume_db = -15.0
-pitch_scale = 0.75
+volume_db = -20.0
+pitch_scale = 0.5
+bus = &"SFX"
 
 [node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "animator")]
 script = ExtResource("12_w2cvc")
@@ -425,6 +427,7 @@ animator = NodePath("../../AnimatedSprite2D")
 stream = ExtResource("14_hjx0m")
 volume_db = -30.0
 pitch_scale = 0.2
+bus = &"SFX"
 
 [node name="Grappling" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
 script = ExtResource("7_lxquc")
