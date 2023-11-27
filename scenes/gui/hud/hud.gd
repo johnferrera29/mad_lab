@@ -14,7 +14,7 @@ func _init_connections() -> void:
 	SignalBus.weapon_withdrawn.connect(_on_weapon_withdrawn)
 
 
-func _on_weapon_drawn() -> void:
+func _on_weapon_drawn(weapon_count: int) -> void:
 	weapon_hud.show()
 
 

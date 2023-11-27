@@ -63,7 +63,7 @@ func scroll_through_weapons(scroll_direction: SCROLL_DIRECTION = SCROLL_DIRECTIO
 		index = weapon_list.size() - 1
 	
 	# TODO: Move this to more appropriate location.
-	SignalBus.weapon_changed.emit(index)
+	SignalBus.weapon_changed.emit(index, scroll_direction)
 
 	return weapon_list[index]
 

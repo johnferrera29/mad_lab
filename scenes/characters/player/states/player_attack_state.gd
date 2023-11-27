@@ -17,7 +17,7 @@ func state_enter(msg: Dictionary = {}) -> void:
 
 	animator.play("attack")
 
-	SignalBus.weapon_drawn.emit()
+	SignalBus.weapon_drawn.emit(actor.weapon_manager.weapon_list.size())
 
 
 func state_exit() -> void:
@@ -27,7 +27,7 @@ func state_exit() -> void:
 	SignalBus.weapon_withdrawn.emit()
 
 
-func state_handle_input(event: InputEvent) -> void:	
+func state_handle_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("jump"):
 		actor_jumped.emit()
 	
