@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://cj8u4tnbs4x7v"]
+
+[ext_resource type="Script" path="res://scenes/gui/hud/hud.gd" id="1_7klid"]
+[ext_resource type="PackedScene" uid="uid://bn3v10jbvjp4c" path="res://scenes/gui/hud/weapon_reload_progress/weapon_reload_progress.tscn" id="2_jmqqg"]
+[ext_resource type="PackedScene" uid="uid://dwhe8kdqhjtt3" path="res://scenes/gui/hud/current_weapon_indicator/current_weapon_indicator.tscn" id="3_7f2bm"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7klid")
+
+[node name="WeaponHUD" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="WeaponReloadProgress" parent="WeaponHUD" instance=ExtResource("2_jmqqg")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 42.0
+offset_bottom = 16.0
+grow_vertical = 2
+
+[node name="CurrentWeaponSprite" parent="WeaponHUD" instance=ExtResource("3_7f2bm")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -9.0
+offset_right = 45.0
+offset_bottom = 23.0
+grow_vertical = 2

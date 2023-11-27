@@ -22,13 +22,8 @@ func _ready() -> void:
 	_init_timer()
 
 
-func _init_timer() -> void:
-	launch_timer = Timer.new()
-	launch_timer.name = "LaunchIntervalTimer"
-	launch_timer.one_shot = true
-	launch_timer.wait_time = launch_interval
-	
-	add_child(launch_timer)
+func _physics_process(delta: float) -> void:
+	_check_reload_progress()
 
 
 ## Launches a [param projectile].
@@ -56,3 +51,18 @@ func create_projectile(spawn_position: Vector2, spawn_rotation: float, velocity:
 	projectile.top_level = true
 
 	return projectile
+
+
+func _init_timer() -> void:
+	launch_timer = Timer.new()
+	launch_timer.name = "LaunchIntervalTimer"
+	launch_timer.one_shot = true
+	launch_timer.wait_time = launch_interval
+	
+	add_child(launch_timer)
+
+
+func _check_reload_progress() -> void:
+	if not launch_timer.is_stopped():
+		var reload_progress := 1 - (launch_timer.time_left / launch_timer.wait_time)
+		SignalBus.weapon_reload_progressed.emit(reload_progress)

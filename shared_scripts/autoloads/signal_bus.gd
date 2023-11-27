@@ -22,3 +22,11 @@ signal scene_change_triggered(params: SceneManager.SceneChangeParams)
 ## Optional [param scene_to_unload] when emitting from GUI such as level selection screens that needs additional cleanup.
 signal level_selected(level_id: int, scene_to_unload: Node)
 signal level_started(level: Level)
+
+
+# Weapon related signals
+signal weapon_reloaded()
+signal weapon_reload_progressed(progress: float)
+signal weapon_changed(weapon_type: Enums.WeaponType)
+signal weapon_drawn()
+signal weapon_withdrawn()

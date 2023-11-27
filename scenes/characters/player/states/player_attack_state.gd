@@ -17,10 +17,14 @@ func state_enter(msg: Dictionary = {}) -> void:
 
 	animator.play("attack")
 
+	SignalBus.weapon_drawn.emit()
+
 
 func state_exit() -> void:
 	actor.weapon_manager.toggle_weapon_manager(false)
 	_remove_target_highlights()
+
+	SignalBus.weapon_withdrawn.emit()
 
 
 func state_handle_input(event: InputEvent) -> void:	
