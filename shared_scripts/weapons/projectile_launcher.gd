@@ -21,6 +21,9 @@ var launch_timer: Timer
 func _ready() -> void:
 	_init_timer()
 
+	# Currently setting this to always process for reload progress indicator in the hud.
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
 
 func _physics_process(delta: float) -> void:
 	_check_reload_progress()
@@ -63,6 +66,8 @@ func _init_timer() -> void:
 
 
 func _check_reload_progress() -> void:
-	if not launch_timer.is_stopped():
+	# TODO: Cleanup this workaround condition for checking reload progress.
+	# Added get_parent().visible to only emit progress if this is the currently selected weapon.
+	if not launch_timer.is_stopped() and get_parent().visible:
 		var reload_progress := 1 - (launch_timer.time_left / launch_timer.wait_time)
 		SignalBus.weapon_reload_progressed.emit(reload_progress)
