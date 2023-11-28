@@ -13,6 +13,8 @@ signal actor_ran
 var _was_on_floor: bool
 var _is_jumping: bool
 
+@onready var jump_audio := $JumpAudio as AudioStreamPlayer
+
 
 func _ready() -> void:
 	# Apply actor specified jump buffer and coyote time.
@@ -94,6 +96,7 @@ func jump(force: float) -> void:
 	actor.velocity.y = -force
 	_is_jumping = true
 	animator.play("jump")
+	jump_audio.play()
 
 
 ## Checks for a buffered jump and executes [method jump] with a [param force].

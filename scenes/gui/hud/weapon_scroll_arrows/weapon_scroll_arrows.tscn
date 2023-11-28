@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bipe013gu4lie"]
+[gd_scene load_steps=4 format=3 uid="uid://bipe013gu4lie"]
 
 [ext_resource type="Script" path="res://scenes/gui/hud/weapon_scroll_arrows/weapon_scroll_arrows.gd" id="1_r02ng"]
 [ext_resource type="PackedScene" uid="uid://cjpqdfw3vd7aq" path="res://scenes/gui/hud/weapon_scroll_arrows/weapon_arrow.tscn" id="2_aygyk"]
+[ext_resource type="AudioStream" uid="uid://u3bkq2uuimb7" path="res://shared_resources/audio/menu_item_clicked.ogg" id="3_ioh53"]
 
 [node name="WeaponScrollArrows" type="Control"]
 layout_mode = 3
@@ -16,3 +17,8 @@ position = Vector2(54, 8)
 [node name="WeaponPrevious" parent="." instance=ExtResource("2_aygyk")]
 position = Vector2(8, 8)
 rotation = 3.14159
+
+[node name="ArrowClickedAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ioh53")
+volume_db = -10.0
+pitch_scale = 0.5

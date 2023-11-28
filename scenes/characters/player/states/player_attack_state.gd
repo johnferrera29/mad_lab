@@ -10,12 +10,15 @@ signal actor_fell
 @export var actor: Player
 @export var animator: AnimatedSprite2D
 
+@onready var aiming_audio := $AimingAudio as AudioStreamPlayer
+
 
 func state_enter(msg: Dictionary = {}) -> void:
 	actor.velocity = Vector2.ZERO
 	actor.weapon_manager.toggle_weapon_manager(true)
 
 	animator.play("attack")
+	aiming_audio.play()
 
 	SignalBus.weapon_drawn.emit(actor.weapon_manager.weapon_list.size())
 
@@ -24,6 +27,8 @@ func state_exit() -> void:
 	actor.weapon_manager.toggle_weapon_manager(false)
 	_remove_target_highlights()
 
+	aiming_audio.stop()
+	
 	SignalBus.weapon_withdrawn.emit()
 
 

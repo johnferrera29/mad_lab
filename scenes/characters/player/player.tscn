@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://dyjcg33e37son"]
+[gd_scene load_steps=66 format=3 uid="uid://dyjcg33e37son"]
 
 [ext_resource type="Script" path="res://scenes/characters/player/player.gd" id="1_iwvof"]
 [ext_resource type="Texture2D" uid="uid://ruuus6g4mc2m" path="res://scenes/characters/player/resources/textures/character_mad_scientist_attack_32x32-Sheet.png" id="2_1nqf1"]
@@ -14,8 +14,11 @@
 [ext_resource type="Script" path="res://shared_scripts/weapons/weapon_manager.gd" id="8_qkk0o"]
 [ext_resource type="PackedScene" uid="uid://ddsas1vp7q8r3" path="res://scenes/entities/weapons/bomb_launcher/bomb_launcher.tscn" id="9_dkjw8"]
 [ext_resource type="PackedScene" uid="uid://i8n0nugds6iy" path="res://scenes/entities/weapons/scale_gun/scale_gun.tscn" id="10_3di7c"]
+[ext_resource type="AudioStream" uid="uid://twe335mg75mq" path="res://scenes/characters/player/resources/audio/footsteps.wav" id="10_mtj81"]
 [ext_resource type="PackedScene" uid="uid://83oqdey3q8oh" path="res://scenes/entities/weapons/freeze_ray/freeze_ray.tscn" id="11_fobwq"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_attack_state.gd" id="12_w2cvc"]
+[ext_resource type="AudioStream" uid="uid://dd2gp5w3347fl" path="res://scenes/characters/player/resources/audio/jump.ogg" id="12_xuta4"]
+[ext_resource type="AudioStream" uid="uid://c7v3v5qol47vf" path="res://scenes/characters/player/resources/audio/aiming.wav" id="14_hjx0m"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wffip"]
 atlas = ExtResource("2_1nqf1")
@@ -391,6 +394,11 @@ script = ExtResource("5_wss2c")
 actor = NodePath("../..")
 animator = NodePath("../../AnimatedSprite2D")
 
+[node name="RunAudio" type="AudioStreamPlayer" parent="StateMachine/Run"]
+stream = ExtResource("10_mtj81")
+volume_db = 5.0
+bus = &"SFX"
+
 [node name="Air" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "animator", "jump_buffer_timer", "coyote_timer")]
 script = ExtResource("6_2y2n0")
 actor = NodePath("../..")
@@ -404,10 +412,22 @@ one_shot = true
 [node name="CoyoteTimer" type="Timer" parent="StateMachine/Air"]
 one_shot = true
 
+[node name="JumpAudio" type="AudioStreamPlayer" parent="StateMachine/Air"]
+stream = ExtResource("12_xuta4")
+volume_db = -5.0
+pitch_scale = 0.5
+bus = &"SFX"
+
 [node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor", "animator")]
 script = ExtResource("12_w2cvc")
 actor = NodePath("../..")
 animator = NodePath("../../AnimatedSprite2D")
+
+[node name="AimingAudio" type="AudioStreamPlayer" parent="StateMachine/Attack"]
+stream = ExtResource("14_hjx0m")
+volume_db = -10.0
+pitch_scale = 0.2
+bus = &"SFX"
 
 [node name="Grappling" type="Node" parent="StateMachine" node_paths=PackedStringArray("actor")]
 script = ExtResource("7_lxquc")

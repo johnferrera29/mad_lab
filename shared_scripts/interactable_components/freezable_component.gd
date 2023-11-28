@@ -31,13 +31,17 @@ var is_frozen: bool
 
 var _frozen_fx_resource = preload("res://scenes/vfx/frozen_fx/frozen_fx.tscn")
 var _frozen_timer_resource = preload("res://scenes/vfx/frozen_timer_fx/frozen_timer.tscn")
+var _frozen_audio_resource = preload("res://shared_resources/audio/frozen.wav")
+
 var _frozen_fx: GPUParticles2D
 var _frozen_timer: FrozenTimer
+var _frozen_audio: AudioStreamPlayer2D
 
 
 func _ready() -> void:
 	_add_frozen_fx()
 	_add_frozen_timer()
+	_add_frozen_audio()
 	_init_connections()
 
 
@@ -54,6 +58,7 @@ func freeze() -> void:
 	froze.emit()
 
 	_frozen_timer.start(freeze_time)
+	_frozen_audio.play()
 	_frozen_timer.show()
 	_frozen_fx.emitting = true
 
@@ -67,6 +72,7 @@ func thaw() -> void:
 	is_frozen = false
 	thawed.emit()
 	
+	_frozen_audio.stop()
 	_frozen_timer.hide()
 	_frozen_fx.emitting = false
 
@@ -117,6 +123,16 @@ func _add_frozen_timer() -> void:
 	_frozen_timer.hide()
 
 	target.add_child.call_deferred(_frozen_timer)
+
+
+func _add_frozen_audio() -> void:
+	_frozen_audio = AudioStreamPlayer2D.new()
+	_frozen_audio.stream = _frozen_audio_resource
+	_frozen_audio.volume_db = 5.0
+	_frozen_audio.pitch_scale = 0.8
+	_frozen_audio.max_distance = 500.0
+
+	target.add_child.call_deferred(_frozen_audio) 
 
 
 func _on_scaled(new_scale: Vector2) -> void:

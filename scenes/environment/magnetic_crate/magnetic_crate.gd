@@ -14,6 +14,7 @@ var is_magnetic: bool = true:
 
 @onready var magnetic_field_fx := $MagneticFieldParticle as GPUParticles2D
 @onready var magnetic_field_collision_shape := $MagneticField/CollisionShape2D
+@onready var magnetic_audio := $MagneticAudio as AudioStreamPlayer2D
 
 
 func _ready() -> void:
@@ -58,7 +59,12 @@ func _check_if_reflectable_projectile(projectile: Projectile) -> bool:
 ## Toggles the magnetic field visual effect.
 func _toggle_magnetic_field_fx(flag: bool) -> void:
 	magnetic_field_fx.emitting = flag
-
+	
+	if flag:
+		magnetic_audio.play()
+	else:
+		magnetic_audio.stop()
+	
 	var animation_player = animator as AnimationPlayer
 	if flag and not animation_player.is_playing():
 		animation_player.play("jiggle")
