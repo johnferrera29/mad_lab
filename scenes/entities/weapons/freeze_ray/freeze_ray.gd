@@ -13,6 +13,10 @@ extends Weapon
 @onready var audio_queue := $AudioQueue as AudioQueue
 
 
+func _ready() -> void:
+	weapon_type = Enums.WeaponType.FREEZE_RAY
+
+
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("interact") and projectile_launcher.launch_timer.is_stopped():
 		var target_position := get_global_mouse_position()

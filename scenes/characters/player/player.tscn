@@ -369,9 +369,6 @@ jump_time_to_peak = 0.5
 jump_time_to_descent = 0.3
 coyote_time = 0.1
 jump_buffer = 0.1
-scale_gun_resource = ExtResource("10_3di7c")
-bomb_launcher_resource = ExtResource("9_dkjw8")
-freeze_ray_resource = ExtResource("11_fobwq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1.90735e-06, -1.90735e-06)
@@ -441,3 +438,6 @@ actor = NodePath("../..")
 [node name="WeaponManager" type="Node2D" parent="."]
 position = Vector2(0, -25)
 script = ExtResource("8_qkk0o")
+scale_gun_resource = ExtResource("10_3di7c")
+bomb_launcher_resource = ExtResource("9_dkjw8")
+freeze_ray_resource = ExtResource("11_fobwq")

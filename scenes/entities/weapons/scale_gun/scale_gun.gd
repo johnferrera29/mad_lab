@@ -22,6 +22,10 @@ var _scale_modes: Array[Enums.ScaleMode] = [
 @onready var audio_queue := $AudioQueue as AudioQueue
 
 
+func _ready() -> void:
+	weapon_type = Enums.WeaponType.SCALE_GUN
+
+
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("change_weapon_mode"):
 		var new_mode = _scroll_through_scale_modes()

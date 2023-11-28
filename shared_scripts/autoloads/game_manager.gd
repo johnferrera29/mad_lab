@@ -60,8 +60,6 @@ func _on_player_died() -> void:
 
 
 func _on_unlock_weapon(weapon_type: Enums.WeaponType) -> void:
-	print("GameManager -> _on_unlock_weapon -> ", Enums.WeaponType.keys()[weapon_type])
-
 	match weapon_type:
 		Enums.WeaponType.SCALE_GUN:
 			player_unlockables.scale_gun = true
@@ -70,4 +68,4 @@ func _on_unlock_weapon(weapon_type: Enums.WeaponType) -> void:
 		Enums.WeaponType.FREEZE_RAY:
 			player_unlockables.freeze_ray = true
 	
-	GameManager.player.unlock_weapons()
+	GameManager.player.weapon_manager.unlock_weapons()

@@ -13,6 +13,12 @@ enum SCROLL_DIRECTION {
 
 @export var initial_weapon: Weapon
 
+@export_group("Weapon Packed Scenes")
+@export var scale_gun_resource: PackedScene
+@export var bomb_launcher_resource: PackedScene
+@export var freeze_ray_resource: PackedScene
+
+
 ## Currently selected weaon.
 var current_weapon: Weapon
 ## A dictionary of weapons inside Weapon Manager. Node's lowercased name is used as the key.
@@ -22,35 +28,24 @@ var weapon_dictionary: Dictionary = {}
 var weapon_list: Array[Weapon]
 
 
-func remove_children() -> void:
-	for child in get_children():
-		child.queue_free()
+
+func _ready() -> void:
+	unlock_weapons()
+
+
+func unlock_weapons() -> void:
+	if GameManager.player_unlockables.scale_gun:
+		_unlock_weapon(Enums.WeaponType.SCALE_GUN)
 	
-	weapon_dictionary = {}
-	weapon_list = []
+	if GameManager.player_unlockables.bomb_launcher:
+		_unlock_weapon(Enums.WeaponType.BOMB_LAUNCHER)
 	
-	initial_weapon = null
-	current_weapon = null
-
-
-func parse_children() -> void:
-	print("WeaponManager -> parse_children -> ", get_children())
-
-	for child in get_children():
-		if child is Weapon:
-			weapon_dictionary[child.name.to_lower()] = child
-			weapon_list.append(child as Weapon)
-			child.disable_weapon()
-		else:
-			push_warning("Weapon Manager contains a child node that is not derived from Weapon class.")
+	if GameManager.player_unlockables.freeze_ray:
+		_unlock_weapon(Enums.WeaponType.FREEZE_RAY)
 	
-	print("weapon_list: ", weapon_list)
-	print("weapon_dictionary: ", weapon_dictionary)
-
-	if not initial_weapon and weapon_list.size() != 0:
-		initial_weapon = weapon_list[0]
-
-	change_weapon(initial_weapon)
+	# If there is no current weapon and cache is not empty, assign the first weapon as current.
+	if not current_weapon and weapon_list.size() != 0:
+		change_weapon(weapon_list[0])
 
 
 ## Changes currently selected weapon to [param weapon].
@@ -62,6 +57,8 @@ func change_weapon(weapon: Weapon) -> void:
 	
 	current_weapon = weapon
 	current_weapon.enable_weapon()
+
+	SignalBus.weapon_changed.emit(current_weapon.weapon_type)
 
 
 ## Scroll through list weapons starting from the [member current_weapon] index inside [member weapon_list].
@@ -80,9 +77,6 @@ func scroll_through_weapons(scroll_direction: SCROLL_DIRECTION = SCROLL_DIRECTIO
 	# Wend under first weapon index.
 	if index <= -1:
 		index = weapon_list.size() - 1
-	
-	# TODO: Move this to more appropriate location.
-	SignalBus.weapon_changed.emit(index, scroll_direction)
 
 	return weapon_list[index]
 
@@ -95,3 +89,35 @@ func toggle_weapon_manager(flag: bool) -> void:
 		self.show()
 	else:
 		self.hide()
+
+
+func _unlock_weapon(weapon_type: Enums.WeaponType) -> void:
+	match weapon_type:
+		Enums.WeaponType.SCALE_GUN:
+			var instance := scale_gun_resource.instantiate() as ScaleGun
+			instance.name = "ScaleGun"
+
+			if not weapon_dictionary.has(instance.name.to_lower()):
+				# print("Player -> Unlock ScaleGun")
+				_add_weapon(instance)
+		Enums.WeaponType.BOMB_LAUNCHER:
+			var instance := bomb_launcher_resource.instantiate() as BombLauncher
+			instance.name = "BombLauncher"
+
+			if not weapon_dictionary.has(instance.name.to_lower()):
+				# print("Player -> Unlock BombLauncher")
+				_add_weapon(instance)
+		Enums.WeaponType.FREEZE_RAY:
+			var instance := freeze_ray_resource.instantiate() as FreezeRay
+			instance.name = "FreezeRay"
+
+			if not weapon_dictionary.has(instance.name.to_lower()):
+				# print("Player -> Unlock FreezeRay")
+				_add_weapon(instance)
+
+
+func _add_weapon(weapon: Weapon) -> void:
+	add_child(weapon)
+	weapon_dictionary[weapon.name.to_lower()] = weapon
+	weapon_list.append(weapon)
+	weapon.disable_weapon()
