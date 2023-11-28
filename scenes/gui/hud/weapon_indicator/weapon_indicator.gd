@@ -20,6 +20,7 @@ const WEAPONS: Dictionary = {
 @onready var weapon_sprite := $WeaponSprite as Sprite2D
 @onready var weapon_label := $WeaponLabel as Label
 @onready var weapon_reload_progress := $WeaponReloadProgress as TextureProgressBar
+@onready var weapon_changed_audio := $WeaponChangedAudio as AudioStreamPlayer # TODO: Move this to WeaponManager
 
 
 func _ready() -> void:
@@ -31,6 +32,7 @@ func _init_connections() -> void:
 
 
 func _on_weapon_changed(weapon_type: Enums.WeaponType, scroll_direction: int) -> void:
+	weapon_changed_audio.play()
 	weapon_sprite.texture = WEAPONS[weapon_type].sprite
 	weapon_label.text = WEAPONS[weapon_type].label
 	weapon_reload_progress.value = weapon_reload_progress.max_value
