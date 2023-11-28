@@ -24,7 +24,6 @@ func trigger() -> bool:
 	if one_shot and _is_triggered:
 			return false
 	
-	print("triggered")
 	triggered.emit()
 	_is_triggered = true
 
@@ -36,7 +35,6 @@ func release() -> bool:
 	if one_shot and _is_triggered:
 			return false
 	
-	print("released")
 	released.emit()
 	_is_triggered = false
 

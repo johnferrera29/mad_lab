@@ -29,7 +29,6 @@ func _ready() -> void:
 
 func play_sound() -> void:
 	if not _audio_stream_players[_next].playing:
-		print("play sound: ", _next)
 		_audio_stream_players[_next].play()
 		_next += 1
 		_next %= _audio_stream_players.size()
