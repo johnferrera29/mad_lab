@@ -109,7 +109,6 @@ libraries = {
 
 [node name="MagneticAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_ijdkh")
-volume_db = -10.0
 pitch_scale = 0.5
 autoplay = true
 max_distance = 500.0

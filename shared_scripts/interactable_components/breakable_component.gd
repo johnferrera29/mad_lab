@@ -52,6 +52,5 @@ func _update_explosion_dissolve(step: float) -> void:
 
 func _play_explosion_audio() -> void:
 	var params := AudioManager.PlaySoundParams.new()
-	params.volume_db = -20.0
 	
 	AudioManager.play_sound(_explosion_audio, params)

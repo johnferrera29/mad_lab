@@ -103,7 +103,6 @@ func _apply_scale(new_scale: Vector2) -> void:
 func _add_scaling_audio() -> void:
 	scaling_audio = AudioStreamPlayer2D.new()
 	scaling_audio.stream = scaling_audio_resource
-	scaling_audio.volume_db = -10.0
 	scaling_audio.max_distance = 500.0
 
 	target.add_child.call_deferred(scaling_audio)

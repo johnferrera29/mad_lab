@@ -28,10 +28,11 @@ texture = ExtResource("6_3ykqp")
 position = Vector2(16, 0)
 
 [node name="AudioQueue" parent="." instance=ExtResource("6_6p38a")]
+instance_count = 3
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioQueue"]
 stream = ExtResource("7_yuuf5")
-volume_db = -25.0
+volume_db = -10.0
 pitch_scale = 0.5
 bus = &"SFX"
 

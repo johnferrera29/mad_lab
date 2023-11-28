@@ -33,7 +33,7 @@ instance_count = 3
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioQueue"]
 stream = ExtResource("7_3lfnq")
-volume_db = -25.0
+volume_db = -10.0
 pitch_scale = 0.8
 bus = &"SFX"
 

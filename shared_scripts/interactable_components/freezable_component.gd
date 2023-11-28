@@ -128,6 +128,7 @@ func _add_frozen_timer() -> void:
 func _add_frozen_audio() -> void:
 	_frozen_audio = AudioStreamPlayer2D.new()
 	_frozen_audio.stream = _frozen_audio_resource
+	_frozen_audio.volume_db = 5.0
 	_frozen_audio.pitch_scale = 0.8
 	_frozen_audio.max_distance = 500.0
 

@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/magnetic.wav-f8077a9dc1ca5fdfd1ec5a01f6e5f2cb
 
 [params]
 
-force/8_bit=false
+force/8_bit=true
 force/mono=false
 force/max_rate=false
 force/max_rate_hz=44100

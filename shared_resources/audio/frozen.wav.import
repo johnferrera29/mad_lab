@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/frozen.wav-8237e3a5b8a0121494a831976f886098.s
 
 [params]
 
-force/8_bit=false
+force/8_bit=true
 force/mono=false
 force/max_rate=false
 force/max_rate_hz=44100

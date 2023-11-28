@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/weapon_changed.wav-3082898cc9ca8cd36f85ba7d75
 
 [params]
 
-force/8_bit=false
+force/8_bit=true
 force/mono=false
 force/max_rate=false
 force/max_rate_hz=44100
