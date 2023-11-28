@@ -77,8 +77,6 @@ func _on_body_entered(body: Node2D) -> void:
 		await start_grappling.call(interactable_object.anchor_component.target)
 		destroy()
 	else:
-		# TODO: Handle collision via collision layers to prevent colliding with [Player] and [GrapplingHook]
-		if not (body as Player) and not (body as GrapplingHook):
-			if not _is_retracting:
-				print("start retraction -> hit an object!")
-				start_retraction()
+		if not _is_retracting:
+			print("start retraction -> hit an object!")
+			start_retraction()

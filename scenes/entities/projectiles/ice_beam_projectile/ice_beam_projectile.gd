@@ -12,7 +12,4 @@ func _on_body_entered(body: Node2D) -> void:
 		interactable_object.freezable_component.freeze()
 		destroy()
 	else:
-		# TODO: Handle collision via collision layers to prevent colliding with [Player] and [FreezeRay]
-		# For now, ignoring manually destroy if body is not [Player] or [FreezeRay].
-		if not (body as Player) and not (body as FreezeRay):
-			destroy()
+		destroy()
