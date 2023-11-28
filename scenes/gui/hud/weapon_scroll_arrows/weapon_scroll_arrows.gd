@@ -3,6 +3,7 @@ extends Control
 
 @onready var weapon_next := $WeaponNext as WeaponArrow
 @onready var weapon_prev := $WeaponPrevious as WeaponArrow
+@onready var arrow_cliked_audio := $ArrowClickedAudio as AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -22,6 +23,7 @@ func _on_weapon_drawn(weapon_count: int) -> void:
 
 
 func _on_weapon_changed(weapon_type: Enums.WeaponType, scroll_direction: int) -> void:
+	arrow_cliked_audio.play()
 	if scroll_direction == 1:
 		weapon_next.play_clicked_animation()
 	else:
