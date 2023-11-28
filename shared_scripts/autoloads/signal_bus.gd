@@ -5,6 +5,7 @@ extends Node
 
 
 # Player related signals.
+signal player_spawned()
 signal player_died()
 ## Signal emitted once a new respawn point has been set.
 ## Accepts [param respawn_position] that determines where the player will respawn.
@@ -31,3 +32,10 @@ signal weapon_changed(weapon_type: Enums.WeaponType, scroll_direction: int)
 signal weapon_mode_changed(weapon_mode: String)
 signal weapon_drawn(weapon_count: int)
 signal weapon_withdrawn()
+signal unlock_weapon(weapon_type: Enums.WeaponType)
+
+
+# Game state related signals.
+signal game_started()
+signal game_continued()
+signal game_exited()

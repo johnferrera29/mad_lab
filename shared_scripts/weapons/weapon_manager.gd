@@ -22,7 +22,20 @@ var weapon_dictionary: Dictionary = {}
 var weapon_list: Array[Weapon]
 
 
-func _ready() -> void:
+func remove_children() -> void:
+	for child in get_children():
+		child.queue_free()
+	
+	weapon_dictionary = {}
+	weapon_list = []
+	
+	initial_weapon = null
+	current_weapon = null
+
+
+func parse_children() -> void:
+	print("WeaponManager -> parse_children -> ", get_children())
+
 	for child in get_children():
 		if child is Weapon:
 			weapon_dictionary[child.name.to_lower()] = child
@@ -31,6 +44,12 @@ func _ready() -> void:
 		else:
 			push_warning("Weapon Manager contains a child node that is not derived from Weapon class.")
 	
+	print("weapon_list: ", weapon_list)
+	print("weapon_dictionary: ", weapon_dictionary)
+
+	if not initial_weapon and weapon_list.size() != 0:
+		initial_weapon = weapon_list[0]
+
 	change_weapon(initial_weapon)
 
 

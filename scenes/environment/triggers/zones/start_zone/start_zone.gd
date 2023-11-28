@@ -18,17 +18,12 @@ func _ready() -> void:
 
 
 func _spawn_player() -> void:
-	var player := _player_scene.instantiate() as Player
-
-	# TODO: Use a GameManager.player_state to initialize the player.
-	# This includes initializing its list of available weapons, etc.
-	player.global_position = _spawn_point.global_position
-
-	GameManager.player = player
+	GameManager.player = _player_scene.instantiate() as Player
+	GameManager.player.global_position = _spawn_point.global_position
+	
 	_trigger.trigger_keys.append(GameManager.player)
 
-	# TODO: Refactor this for parent to be a export variable.
-	level.add_child.call_deferred(player)
+	level.add_child.call_deferred(GameManager.player)
 
 
 func _set_as_respawn_point() -> void:

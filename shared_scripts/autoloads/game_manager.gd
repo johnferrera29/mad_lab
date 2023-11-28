@@ -1,9 +1,18 @@
 extends Node
 ## Manages the game state.
+## 
+## TODO: Make this a scene and cleanup GameManager.
+## Research what should be in the GameManager.
 
 
 ## A reference to the player.
 var player: Player
+## Unlockable flags for the player.
+var player_unlockables = {
+	scale_gun = true,
+	freeze_ray = false,
+	bomb_launcher = false
+}
 ## Marks the position where the player will respawn.
 var last_respawn_position: Vector2
 
@@ -21,6 +30,7 @@ func _ready() -> void:
 func _init_connections() -> void:
 	SignalBus.player_died.connect(_on_player_died)
 	SignalBus.player_respawn_point_set.connect(_on_player_respawn_point_set)
+	SignalBus.unlock_weapon.connect(_on_unlock_weapon)
 
 
 func _respawn_player() -> void:
@@ -34,13 +44,10 @@ func _respawn_player() -> void:
 
 # Signal callbacks.
 func _on_player_respawn_point_set(respawn_position: Vector2):
-	print("Set player respawn point. ", respawn_position)
 	last_respawn_position = respawn_position
 
 
 func _on_player_died() -> void:
-	print("Player died!")
-	
 	player.hide()
 	Utils.ProcessUtils.toggle_processing(player.state_machine, false)
 	
@@ -50,3 +57,17 @@ func _on_player_died() -> void:
 	await AudioManager.play_sound(_player_died_audio_resource, params).finished
 	
 	_respawn_player()
+
+
+func _on_unlock_weapon(weapon_type: Enums.WeaponType) -> void:
+	print("GameManager -> _on_unlock_weapon -> ", Enums.WeaponType.keys()[weapon_type])
+
+	match weapon_type:
+		Enums.WeaponType.SCALE_GUN:
+			player_unlockables.scale_gun = true
+		Enums.WeaponType.BOMB_LAUNCHER:
+			player_unlockables.bomb_launcher = true
+		Enums.WeaponType.FREEZE_RAY:
+			player_unlockables.freeze_ray = true
+	
+	GameManager.player.unlock_weapons()

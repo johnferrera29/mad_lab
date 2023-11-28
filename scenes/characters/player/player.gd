@@ -20,6 +20,12 @@ extends CharacterBody2D
 ## Max [member CharacterBody2D.velocity.y] the player can achieve while falling.
 @export var terminal_velocity: float
 
+@export_group("Weapon Packed Scenes")
+@export var scale_gun_resource: PackedScene
+@export var bomb_launcher_resource: PackedScene
+@export var freeze_ray_resource: PackedScene
+
+
 # Jump related variables.
 # @tutorial: https://www.youtube.com/watch?v=IOe1aGY6hXA
 @onready var jump_force: float = (jump_height * 2.0) / jump_time_to_peak
@@ -40,7 +46,23 @@ extends CharacterBody2D
 
 func _ready() -> void:
 	_connect_state_transitions()
+	unlock_weapons()
 	weapon_manager.toggle_weapon_manager(false)
+
+
+func unlock_weapons() -> void:
+	if GameManager.player_unlockables.scale_gun:
+		_unlock_weapon(Enums.WeaponType.SCALE_GUN)
+	
+	if GameManager.player_unlockables.bomb_launcher:
+		_unlock_weapon(Enums.WeaponType.BOMB_LAUNCHER)
+	
+	if GameManager.player_unlockables.freeze_ray:
+		_unlock_weapon(Enums.WeaponType.FREEZE_RAY)
+	
+	# If no current weapon and cache is not empty, assign the first weapon as current.
+	if not weapon_manager.current_weapon and weapon_manager.weapon_list.size() != 0:
+		weapon_manager.change_weapon(weapon_manager.weapon_list[0])
 
 
 func _connect_state_transitions() -> void:
@@ -75,3 +97,43 @@ func _connect_state_transitions() -> void:
 	# Connect player grappling transition states.
 	grappling_state.actor_idle.connect(change_to_idle_state)
 	grappling_state.actor_fell.connect(change_to_fall_state)
+
+
+func _unlock_weapon(weapon_type: Enums.WeaponType) -> void:
+	match weapon_type:
+		Enums.WeaponType.SCALE_GUN:
+			var instance := scale_gun_resource.instantiate() as ScaleGun
+			instance.name = "ScaleGun"
+
+			if weapon_manager.weapon_dictionary.has(instance.name.to_lower()):
+				return
+			
+			weapon_manager.add_child(instance)
+			weapon_manager.weapon_dictionary[instance.name.to_lower()] = instance
+			weapon_manager.weapon_list.append(instance as Weapon)
+			instance.disable_weapon()
+			print("Player -> Unlock ScaleGun")
+		Enums.WeaponType.BOMB_LAUNCHER:
+			var instance := bomb_launcher_resource.instantiate() as BombLauncher
+			instance.name = "BombLauncher"
+
+			if weapon_manager.weapon_dictionary.has(instance.name.to_lower()):
+				return
+			
+			weapon_manager.add_child(instance)
+			weapon_manager.weapon_dictionary[instance.name.to_lower()] = instance
+			weapon_manager.weapon_list.append(instance as Weapon)
+			instance.disable_weapon()
+			print("Player -> Unlock BombLauncher")
+		Enums.WeaponType.FREEZE_RAY:
+			var instance := freeze_ray_resource.instantiate() as FreezeRay
+			instance.name = "FreezeRay"
+
+			if weapon_manager.weapon_dictionary.has(instance.name.to_lower()):
+				return
+			
+			weapon_manager.add_child(instance)
+			weapon_manager.weapon_dictionary[instance.name.to_lower()] = instance
+			weapon_manager.weapon_list.append(instance as Weapon)
+			instance.disable_weapon()
+			print("Player -> Unlock FreezeRay")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dcibb2if05vl0"]
+[gd_scene load_steps=30 format=3 uid="uid://dcibb2if05vl0"]
 
 [ext_resource type="Script" path="res://scenes/world/levels/level.gd" id="1_v0p0j"]
 [ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/triggers/zones/start_zone/start_zone.tscn" id="1_wdwms"]
@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/triggers/traps/spike_trap/spike_trap.tscn" id="14_gc6ub"]
 [ext_resource type="PackedScene" uid="uid://dht1iuocmqv78" path="res://scenes/environment/triggers/traps/spike_ball_trap/spike_ball_trap.tscn" id="15_2nvww"]
 [ext_resource type="PackedScene" uid="uid://ddqbsbl3sn081" path="res://scenes/environment/triggers/switch/switch.tscn" id="16_y5nu1"]
+[ext_resource type="Texture2D" uid="uid://dldxf2eed3qk" path="res://scenes/entities/weapons/bomb_launcher/resources/textures/weapon_bomb_launcher.png" id="17_h6rhg"]
+[ext_resource type="Texture2D" uid="uid://p2agu02bqgm7" path="res://scenes/entities/weapons/freeze_ray/resources/textures/weapon_freeze_ray.png" id="18_7wj1q"]
 
 [sub_resource type="Animation" id="Animation_h648a"]
 length = 0.001
@@ -102,6 +104,45 @@ func _on_trigger_area_triggered() -> void:
 "
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wo6sp"]
+
+[sub_resource type="GDScript" id="GDScript_1j011"]
+script/source = "extends Sprite2D
+
+
+@onready var trigger := $TriggerArea as TriggerArea
+
+
+func _ready() -> void:
+	trigger.trigger_keys.append(GameManager.player)
+
+
+func _on_trigger_area_triggered() -> void:
+	print(\"Obtained BombLauncher\")
+	SignalBus.unlock_weapon.emit(Enums.WeaponType.BOMB_LAUNCHER)
+	self.queue_free()
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w6c4l"]
+radius = 14.0
+
+[sub_resource type="GDScript" id="GDScript_bhljt"]
+script/source = "extends Sprite2D
+
+
+@onready var trigger := $TriggerArea as TriggerArea
+
+
+func _ready() -> void:
+	trigger.trigger_keys.append(GameManager.player)
+
+
+func _on_trigger_area_triggered() -> void:
+	print(\"Obtained FreezeRay\")
+	SignalBus.unlock_weapon.emit(Enums.WeaponType.FREEZE_RAY)
+	self.queue_free()
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2r3dv"]
 
 [node name="Level01" type="Node2D"]
 script = ExtResource("1_v0p0j")
@@ -241,5 +282,31 @@ one_shot = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShowDialogTrigger/TriggerArea"]
 shape = SubResource("CircleShape2D_wo6sp")
 
+[node name="WeaponBombLauncher" type="Sprite2D" parent="."]
+position = Vector2(532, 150)
+texture = ExtResource("17_h6rhg")
+script = SubResource("GDScript_1j011")
+metadata/_edit_group_ = true
+
+[node name="TriggerArea" parent="WeaponBombLauncher" instance=ExtResource("7_hxwuw")]
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponBombLauncher/TriggerArea"]
+shape = SubResource("CircleShape2D_w6c4l")
+
+[node name="WeaponFreezeRay" type="Sprite2D" parent="."]
+position = Vector2(456, 146)
+texture = ExtResource("18_7wj1q")
+script = SubResource("GDScript_bhljt")
+metadata/_edit_group_ = true
+
+[node name="TriggerArea" parent="WeaponFreezeRay" instance=ExtResource("7_hxwuw")]
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponFreezeRay/TriggerArea"]
+shape = SubResource("CircleShape2D_2r3dv")
+
 [connection signal="triggered" from="Show_Trigger_WoodenBox_Scalable2/TriggerArea" to="Show_Trigger_WoodenBox_Scalable2" method="_on_trigger_area_triggered"]
 [connection signal="triggered" from="ShowDialogTrigger/TriggerArea" to="ShowDialogTrigger" method="_on_trigger_area_triggered"]
+[connection signal="triggered" from="WeaponBombLauncher/TriggerArea" to="WeaponBombLauncher" method="_on_trigger_area_triggered"]
+[connection signal="triggered" from="WeaponFreezeRay/TriggerArea" to="WeaponFreezeRay" method="_on_trigger_area_triggered"]
