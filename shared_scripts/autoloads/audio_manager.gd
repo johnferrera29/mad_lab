@@ -7,7 +7,7 @@ extends Node
 
 const SFX_BUS_NAME: String = "SFX"
 
-func play_sound(stream: AudioStream, params: PlaySoundParams = PlaySoundParams.new()) -> void:
+func play_sound(stream: AudioStream, params: PlaySoundParams = PlaySoundParams.new()) -> AudioStreamPlayer:
 	var audio_stream_player := AudioStreamPlayer.new()
 	audio_stream_player.bus = SFX_BUS_NAME
 
@@ -20,6 +20,8 @@ func play_sound(stream: AudioStream, params: PlaySoundParams = PlaySoundParams.n
 	add_child(audio_stream_player)
 
 	audio_stream_player.play()
+
+	return audio_stream_player
 
 
 func _on_audio_stream_player_finished(audio_stream_player: AudioStreamPlayer) -> void:
