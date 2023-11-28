@@ -21,7 +21,7 @@ signal scene_change_triggered(params: SceneManager.SceneChangeParams)
 ## Signal emitted once a level has been selected to be loaded.
 ## Optional [param scene_to_unload] when emitting from GUI such as level selection screens that needs additional cleanup.
 signal level_selected(level_id: int, scene_to_unload: Node)
-signal level_started(level: Level)
+signal level_started(level_id: int)
 
 
 # Weapon related signals

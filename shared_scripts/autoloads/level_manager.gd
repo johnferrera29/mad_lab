@@ -2,7 +2,7 @@ extends Node
 ## Manages level selection and transition.
 
 
-var current_level: Level
+var current_level_id: int
 
 
 func _ready() -> void:
@@ -21,9 +21,11 @@ func _proceed_to_level(level_id: int, scene_to_unload: Node = null) -> void:
 
 	params.scene_to_load_path = LEVEL_RESOURCES[level_id]
 	params.parent_scene = GameManager.world
-	# TODO: Make scene_to_unload an array of scenes that needs to be cleaned up.
-	params.scene_to_unload = current_level if not scene_to_unload else scene_to_unload
-
+	params.scenes_to_unload.append_array([
+		get_tree().get_first_node_in_group(str("level", current_level_id)),
+		scene_to_unload
+	])
+	
 	SignalBus.scene_change_triggered.emit(params)
 
 
@@ -31,8 +33,8 @@ func _on_level_selected(level_id: int, scene_to_unload: Node = null) -> void:
 	_proceed_to_level(level_id, scene_to_unload)
 
 
-func _on_level_started(level: Level) -> void:
-	current_level = level
+func _on_level_started(level_id: int) -> void:
+	current_level_id = level_id
 
 
 ## Contains a list of all level ids and its associated resource.

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/gui/hud/hud.gd" id="1_7klid"]
 [ext_resource type="PackedScene" uid="uid://dwhe8kdqhjtt3" path="res://scenes/gui/hud/weapon_indicator/weapon_indicator.tscn" id="3_7f2bm"]
 
-[node name="HUD" type="Control"]
+[node name="HUD" type="Control" groups=["hud"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

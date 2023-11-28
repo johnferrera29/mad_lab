@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://ywvr54eggoyi"]
 
-[ext_resource type="PackedScene" uid="uid://cj8u4tnbs4x7v" path="res://scenes/gui/hud/hud.tscn" id="1_5iy33"]
+[ext_resource type="PackedScene" uid="uid://dido4gfef6t4v" path="res://scenes/gui/main_menu/main_menu.tscn" id="2_0xdq2"]
 
-[node name="GUI" type="CanvasLayer"]
+[node name="GUI" type="CanvasLayer" groups=["gui"]]
 
-[node name="HUD" parent="." instance=ExtResource("1_5iy33")]
+[node name="MainMenu" parent="." instance=ExtResource("2_0xdq2")]
