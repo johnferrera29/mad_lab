@@ -6,6 +6,8 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_twiaq"]
 
 [node name="BombProjectile" type="Area2D"]
+collision_layer = 16
+collision_mask = 9
 script = ExtResource("1_rn8kt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

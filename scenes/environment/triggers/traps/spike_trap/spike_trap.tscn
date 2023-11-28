@@ -18,6 +18,8 @@ region_rect = Rect2(0, 0, 16, 16)
 
 [node name="TriggerArea" parent="." instance=ExtResource("3_nsoqw")]
 position = Vector2(0, 1)
+collision_layer = 64
+collision_mask = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
 shape = SubResource("RectangleShape2D_1v2jr")

@@ -3,6 +3,7 @@ extends Projectile
 ## A projectile hooks onto an anchor.
 ##
 ## Hooks into an [InteractableObject] that contain a [AnchorComponent].
+## TODO: Update to accomodate multitudes of changes. Curerntly will throw error.
 
 
 ## A reference to the projectile's spawn point.
