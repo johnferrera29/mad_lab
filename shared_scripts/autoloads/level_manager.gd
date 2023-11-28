@@ -17,6 +17,8 @@ func _init_connections() -> void:
 ## Loads a level based on [param level_id] defined in [member LEVEL_RESOURCES].
 ## Optional [param scene_to_unload] when emitting from GUI such as level selection screens.
 func _proceed_to_level(level_id: int, scene_to_unload: Node = null) -> void:
+	await LoadingScreen.start_trasition()
+
 	var params = SceneManager.SceneChangeParams.new()
 
 	params.scene_to_load_path = LEVEL_RESOURCES[level_id]
@@ -27,6 +29,8 @@ func _proceed_to_level(level_id: int, scene_to_unload: Node = null) -> void:
 	])
 	
 	SignalBus.scene_change_triggered.emit(params)
+
+	await LoadingScreen.start_trasition(true)
 
 
 func _on_level_selected(level_id: int, scene_to_unload: Node = null) -> void:

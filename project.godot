@@ -25,6 +25,7 @@ GameManager="*res://shared_scripts/autoloads/game_manager.gd"
 LevelManager="*res://shared_scripts/autoloads/level_manager.gd"
 DialogManager="*res://shared_scripts/autoloads/dialog_manager.gd"
 AudioManager="*res://shared_scripts/autoloads/audio_manager.gd"
+LoadingScreen="*res://shared_scripts/autoloads/loading_screen/loading_screen.tscn"
 
 [debug]
 
