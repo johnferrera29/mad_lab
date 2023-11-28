@@ -19,15 +19,22 @@ var punctuation_time: float = 0.2
 
 var horizontal_offset: float
 var vertical_offset: float
+var audio_stream: AudioStream
 
 var _default_horizontal_offset: float = 0.0
 var _default_vertical_offset: float = 25.0
+var _default_dialog_audio_resource := preload("res://scenes/gui/dialog_box/resources/audio/character_dialog.mp3") as AudioStream
 
 @onready var label := $MarginContainer/Label as Label
 @onready var timer := $LetterDisplayTimer as Timer
 
+@onready var dialog_audio := $DialogAudio as AudioStreamPlayer
+
 
 func display_text(text_to_display: String) -> void:
+	dialog_audio.stream = audio_stream if audio_stream else _default_dialog_audio_resource
+	dialog_audio.play()
+	
 	text = text_to_display
 	label.text = text_to_display
 	
@@ -57,6 +64,7 @@ func _display_letter() -> void:
 	
 	letter_index += 1
 	if letter_index >= text.length():
+		dialog_audio.stop()
 		finished.emit()
 		return
 	

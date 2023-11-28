@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dl32r6ltet6kx"]
+[gd_scene load_steps=5 format=3 uid="uid://dl32r6ltet6kx"]
 
 [ext_resource type="Texture2D" uid="uid://dxhrj1lbff4tg" path="res://scenes/gui/dialog_box/resources/textures/gui-dialog-box.png" id="1_6trig"]
 [ext_resource type="Script" path="res://scenes/gui/dialog_box/dialog_box.gd" id="1_ih41e"]
 [ext_resource type="FontFile" uid="uid://7ifmntxrukr8" path="res://shared_resources/fonts/kenvector_future_thin.ttf" id="3_0hjje"]
+[ext_resource type="AudioStream" uid="uid://c5dm557ig4wna" path="res://scenes/gui/dialog_box/resources/audio/character_dialog.mp3" id="4_i84pj"]
 
 [node name="DialogBox" type="MarginContainer"]
 offset_right = 40.0
@@ -33,5 +34,9 @@ vertical_alignment = 1
 
 [node name="LetterDisplayTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="DialogAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_i84pj")
+pitch_scale = 0.8
 
 [connection signal="timeout" from="LetterDisplayTimer" to="." method="_on_letter_display_timer_timeout"]
