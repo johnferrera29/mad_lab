@@ -37,8 +37,8 @@ scale_max = 0.8
 scale_curve = SubResource("CurveTexture_oqck0")
 color_ramp = SubResource("GradientTexture1D_mee2n")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7in1"]
-size = Vector2(35, 35)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ttmcr"]
+radius = 25.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28y7p"]
 size = Vector2(28, 28)
@@ -94,9 +94,10 @@ local_coords = true
 [node name="MagneticField" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 16
+priority = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MagneticField"]
-shape = SubResource("RectangleShape2D_g7in1")
+shape = SubResource("CircleShape2D_ttmcr")
 debug_color = Color(0.427451, 0.603922, 0, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
