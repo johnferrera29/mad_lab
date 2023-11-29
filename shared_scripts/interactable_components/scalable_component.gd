@@ -11,17 +11,20 @@ signal scaled(new_scale: Vector2)
 ## Determines how fast the scaling animation happens in seconds.
 const _SCALING_TIME := 0.2
 
-var scaling_audio_resource = preload("res://shared_resources/audio/scaling.ogg")
-var scaling_audio: AudioStreamPlayer2D
-
-var current_scale_mode: Enums.ScaleMode = Enums.ScaleMode.RESET
-
 ## Target node that contains the [Sprite2D] and [CollisionShape2D] nodes that will be scaled.
 @export var target: Node2D
 ## Factor to shrink based from original scale. Use positive values only.
 @export var shrink_factor: float = 1.0
 ## Factor to enlarge based from original scale. Use positive values only.
 @export var enlarge_factor: float = 1.0
+## Flag whether to instantly scale the collision layer instead of tweening it.
+## Useful for triggers and switches.
+@export var instantly_scale_collision: bool
+
+var current_scale_mode: Enums.ScaleMode = Enums.ScaleMode.RESET
+
+var scaling_audio_resource = preload("res://shared_resources/audio/scaling.ogg")
+var scaling_audio: AudioStreamPlayer2D
 
 
 func _ready() -> void:
@@ -93,8 +96,12 @@ func _apply_scale(new_scale: Vector2) -> void:
 	var tween = get_tree().create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(target_sprite, "scale", new_scale, _SCALING_TIME)
-	tween.tween_property(target_collision_shape, "scale", new_scale, _SCALING_TIME)
-
+	
+	if instantly_scale_collision:
+		target_collision_shape.scale = new_scale
+	else:
+		tween.tween_property(target_collision_shape, "scale", new_scale, _SCALING_TIME)
+	
 	scaled.emit(new_scale)
 
 
