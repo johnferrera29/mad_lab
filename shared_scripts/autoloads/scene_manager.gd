@@ -17,7 +17,7 @@ func _change_scene_deferred(params: SceneChangeParams) -> void:
 	if not params: return
 
 	for scene_to_unload in params.scenes_to_unload:
-		if scene_to_unload:
+		if scene_to_unload and not scene_to_unload.is_queued_for_deletion():
 			scene_to_unload.free()
 	
 	var new_scene
