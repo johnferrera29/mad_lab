@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://dyjcg33e37son"]
+[gd_scene load_steps=67 format=3 uid="uid://dyjcg33e37son"]
 
 [ext_resource type="Script" path="res://scenes/characters/player/player.gd" id="1_iwvof"]
 [ext_resource type="Texture2D" uid="uid://ruuus6g4mc2m" path="res://scenes/characters/player/resources/textures/character_mad_scientist_attack_32x32-Sheet.png" id="2_1nqf1"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_run_state.gd" id="5_wss2c"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_air_state.gd" id="6_2y2n0"]
 [ext_resource type="Script" path="res://scenes/characters/player/states/player_grappling_state.gd" id="7_lxquc"]
+[ext_resource type="PackedScene" uid="uid://babvwnueiq0ss" path="res://scenes/characters/player/player_camera.tscn" id="7_s88u5"]
 [ext_resource type="Script" path="res://shared_scripts/weapons/weapon_manager.gd" id="8_qkk0o"]
 [ext_resource type="PackedScene" uid="uid://ddsas1vp7q8r3" path="res://scenes/entities/weapons/bomb_launcher/bomb_launcher.tscn" id="9_dkjw8"]
 [ext_resource type="PackedScene" uid="uid://i8n0nugds6iy" path="res://scenes/entities/weapons/scale_gun/scale_gun.tscn" id="10_3di7c"]
@@ -363,8 +364,8 @@ size = Vector2(22, 25)
 collision_layer = 2
 collision_mask = 105
 script = ExtResource("1_iwvof")
-movement_speed = 300.0
-jump_height = 100.0
+movement_speed = 160.0
+jump_height = 72.0
 jump_time_to_peak = 0.5
 jump_time_to_descent = 0.3
 coyote_time = 0.1
@@ -380,7 +381,15 @@ frame_progress = 0.0485172
 position = Vector2(1, 3.5)
 shape = SubResource("RectangleShape2D_jf0du")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="PlayerCamera" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("7_s88u5")]
+offset = Vector2(0, -64)
+position_smoothing_speed = 8.0
+drag_vertical_enabled = true
+drag_left_margin = 0.5
+drag_top_margin = 0.5
+drag_right_margin = 0.5
+drag_bottom_margin = 0.1
+sprite = NodePath("../AnimatedSprite2D")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_xo4ab")
@@ -436,7 +445,7 @@ script = ExtResource("7_lxquc")
 actor = NodePath("../..")
 
 [node name="WeaponManager" type="Node2D" parent="."]
-position = Vector2(0, -25)
+position = Vector2(0, -24)
 script = ExtResource("8_qkk0o")
 scale_gun_resource = ExtResource("10_3di7c")
 bomb_launcher_resource = ExtResource("9_dkjw8")
