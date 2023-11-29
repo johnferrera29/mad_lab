@@ -18,7 +18,6 @@ var can_advance_line: bool
 var is_auto_advance: bool = true
 var auto_advance_time: float = 1.0
 
-
 @onready var dialog_box_resource = preload("res://scenes/gui/dialog_box/dialog_box.tscn")
 
 
@@ -59,7 +58,12 @@ func _show_dialog_box() -> void:
 	# Auto advance dialog box if flag is true
 	if is_auto_advance:
 		await dialog_box.finished
-		await get_tree().create_timer(auto_advance_time).timeout
+
+		var timing = auto_advance_time
+		if dialog_params.auto_advance_time != timing:
+			timing = dialog_params.auto_advance_time
+		
+		await get_tree().create_timer(timing).timeout
 
 		_show_next_dialog()
 
@@ -85,3 +89,4 @@ class StartDialogParams:
 	var horizontal_offset: float = 0.0
 	var vertical_offset: float = 0.0
 	var audio_stream: AudioStream
+	var auto_advance_time: float = 1.0
