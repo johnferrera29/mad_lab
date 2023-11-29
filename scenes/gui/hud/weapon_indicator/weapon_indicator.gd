@@ -22,6 +22,7 @@ const WEAPONS: Dictionary = {
 @onready var weapon_mode_label := $WeaponModeLabel as Label
 @onready var weapon_reload_progress := $WeaponReloadProgress as TextureProgressBar
 @onready var weapon_changed_audio := $WeaponChangedAudio as AudioStreamPlayer # TODO: Move this to WeaponManager
+@onready var weapon_mode_changed_audio := $WeaponModeChangedAudio as AudioStreamPlayer # TODO: Move this to WeaponManager
 
 
 func _ready() -> void:
@@ -50,3 +51,4 @@ func _on_weapon_changed(weapon_type: Enums.WeaponType) -> void:
 
 func _on_weapon_mode_changed(mode: String) -> void:
 	weapon_mode_label.text = mode
+	weapon_mode_changed_audio.play()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dwhe8kdqhjtt3"]
+[gd_scene load_steps=12 format=3 uid="uid://dwhe8kdqhjtt3"]
 
 [ext_resource type="Texture2D" uid="uid://d3hfwvv0trptc" path="res://scenes/entities/weapons/scale_gun/resources/textures/weapon_scale_gun.png" id="1_3gw1s"]
 [ext_resource type="Script" path="res://scenes/gui/hud/weapon_indicator/weapon_indicator.gd" id="2_hroqc"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bipe013gu4lie" path="res://scenes/gui/hud/weapon_scroll_arrows/weapon_scroll_arrows.tscn" id="3_ch7mc"]
 [ext_resource type="FontFile" uid="uid://7ifmntxrukr8" path="res://shared_resources/fonts/kenvector_future_thin.ttf" id="4_kqi0f"]
 [ext_resource type="AudioStream" uid="uid://cck60ywa5iaih" path="res://scenes/gui/hud/weapon_indicator/resources/audio/weapon_changed.wav" id="6_tss3i"]
+[ext_resource type="AudioStream" uid="uid://b6waqhbpjo1v1" path="res://scenes/gui/hud/weapon_indicator/resources/audio/weapon_mode_changed.ogg" id="7_cc034"]
 
 [sub_resource type="Animation" id="Animation_0457v"]
 length = 0.001
@@ -105,3 +106,6 @@ offset_bottom = 36.0
 [node name="WeaponChangedAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_tss3i")
 pitch_scale = 0.8
+
+[node name="WeaponModeChangedAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_cc034")
