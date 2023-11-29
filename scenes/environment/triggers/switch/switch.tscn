@@ -55,7 +55,6 @@ position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_wp0pg")
 
 [node name="TriggerArea" parent="." instance=ExtResource("3_45y5w")]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
 position = Vector2(0, -2)
