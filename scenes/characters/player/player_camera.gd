@@ -18,7 +18,6 @@ extends Camera2D
 
 
 # func _change_offset(lookahead: float) -> void:
-# 	print("change camera offset lookead")
 # 	var tween = get_tree().create_tween()
 # 	var new_offset := offset
 # 	new_offset.x = lookahead

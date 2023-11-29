@@ -25,16 +25,13 @@ func _physics_process(delta: float) -> void:
 	if not _is_hooked:
 		if not _is_retracting and not _lifespan_timer.is_stopped():
 			# Move the projectile towards initial velocity while not yet retracting and lifespan timer not yet expired.
-			print("launching...")
 			_move_projectile(delta, projectile_velocity)
 		else:
 			# Once timer expires, start retraction.
 			if not _is_retracting:
-				print("start retraction -> lifespan up!")
 				start_retraction()
 		
 			# Retracts projectile and recalculates velocity every time since actor may be moving.
-			print("retracting...")
 			var retraction_velocity := projectile_retraction_speed * global_position.direction_to(projectile_spawn_point.global_position)
 			_move_projectile(delta, retraction_velocity)
 	else:
@@ -72,11 +69,9 @@ func _on_body_entered(body: Node2D) -> void:
 
 	if not _is_retracting and interactable_object and interactable_object.anchor_component:
 		# Hook is now anchored, so start grappling.
-		print("hooked to anchor")
 		_is_hooked = true
 		await start_grappling.call(interactable_object.anchor_component.target)
 		destroy()
 	else:
 		if not _is_retracting:
-			print("start retraction -> hit an object!")
 			start_retraction()

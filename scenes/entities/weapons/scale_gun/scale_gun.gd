@@ -55,7 +55,6 @@ func _physics_process(delta: float) -> void:
 
 ## Change the gun's current scale mode.
 func change_scale_mode(mode: Enums.ScaleMode) -> void:
-	print("Change scale mode: ", Enums.ScaleMode.keys()[mode])
 	current_mode = mode
 
 	# TODO: Make weapon mode more generic to Weapon class.

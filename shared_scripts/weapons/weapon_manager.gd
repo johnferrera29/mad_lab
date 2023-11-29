@@ -98,21 +98,18 @@ func _unlock_weapon(weapon_type: Enums.WeaponType) -> void:
 			instance.name = "ScaleGun"
 
 			if not weapon_dictionary.has(instance.name.to_lower()):
-				# print("Player -> Unlock ScaleGun")
 				_add_weapon(instance)
 		Enums.WeaponType.BOMB_LAUNCHER:
 			var instance := bomb_launcher_resource.instantiate() as BombLauncher
 			instance.name = "BombLauncher"
 
 			if not weapon_dictionary.has(instance.name.to_lower()):
-				# print("Player -> Unlock BombLauncher")
 				_add_weapon(instance)
 		Enums.WeaponType.FREEZE_RAY:
 			var instance := freeze_ray_resource.instantiate() as FreezeRay
 			instance.name = "FreezeRay"
 
 			if not weapon_dictionary.has(instance.name.to_lower()):
-				# print("Player -> Unlock FreezeRay")
 				_add_weapon(instance)
 
 

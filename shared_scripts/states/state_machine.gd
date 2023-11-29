@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 ## Use to transition to another state.
 ## The optional [param msg] is a dictionary with arbitrary data the state can use to initialize itself.
 func change_state(new_state: State, msg: Dictionary = {}) -> void:
-	_print_state_change(current_state, new_state)
+	# _print_state_change(current_state, new_state)
 
 	if current_state:
 		current_state.state_exit()
@@ -49,8 +49,7 @@ func change_state(new_state: State, msg: Dictionary = {}) -> void:
 
 ## For DEBUG purposes only. Prints the name of the previous state and new state.
 func _print_state_change(previous_state: State, new_state: State) -> void:
-	pass
-	# var previous_state_name = previous_state.name.to_lower() if previous_state != null else "null"
-	# var new_state_name = new_state.name.to_lower()
+	var previous_state_name = previous_state.name.to_lower() if previous_state != null else "null"
+	var new_state_name = new_state.name.to_lower()
 
-	# print("State Changed: ", previous_state_name, " -> ", new_state_name)
+	print("State Changed: ", previous_state_name, " -> ", new_state_name)

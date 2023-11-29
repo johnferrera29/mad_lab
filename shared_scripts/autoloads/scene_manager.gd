@@ -28,7 +28,6 @@ func _change_scene_deferred(params: SceneChangeParams) -> void:
 		new_scene = scene_resource.instantiate()
 	
 	params.parent_scene.add_child(new_scene)
-	print("Scene changed!", params)
 
 
 func _on_scene_change_triggered(params: SceneChangeParams) -> void:
