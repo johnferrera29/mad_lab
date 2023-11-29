@@ -45,7 +45,7 @@ func scale(mode: Enums.ScaleMode) -> void:
 
 ## Shrinks target by [param factor]. Negative values will be ignored.
 func shrink(factor: float) -> void:
-	if (factor < 0.0): return
+	if (factor <= 0.0): return
 	
 	scaling_audio.pitch_scale = 4.0
 	scaling_audio.play()
@@ -55,7 +55,7 @@ func shrink(factor: float) -> void:
 
 ## Enlarges target by [param factor]. Negative values will be ignored.
 func enlarge(factor: float) -> void:
-	if (factor < 0.0): return
+	if (factor <= 0.0): return
 
 	scaling_audio.pitch_scale = 2.0
 	scaling_audio.play()
