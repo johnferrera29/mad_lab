@@ -18,7 +18,7 @@ line_starting_point = NodePath("../Sprite2D/ProjectileSpawnPoint")
 script = ExtResource("3_6v0tf")
 projectile_scene = ExtResource("4_ag8oc")
 projectile_lifespan = 1.0
-launch_speed = 400.0
+launch_speed = 320.0
 launch_interval = 0.5
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -29,6 +29,7 @@ texture = ExtResource("5_2ya7e")
 position = Vector2(16, 0)
 
 [node name="AudioQueue" parent="." instance=ExtResource("6_g5u7v")]
+process_mode = 3
 instance_count = 3
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioQueue"]
