@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func _init_connections() -> void:
 	SignalBus.weapon_drawn.connect(_on_weapon_drawn)
-	SignalBus.weapon_changed.connect(_on_weapon_changed)
+	SignalBus.weapon_scrolled.connect(_on_weapon_scrolled)
 
 
 func _on_weapon_drawn(weapon_count: int) -> void:
@@ -22,8 +22,9 @@ func _on_weapon_drawn(weapon_count: int) -> void:
 		hide()
 
 
-func _on_weapon_changed(weapon_type: Enums.WeaponType, scroll_direction: int) -> void:
+func _on_weapon_scrolled(scroll_direction: int) -> void:
 	arrow_cliked_audio.play()
+	
 	if scroll_direction == 1:
 		weapon_next.play_clicked_animation()
 	else:

@@ -1,0 +1,106 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkk17epxdd1it"]
+
+[ext_resource type="Script" path="res://shared_scripts/autoloads/loading_screen/loading_screen.gd" id="1_dxe2m"]
+[ext_resource type="FontFile" uid="uid://7ifmntxrukr8" path="res://shared_resources/fonts/kenvector_future_thin.ttf" id="2_j4xye"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ocx6t"]
+font = ExtResource("2_j4xye")
+font_size = 8
+
+[sub_resource type="Animation" id="Animation_jfaj1"]
+resource_name = "RESET"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cutkm"]
+resource_name = "fade"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(2, 1, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(2, 1, 1),
+"update": 0,
+"values": [Vector2(0, -270), Vector2(0, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p41bo"]
+_data = {
+"RESET": SubResource("Animation_jfaj1"),
+"fade": SubResource("Animation_cutkm")
+}
+
+[node name="LoadingScreen" type="CanvasLayer"]
+script = ExtResource("1_dxe2m")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.129412, 0.121569, 0.188235, 1)
+
+[node name="LoadingLabel" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.5
+offset_top = -11.5
+offset_right = 44.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading.."
+label_settings = SubResource("LabelSettings_ocx6t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_p41bo")
+}

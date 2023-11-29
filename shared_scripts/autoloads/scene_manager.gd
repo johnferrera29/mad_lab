@@ -16,11 +16,11 @@ func _init_connections() -> void:
 func _change_scene_deferred(params: SceneChangeParams) -> void:
 	if not params: return
 
-	if params.scene_to_unload:
-		params.scene_to_unload.free()
+	for scene_to_unload in params.scenes_to_unload:
+		if scene_to_unload:
+			scene_to_unload.free()
 	
 	var new_scene
-
 	if params.scene_to_load:
 		new_scene = params.scene_to_load.instantiate()
 	elif params.scene_to_load_path:
@@ -28,7 +28,6 @@ func _change_scene_deferred(params: SceneChangeParams) -> void:
 		new_scene = scene_resource.instantiate()
 	
 	params.parent_scene.add_child(new_scene)
-	print("Scene changed!", params)
 
 
 func _on_scene_change_triggered(params: SceneChangeParams) -> void:
@@ -50,9 +49,9 @@ class SceneChangeParams:
 	## Parent node where we want to attach the scene.
 	var parent_scene: Node
 
-	## Optional scene to be unloaded.
+	## Optional array of scenes to be unloaded.
 	## Usuaully best practice to pass the scene in cases we want to replace it (e.g. changing levels).
-	var scene_to_unload: Node
+	var scenes_to_unload: Array[Node] = []
 
 	## Delay in seconds before loading the new scene.
 	var delay: float

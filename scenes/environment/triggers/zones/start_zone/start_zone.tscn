@@ -64,6 +64,8 @@ size = Vector2(22, 14)
 script = ExtResource("1_g17e3")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 8
+collision_mask = 26
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="StaticBody2D"]
 sprite_frames = SubResource("SpriteFrames_mlm4l")
@@ -76,6 +78,7 @@ shape = SubResource("RectangleShape2D_xs0o3")
 
 [node name="TriggerArea" parent="." instance=ExtResource("2_pxxh0")]
 position = Vector2(0, -7)
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
 shape = SubResource("RectangleShape2D_n0ntl")

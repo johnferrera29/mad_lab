@@ -21,7 +21,5 @@ func play_random_sound() -> void:
 	_last_index = index
 	_audio_queues[index].play_sound()
 
-	print("play RANDOM sound")
-
 
 # TODO: Add configuration warnings

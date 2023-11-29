@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://ddqbsbl3sn081"]
+[gd_scene load_steps=11 format=3 uid="uid://ddqbsbl3sn081"]
 
 [ext_resource type="Script" path="res://scenes/environment/triggers/switch/switch.gd" id="1_k2eci"]
 [ext_resource type="Texture2D" uid="uid://cpl66df8dygks" path="res://scenes/environment/triggers/switch/resources/textures/interactable_switch-Sheet.png" id="2_7bddo"]
 [ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/environment/triggers/trigger_area/trigger_area.tscn" id="3_45y5w"]
+[ext_resource type="PackedScene" uid="uid://cwwc2jo7g8w8e" path="res://scenes/utils/audio_queue/audio_queue.tscn" id="4_bpw8l"]
+[ext_resource type="AudioStream" uid="uid://bxa8ioxvmi23o" path="res://scenes/environment/triggers/switch/resources/audio/switch.ogg" id="5_3x2rr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hcd12"]
 atlas = ExtResource("2_7bddo")
@@ -41,6 +43,8 @@ size = Vector2(24, 6)
 script = ExtResource("1_k2eci")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 8
+collision_mask = 26
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="StaticBody2D"]
 sprite_frames = SubResource("SpriteFrames_8t0jw")
@@ -57,6 +61,12 @@ visible = false
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_pey37")
 debug_color = Color(1, 1, 0, 0.419608)
+
+[node name="AudioQueue" parent="." instance=ExtResource("4_bpw8l")]
+instance_count = 3
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioQueue"]
+stream = ExtResource("5_3x2rr")
 
 [connection signal="released" from="TriggerArea" to="." method="_on_trigger_area_released"]
 [connection signal="triggered" from="TriggerArea" to="." method="_on_trigger_area_triggered"]

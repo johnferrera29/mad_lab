@@ -82,7 +82,6 @@ func apply_gravity(delta: float, gravity: float, terminal_velocity: float) -> vo
 	
 	# Applies terminal velocity if specified.
 	if terminal_velocity and actor.velocity.y > terminal_velocity:
-		print("apply terminal velocity")
 		actor.velocity.y = terminal_velocity
 
 

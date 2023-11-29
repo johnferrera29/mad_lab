@@ -13,5 +13,4 @@ func _ready() -> void:
 
 
 func _on_trigger_area_triggered() -> void:
-	print("Exit zone!")
 	SignalBus.level_selected.emit(level.next_level_id)

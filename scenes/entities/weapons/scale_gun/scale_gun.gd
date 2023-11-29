@@ -21,6 +21,11 @@ var _scale_modes: Array[Enums.ScaleMode] = [
 @onready var projectile_spawn_point := $Sprite2D/ProjectileSpawnPoint as Marker2D
 @onready var audio_queue := $AudioQueue as AudioQueue
 
+
+func _ready() -> void:
+	weapon_type = Enums.WeaponType.SCALE_GUN
+
+
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("change_weapon_mode"):
 		var new_mode = _scroll_through_scale_modes()
@@ -50,9 +55,12 @@ func _physics_process(delta: float) -> void:
 
 ## Change the gun's current scale mode.
 func change_scale_mode(mode: Enums.ScaleMode) -> void:
-	print("Change scale mode: ", Enums.ScaleMode.keys()[mode])
 	current_mode = mode
-	# TODO: Change the targeting system's shader material based on mode.
+
+	# TODO: Make weapon mode more generic to Weapon class.
+	SignalBus.weapon_mode_changed.emit(Enums.ScaleMode.keys()[mode])
+
+	# TODO: Change the sprite based on scale mode.
 
 
 ## Rotates the sprite based on targeting system angle.

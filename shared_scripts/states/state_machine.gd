@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 ## Use to transition to another state.
 ## The optional [param msg] is a dictionary with arbitrary data the state can use to initialize itself.
 func change_state(new_state: State, msg: Dictionary = {}) -> void:
-	_print_state_change(current_state, new_state)
+	# _print_state_change(current_state, new_state)
 
 	if current_state:
 		current_state.state_exit()

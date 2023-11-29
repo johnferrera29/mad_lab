@@ -20,6 +20,7 @@ extends CharacterBody2D
 ## Max [member CharacterBody2D.velocity.y] the player can achieve while falling.
 @export var terminal_velocity: float
 
+
 # Jump related variables.
 # @tutorial: https://www.youtube.com/watch?v=IOe1aGY6hXA
 @onready var jump_force: float = (jump_height * 2.0) / jump_time_to_peak

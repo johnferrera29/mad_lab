@@ -27,7 +27,6 @@ func _input(event: InputEvent) -> void:
 
 	## Launch a projectile only if there is no hook inside
 	if Input.is_action_just_pressed("interact") and not is_instance_valid(_projectile_ref):
-		print("Launch grappling hook!")
 		var target_position := get_global_mouse_position()
 		var projectile_velocity := projectile_launcher.launch_speed * global_position.direction_to(target_position)
 		var projectile := projectile_launcher.create_projectile(

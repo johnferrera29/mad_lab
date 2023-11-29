@@ -1,0 +1,96 @@
+[gd_scene load_steps=7 format=3 uid="uid://dido4gfef6t4v"]
+
+[ext_resource type="Script" path="res://scenes/gui/main_menu/main_menu.gd" id="1_ahmt1"]
+[ext_resource type="FontFile" uid="uid://7ifmntxrukr8" path="res://shared_resources/fonts/kenvector_future_thin.ttf" id="2_341im"]
+[ext_resource type="FontFile" uid="uid://yd601doojrat" path="res://shared_resources/fonts/kenvector_future.ttf" id="2_b55l3"]
+[ext_resource type="Script" path="res://scenes/utils/audio_queue/audio_queue.gd" id="4_v332e"]
+[ext_resource type="AudioStream" uid="uid://c2ngi5hmi4qhj" path="res://shared_resources/audio/menu_item_focused.ogg" id="5_oemrr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_e3gyi"]
+font = ExtResource("2_b55l3")
+font_size = 64
+outline_size = 32
+outline_color = Color(0.129412, 0.121569, 0.188235, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ahmt1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.5
+offset_top = 13.0
+offset_right = 69.5
+offset_bottom = 99.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+metadata/_edit_group_ = true
+
+[node name="NewGameButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_341im")
+text = "New Game"
+
+[node name="ContinueButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_341im")
+disabled = true
+text = "Continue"
+
+[node name="ExitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_341im")
+text = "Exit
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -97.0
+offset_right = 175.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+metadata/_edit_group_ = true
+
+[node name="MAD" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "MAD
+"
+label_settings = SubResource("LabelSettings_e3gyi")
+
+[node name="LAB" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Lab"
+label_settings = SubResource("LabelSettings_e3gyi")
+
+[node name="MenuFocusAudioQueue" type="Node" parent="."]
+script = ExtResource("4_v332e")
+instance_count = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MenuFocusAudioQueue"]
+stream = ExtResource("5_oemrr")
+
+[connection signal="mouse_entered" from="VBoxContainer/NewGameButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/ContinueButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/ExitButton" to="." method="_on_button_mouse_entered"]
+[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

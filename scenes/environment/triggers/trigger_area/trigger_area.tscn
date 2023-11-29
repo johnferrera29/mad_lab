@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://scenes/environment/triggers/trigger_area/trigger_area.gd" id="1_atey0"]
 
 [node name="TriggerArea" type="Area2D"]
+collision_layer = 32
+collision_mask = 30
 script = ExtResource("1_atey0")
 metadata/_edit_group_ = true
 

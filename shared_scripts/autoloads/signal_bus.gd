@@ -5,6 +5,7 @@ extends Node
 
 
 # Player related signals.
+signal player_spawned()
 signal player_died()
 ## Signal emitted once a new respawn point has been set.
 ## Accepts [param respawn_position] that determines where the player will respawn.
@@ -21,12 +22,21 @@ signal scene_change_triggered(params: SceneManager.SceneChangeParams)
 ## Signal emitted once a level has been selected to be loaded.
 ## Optional [param scene_to_unload] when emitting from GUI such as level selection screens that needs additional cleanup.
 signal level_selected(level_id: int, scene_to_unload: Node)
-signal level_started(level: Level)
+signal level_started(level_id: int)
 
 
 # Weapon related signals
 signal weapon_reloaded()
 signal weapon_reload_progressed(progress: float)
-signal weapon_changed(weapon_type: Enums.WeaponType, scroll_direction: int)
+signal weapon_changed(weapon_type: Enums.WeaponType)
+signal weapon_scrolled(scroll_direction: int)
+signal weapon_mode_changed(weapon_mode: String)
 signal weapon_drawn(weapon_count: int)
 signal weapon_withdrawn()
+signal unlock_weapon(weapon_type: Enums.WeaponType)
+
+
+# Game state related signals.
+signal game_started()
+signal game_continued()
+signal game_exited()

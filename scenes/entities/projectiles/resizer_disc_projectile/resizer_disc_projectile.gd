@@ -15,7 +15,4 @@ func _on_body_entered(body: Node2D) -> void:
 		interactable_object.scalable_component.scale(scale_mode)
 		destroy()
 	else:
-		# TODO: Handle collision via collision layers to prevent colliding with [Player] and [ScaleGun]
-		# For now, ignoring manually destroy if body is not [Player] or [ScaleGun].
-		if not (body as Player) and not (body is ScaleGun):
-			destroy()
+		destroy()

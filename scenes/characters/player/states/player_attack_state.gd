@@ -46,13 +46,11 @@ func state_handle_input(event: InputEvent) -> void:
 		_remove_target_highlights()
 		var next_weapon := actor.weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.NEXT)
 		actor.weapon_manager.change_weapon(next_weapon)
-		print("Weapon Changed! -> ", next_weapon)
 	
 	if Input.is_action_just_pressed("change_weapon_prev"):
 		_remove_target_highlights()
 		var previous_weapon := actor.weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.PREVIOUS)
 		actor.weapon_manager.change_weapon(previous_weapon)
-		print("Weapon Changed! -> ", previous_weapon)
 
 
 func state_physics_process(delta: float) -> void:
