@@ -22,7 +22,6 @@ launch_speed = 320.0
 launch_interval = 0.5
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_as_relative = false
 texture = ExtResource("5_2ya7e")
 
 [node name="ProjectileSpawnPoint" type="Marker2D" parent="Sprite2D"]
