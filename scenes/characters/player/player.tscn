@@ -361,11 +361,12 @@ animations = [{
 size = Vector2(22, 25)
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 100
 collision_layer = 2
 collision_mask = 105
 script = ExtResource("1_iwvof")
 movement_speed = 160.0
-jump_height = 72.0
+jump_height = 64.0
 jump_time_to_peak = 0.5
 jump_time_to_descent = 0.3
 coyote_time = 0.1
