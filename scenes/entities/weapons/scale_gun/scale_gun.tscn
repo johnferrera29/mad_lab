@@ -17,7 +17,7 @@ line_starting_point = NodePath("../Sprite2D/ProjectileSpawnPoint")
 [node name="ProjectileLauncher" type="Node2D" parent="."]
 script = ExtResource("3_6v0tf")
 projectile_scene = ExtResource("4_ag8oc")
-projectile_lifespan = 1.0
+projectile_lifespan = 2.0
 launch_speed = 320.0
 launch_interval = 0.5
 
