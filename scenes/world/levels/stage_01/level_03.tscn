@@ -96,6 +96,7 @@ one_shot = true
 [node name="SwitchInstructions" parent="Puzzle02" instance=ExtResource("9_kl145")]
 position = Vector2(-352, -64)
 lines = Array[String](["Switches toggle certain behaviors in the environment such as showing a hidden box and much more!"])
+auto_advance_time = 2.0
 
 [node name="WoodenBox4" parent="Puzzle02" node_paths=PackedStringArray("scalable_component") instance=ExtResource("5_q5ixp")]
 position = Vector2(-192, -80)

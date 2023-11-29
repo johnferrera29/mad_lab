@@ -23,7 +23,7 @@ position = Vector2(48, 216)
 level = NodePath("..")
 
 [node name="ExitZone" parent="." node_paths=PackedStringArray("level") instance=ExtResource("4_e3r3u")]
-position = Vector2(1184, 24)
+position = Vector2(1200, 24)
 level = NodePath("..")
 
 [node name="Puzzle01" type="Node" parent="."]
