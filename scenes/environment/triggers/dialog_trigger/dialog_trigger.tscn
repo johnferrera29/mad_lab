@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dokhi7rmkj8wy"]
+
+[ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/environment/triggers/trigger_area/trigger_area.tscn" id="1_5y5j8"]
+[ext_resource type="Script" path="res://scenes/environment/triggers/dialog_trigger/dialog_trigger.gd" id="1_hh1tb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eid2x"]
+
+[node name="DialogTrigger" type="Node2D"]
+script = ExtResource("1_hh1tb")
+metadata/_edit_group_ = true
+
+[node name="TriggerArea" parent="." instance=ExtResource("1_5y5j8")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+shape = SubResource("CircleShape2D_eid2x")
+
+[connection signal="triggered" from="TriggerArea" to="." method="_on_trigger_area_triggered"]
