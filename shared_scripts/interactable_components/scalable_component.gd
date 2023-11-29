@@ -23,8 +23,6 @@ var current_scale_mode: Enums.ScaleMode = Enums.ScaleMode.RESET
 ## Factor to enlarge based from original scale. Use positive values only.
 @export var enlarge_factor: float = 1.0
 
-@onready var original_scale: Vector2 = target.scale
-
 
 func _ready() -> void:
 	_add_scaling_audio()
@@ -52,7 +50,7 @@ func shrink(factor: float) -> void:
 	scaling_audio.pitch_scale = 4.0
 	scaling_audio.play()
 
-	_apply_scale(original_scale / factor)
+	_apply_scale(Vector2.ONE / factor)
 
 
 ## Enlarges target by [param factor]. Negative values will be ignored.
@@ -62,7 +60,7 @@ func enlarge(factor: float) -> void:
 	scaling_audio.pitch_scale = 2.0
 	scaling_audio.play()
 
-	_apply_scale(original_scale * factor)
+	_apply_scale(Vector2.ONE * factor)
 
 
 ## Resets the scale to original value.
@@ -70,7 +68,7 @@ func reset_scale() -> void:
 	scaling_audio.pitch_scale = 3.0
 	scaling_audio.play()
 
-	_apply_scale(original_scale)
+	_apply_scale(Vector2.ONE)
 
 
 ## Apply the scaling to target's the [Sprite2D] and [CollisionShape2D].
