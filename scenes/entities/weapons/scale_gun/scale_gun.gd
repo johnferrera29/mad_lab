@@ -56,10 +56,10 @@ func _physics_process(delta: float) -> void:
 func change_scale_mode(mode: Enums.ScaleMode) -> void:
 	current_mode = mode
 
+	targeting_system.reset_targeting_highlight()
+	
 	# TODO: Make weapon mode more generic to Weapon class.
 	SignalBus.weapon_mode_changed.emit(Enums.ScaleMode.keys()[mode])
-
-	# TODO: Change the sprite based on scale mode.
 
 
 ## Rotates the sprite based on targeting system angle.
@@ -82,7 +82,7 @@ func _scroll_through_scale_modes() -> Enums.ScaleMode:
 
 
 func _on_targeting_system_target_detected(target: InteractableObject) -> void:
-	if target and target.scalable_component:
+	if target and target.scalable_component and target.scalable_component.current_scale_mode != current_mode:
 		targeting_system.toggle_shader_effect(target.sprite, true)
 
 

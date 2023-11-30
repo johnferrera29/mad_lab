@@ -47,10 +47,10 @@ tracks/0/path = NodePath("PathFollow2D:progress_ratio")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 1.5),
-"transitions": PackedFloat32Array(2, 0.5, 0.5),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(2, 2, 0.5, 0.5),
 "update": 0,
-"values": [0.0, 1.0, 1.0]
+"values": [0.0, 0.0, 1.0, 1.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v1x12"]
@@ -67,13 +67,13 @@ script/source = "extends Node
 
 
 func _on_switch_switched_on() -> void:
-	spike_trap.hide()
-	Utils.ProcessUtils.toggle_processing(spike_trap, false)
+	spike_trap.show()
+	Utils.ProcessUtils.toggle_processing(spike_trap, true)
 
 
 func _on_switch_switched_off() -> void:
-	spike_trap.show()
-	Utils.ProcessUtils.toggle_processing(spike_trap, true)
+	spike_trap.hide()
+	Utils.ProcessUtils.toggle_processing(spike_trap, false)
 "
 
 [node name="Level08" type="Node2D"]
@@ -128,7 +128,7 @@ breakable_component = NodePath("BreakableComponent")
 [node name="ScalableComponent" type="Node" parent="Puzzle01/MovingCrate/MetalCrate" node_paths=PackedStringArray("target")]
 script = ExtResource("9_w1xdl")
 target = NodePath("..")
-shrink_factor = 2.0
+enlarge_factor = 1.1
 instantly_scale_collision = true
 
 [node name="BreakableComponent" type="Node" parent="Puzzle01/MovingCrate/MetalCrate" node_paths=PackedStringArray("target", "interactable_object")]

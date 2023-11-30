@@ -155,22 +155,23 @@ metadata/_edit_group_ = true
 [node name="ScalableComponent" type="Node" parent="Puzzle01/WoodenBox2" node_paths=PackedStringArray("target")]
 script = ExtResource("6_h2xh5")
 target = NodePath("..")
-shrink_factor = 0.75
+shrink_factor = 2.0
 
 [node name="BreakableComponent" type="Node" parent="Puzzle01/WoodenBox2" node_paths=PackedStringArray("target")]
 script = ExtResource("10_rh6ee")
 target = NodePath("..")
 
-[node name="WoodenBox3" parent="Puzzle01" node_paths=PackedStringArray("breakable_component") instance=ExtResource("5_55mo5")]
+[node name="WoodenBox3" parent="Puzzle01" node_paths=PackedStringArray("scalable_component", "breakable_component") instance=ExtResource("5_55mo5")]
 position = Vector2(320, 184)
 scale = Vector2(1.5, 1.5)
+scalable_component = NodePath("ScalableComponent")
 breakable_component = NodePath("BreakableComponent")
 metadata/_edit_group_ = true
 
 [node name="ScalableComponent" type="Node" parent="Puzzle01/WoodenBox3" node_paths=PackedStringArray("target")]
 script = ExtResource("6_h2xh5")
 target = NodePath("..")
-shrink_factor = 0.5
+shrink_factor = 2.0
 
 [node name="BreakableComponent" type="Node" parent="Puzzle01/WoodenBox3" node_paths=PackedStringArray("target")]
 script = ExtResource("10_rh6ee")

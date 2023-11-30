@@ -63,6 +63,5 @@ func state_physics_process(delta: float) -> void:
 ## Removes any remaining target highlights applied to the last detected target.
 func _remove_target_highlights() -> void:
 	var targeting_system = actor.weapon_manager.current_weapon.targeting_system
-	if targeting_system and is_instance_valid(targeting_system.last_detected_target):
-		targeting_system.toggle_shader_effect(targeting_system.last_detected_target.sprite, false)
-		targeting_system.last_detected_target = null
+	if targeting_system:
+		targeting_system.reset_targeting_highlight()
