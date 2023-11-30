@@ -27,6 +27,8 @@ func _change_scene_deferred(params: SceneChangeParams) -> void:
 		var scene_resource: Resource = ResourceLoader.load(params.scene_to_load_path)
 		new_scene = scene_resource.instantiate()
 	
+	DialogManager.clear_all_dialog()
+	
 	params.parent_scene.add_child(new_scene)
 
 

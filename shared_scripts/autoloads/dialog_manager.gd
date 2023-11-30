@@ -39,10 +39,20 @@ func start_dialog(position: Vector2, lines: Array[String], params := StartDialog
 	is_dialog_active = true
 
 
+func clear_all_dialog() -> void:
+	for n in get_children():
+		remove_child(n)
+		n.queue_free()
+	
+	dialog_box = null
+	current_line_index = 0
+	is_dialog_active = false
+
+
 func _show_dialog_box() -> void:
 	dialog_box = dialog_box_resource.instantiate() as DialogBox
 	
-	GameManager.world.add_child(dialog_box)
+	add_child(dialog_box)
 
 	dialog_box.finished.connect(_on_dialog_box_finished)
 
@@ -69,6 +79,9 @@ func _show_dialog_box() -> void:
 
 
 func _show_next_dialog() -> void:
+	if not is_instance_valid(dialog_box):
+		return
+
 	dialog_box.queue_free()
 		
 	current_line_index += 1
