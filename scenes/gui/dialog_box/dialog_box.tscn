@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://c5dm557ig4wna" path="res://scenes/gui/dialog_box/resources/audio/character_dialog.mp3" id="4_i84pj"]
 
 [node name="DialogBox" type="MarginContainer"]
+z_index = 99
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_ih41e")

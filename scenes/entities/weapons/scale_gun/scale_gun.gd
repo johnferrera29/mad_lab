@@ -12,7 +12,6 @@ var current_mode := Enums.ScaleMode.SHRINK
 var _scale_modes: Array[Enums.ScaleMode] = [
 	Enums.ScaleMode.SHRINK,
 	Enums.ScaleMode.ENLARGE,
-	Enums.ScaleMode.RESET
 ]
 
 @onready var sprite := $Sprite2D as Sprite2D

@@ -3,6 +3,7 @@ extends InteractableObject
 ## A crate that emits a magnetic field which reflects certain types of projectile.
 ##
 ## Currently reflecting [ResizerDiscProjectile], [BombProjectile].
+## TODO: Cleanup and refactor due to changes.
 
 
 ## Determines if crate emits a magnetic field that will reflect projectiles.
@@ -10,6 +11,7 @@ extends InteractableObject
 var is_magnetic: bool = true:
 	set(new_value):
 		_toggle_magnetic_field_fx(new_value)
+		if scalable_component: scalable_component.is_unscalable = new_value
 		is_magnetic = new_value
 
 @onready var magnetic_field_fx := $MagneticFieldParticle as GPUParticles2D
@@ -21,7 +23,10 @@ func _ready() -> void:
 	sprite = $Sprite2D
 	collision_shape = $CollisionShape2D
 	animator = $AnimationPlayer
-
+	
+	if scalable_component:
+		scalable_component.is_unscalable = true
+	
 	_init_connections()
 
 
@@ -29,6 +34,10 @@ func _ready() -> void:
 func _init_connections() -> void:
 	if scalable_component:
 		scalable_component.scaled.connect(_on_scaled)
+	
+	if freezable_component:
+		freezable_component.froze.connect(_on_froze)
+		freezable_component.thawed.connect(_on_thawed)
 
 
 func _reflect_projectile(projectile: Projectile) -> void:
@@ -81,3 +90,11 @@ func _on_magnetic_field_area_entered(area: Area2D) -> void:
 func _on_scaled(new_scale: Vector2) -> void:
 	magnetic_field_collision_shape.scale = new_scale
 	magnetic_field_fx.scale = new_scale
+
+
+func _on_froze() -> void:
+	is_magnetic = false
+
+
+func _on_thawed() -> void:
+	is_magnetic = true

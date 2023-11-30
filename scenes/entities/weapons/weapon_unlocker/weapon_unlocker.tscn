@@ -1,0 +1,102 @@
+[gd_scene load_steps=13 format=3 uid="uid://cbwhg5pr232l4"]
+
+[ext_resource type="Script" path="res://scenes/entities/weapons/weapon_unlocker/weapon_unlocker.gd" id="1_6qhum"]
+[ext_resource type="PackedScene" uid="uid://61k5vopmx3em" path="res://scenes/environment/triggers/trigger_area/trigger_area.tscn" id="2_idfrq"]
+[ext_resource type="Texture2D" uid="uid://c60b0lu33p3q1" path="res://scenes/entities/targeting_system/resources/textures/fx_targeting_system_trajectory.png" id="2_jlwb8"]
+
+[sub_resource type="Gradient" id="Gradient_p55d3"]
+offsets = PackedFloat32Array(0.147059, 0.461765, 0.717647, 0.917647)
+colors = PackedColorArray(0.211765, 0.368627, 0.639216, 1, 0.729412, 0.203922, 0.203922, 1, 0.709804, 0.788235, 0.831373, 0.670588, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mee2n"]
+gradient = SubResource("Gradient_p55d3")
+
+[sub_resource type="Curve" id="Curve_wqy2l"]
+min_value = 0.1
+max_value = 0.8
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_oqck0"]
+curve = SubResource("Curve_wqy2l")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kkxaw"]
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 0)
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = 50.0
+radial_accel_max = 100.0
+scale_min = 0.1
+scale_max = 0.8
+scale_curve = SubResource("CurveTexture_oqck0")
+color_ramp = SubResource("GradientTexture1D_mee2n")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sspp6"]
+radius = 15.0
+
+[sub_resource type="Animation" id="Animation_av25t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_utery"]
+resource_name = "bobble"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ly2jt"]
+_data = {
+"RESET": SubResource("Animation_av25t"),
+"bobble": SubResource("Animation_utery")
+}
+
+[node name="WeaponUnlocker" type="Node2D"]
+script = ExtResource("1_6qhum")
+
+[node name="CircleParticle" type="GPUParticles2D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_kkxaw")
+texture = ExtResource("2_jlwb8")
+local_coords = true
+
+[node name="TriggerArea" parent="." instance=ExtResource("2_idfrq")]
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+shape = SubResource("CircleShape2D_sspp6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -0.174533
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "bobble"
+libraries = {
+"": SubResource("AnimationLibrary_ly2jt")
+}
+
+[connection signal="triggered" from="TriggerArea" to="." method="_on_trigger_area_triggered"]

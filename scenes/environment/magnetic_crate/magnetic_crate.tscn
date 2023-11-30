@@ -9,7 +9,7 @@
 offsets = PackedFloat32Array(0.147059, 0.461765, 0.717647, 0.917647)
 colors = PackedColorArray(0.211765, 0.368627, 0.639216, 1, 0.729412, 0.203922, 0.203922, 1, 0.709804, 0.788235, 0.831373, 0.670588, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_mee2n"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6m7ct"]
 gradient = SubResource("Gradient_pkt8h")
 
 [sub_resource type="Curve" id="Curve_3nt2p"]
@@ -18,7 +18,7 @@ max_value = 0.8
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_oqck0"]
+[sub_resource type="CurveTexture" id="CurveTexture_083le"]
 curve = SubResource("Curve_3nt2p")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sy6pe"]
@@ -34,11 +34,11 @@ radial_accel_min = 50.0
 radial_accel_max = 100.0
 scale_min = 0.1
 scale_max = 0.8
-scale_curve = SubResource("CurveTexture_oqck0")
-color_ramp = SubResource("GradientTexture1D_mee2n")
+scale_curve = SubResource("CurveTexture_083le")
+color_ramp = SubResource("GradientTexture1D_6m7ct")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7in1"]
-size = Vector2(35, 35)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ttmcr"]
+radius = 25.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28y7p"]
 size = Vector2(28, 28)
@@ -94,9 +94,10 @@ local_coords = true
 [node name="MagneticField" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 16
+priority = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MagneticField"]
-shape = SubResource("RectangleShape2D_g7in1")
+shape = SubResource("CircleShape2D_ttmcr")
 debug_color = Color(0.427451, 0.603922, 0, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

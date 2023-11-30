@@ -11,19 +11,23 @@ signal scaled(new_scale: Vector2)
 ## Determines how fast the scaling animation happens in seconds.
 const _SCALING_TIME := 0.2
 
-var scaling_audio_resource = preload("res://shared_resources/audio/scaling.ogg")
-var scaling_audio: AudioStreamPlayer2D
-
-var current_scale_mode: Enums.ScaleMode = Enums.ScaleMode.RESET
-
 ## Target node that contains the [Sprite2D] and [CollisionShape2D] nodes that will be scaled.
 @export var target: Node2D
 ## Factor to shrink based from original scale. Use positive values only.
 @export var shrink_factor: float = 1.0
 ## Factor to enlarge based from original scale. Use positive values only.
 @export var enlarge_factor: float = 1.0
+## Flag whether to instantly scale the collision layer instead of tweening it.
+## Useful for triggers and switches.
+@export var instantly_scale_collision: bool
 
-@onready var original_scale: Vector2 = target.scale
+var current_scale_mode: Enums.ScaleMode = Enums.ScaleMode.RESET
+
+var scaling_audio_resource = preload("res://shared_resources/audio/scaling.ogg")
+var scaling_audio: AudioStreamPlayer2D
+
+## Flag to temporarily prevent the target object from being scaled by a [ResizerDiscProjectile].
+var is_unscalable: bool
 
 
 func _ready() -> void:
@@ -32,7 +36,8 @@ func _ready() -> void:
 
 ## Resizes the target based on the mode provided.
 func scale(mode: Enums.ScaleMode) -> void:
-	if mode == current_scale_mode: return
+	if mode == current_scale_mode or is_unscalable:
+		return
 
 	match mode:
 		Enums.ScaleMode.SHRINK:
@@ -47,30 +52,32 @@ func scale(mode: Enums.ScaleMode) -> void:
 
 ## Shrinks target by [param factor]. Negative values will be ignored.
 func shrink(factor: float) -> void:
-	if (factor < 0.0): return
+	if (factor <= 0.0) or is_unscalable: return
 	
 	scaling_audio.pitch_scale = 4.0
 	scaling_audio.play()
 
-	_apply_scale(original_scale / factor)
+	_apply_scale(Vector2.ONE / factor)
 
 
 ## Enlarges target by [param factor]. Negative values will be ignored.
 func enlarge(factor: float) -> void:
-	if (factor < 0.0): return
+	if (factor <= 0.0)  or is_unscalable: return
 
 	scaling_audio.pitch_scale = 2.0
 	scaling_audio.play()
 
-	_apply_scale(original_scale * factor)
+	_apply_scale(Vector2.ONE * factor)
 
 
 ## Resets the scale to original value.
 func reset_scale() -> void:
+	if  is_unscalable: return
+	
 	scaling_audio.pitch_scale = 3.0
 	scaling_audio.play()
 
-	_apply_scale(original_scale)
+	_apply_scale(Vector2.ONE)
 
 
 ## Apply the scaling to target's the [Sprite2D] and [CollisionShape2D].
@@ -95,8 +102,12 @@ func _apply_scale(new_scale: Vector2) -> void:
 	var tween = get_tree().create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(target_sprite, "scale", new_scale, _SCALING_TIME)
-	tween.tween_property(target_collision_shape, "scale", new_scale, _SCALING_TIME)
-
+	
+	if instantly_scale_collision:
+		target_collision_shape.scale = new_scale
+	else:
+		tween.tween_property(target_collision_shape, "scale", new_scale, _SCALING_TIME)
+	
 	scaled.emit(new_scale)
 
 

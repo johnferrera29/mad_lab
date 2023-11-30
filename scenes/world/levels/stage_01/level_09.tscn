@@ -1,0 +1,424 @@
+[gd_scene load_steps=28 format=3 uid="uid://dgutgds407jky"]
+
+[ext_resource type="Script" path="res://scenes/world/levels/stage_01/level_09.gd" id="1_b22r5"]
+[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory/laboratory_tilemap.tscn" id="2_jbk7o"]
+[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/triggers/zones/start_zone/start_zone.tscn" id="3_jufa4"]
+[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/environment/triggers/zones/exit_zone/exit_zone.tscn" id="4_xdvdu"]
+[ext_resource type="FontFile" uid="uid://7ifmntxrukr8" path="res://shared_resources/fonts/kenvector_future_thin.ttf" id="5_r18hd"]
+[ext_resource type="Texture2D" uid="uid://c60b0lu33p3q1" path="res://scenes/entities/targeting_system/resources/textures/fx_targeting_system_trajectory.png" id="6_o1ieg"]
+[ext_resource type="PackedScene" uid="uid://sai6af3qayly" path="res://scenes/environment/metal_crate/metal_crate.tscn" id="8_kt870"]
+[ext_resource type="Script" path="res://shared_scripts/interactable_components/scalable_component.gd" id="9_6r0s4"]
+[ext_resource type="Script" path="res://shared_scripts/interactable_components/freezable_component.gd" id="11_vqofx"]
+[ext_resource type="PackedScene" uid="uid://ddqbsbl3sn081" path="res://scenes/environment/triggers/switch/switch.tscn" id="12_eh5ot"]
+[ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/triggers/traps/spike_trap/spike_trap.tscn" id="13_20vk3"]
+[ext_resource type="PackedScene" uid="uid://bl0vd7ig72f4v" path="res://scenes/environment/magnetic_crate/magnetic_crate.tscn" id="14_o5nji"]
+
+[sub_resource type="GDScript" id="GDScript_1vdjq"]
+script/source = "extends Node
+
+
+@export var exit_toggles: Array[Node]
+
+@onready var exit_zone := $\"../ExitZone\"
+@onready var animator := $ToggleE/MovingCrate/AnimationPlayer as AnimationPlayer
+@onready var particle := $CircleParticle
+
+func _ready() -> void:
+	exit_zone.hide()
+	Utils.ProcessUtils.toggle_processing(exit_zone, false)
+
+
+func _show_exit_zone() -> void:
+	if exit_zone.visible: return
+	
+	if exit_toggles.all(func(node): return node.is_on):
+		animator.stop()
+		animator.queue_free()
+		
+		particle.emitting = true
+		
+		exit_zone.show()
+		Utils.ProcessUtils.toggle_processing(exit_zone, true)
+
+
+func _on_toggle_e_toggled() -> void:
+	_show_exit_zone()
+
+
+func _on_toggle_x_toggled() -> void:
+	_show_exit_zone()
+
+
+func _on_toggle_i_toggled() -> void:
+	_show_exit_zone()
+
+
+func _on_toggle_t_toggled() -> void:
+	_show_exit_zone()
+"
+
+[sub_resource type="Gradient" id="Gradient_fvbsd"]
+offsets = PackedFloat32Array(0.147059, 0.461765, 0.717647, 0.917647)
+colors = PackedColorArray(0.211765, 0.368627, 0.639216, 1, 0.729412, 0.203922, 0.203922, 1, 0.709804, 0.788235, 0.831373, 0.670588, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mee2n"]
+gradient = SubResource("Gradient_fvbsd")
+
+[sub_resource type="Curve" id="Curve_ojdj7"]
+min_value = 0.1
+max_value = 0.8
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_oqck0"]
+curve = SubResource("Curve_ojdj7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0a3et"]
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 0)
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = 50.0
+radial_accel_max = 100.0
+scale_min = 0.1
+scale_max = 0.8
+scale_curve = SubResource("CurveTexture_oqck0")
+color_ramp = SubResource("GradientTexture1D_mee2n")
+
+[sub_resource type="LabelSettings" id="LabelSettings_otaod"]
+font = ExtResource("5_r18hd")
+outline_size = 6
+outline_color = Color(0.0980392, 0.188235, 0.223529, 1)
+
+[sub_resource type="GDScript" id="GDScript_7py4d"]
+script/source = "extends Node
+# Toggles E
+
+signal toggled
+
+var is_on: bool
+
+@onready var label := $\"../ExitLabel/E\" as Label
+@onready var spike_trap := $SpikeTrap
+
+func _on_switch_switched_on() -> void:
+	is_on = true
+	label.show()
+	
+	spike_trap.show()
+	Utils.ProcessUtils.toggle_processing(spike_trap, true)
+	toggled.emit()
+
+
+func _on_switch_switched_off() -> void:
+	is_on = false
+	label.hide()
+	
+	spike_trap.hide()
+	Utils.ProcessUtils.toggle_processing(spike_trap, false)
+"
+
+[sub_resource type="Curve2D" id="Curve2D_vpdu6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 243, 79, 0, 0, 0, 0, 243, 151)
+}
+point_count = 2
+
+[sub_resource type="Animation" id="Animation_wjnfv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_oila7"]
+resource_name = "move_crate"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 1.5),
+"transitions": PackedFloat32Array(2, 0.5, 0.5),
+"update": 0,
+"values": [0.0, 1.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v1x12"]
+_data = {
+"RESET": SubResource("Animation_wjnfv"),
+"move_crate": SubResource("Animation_oila7")
+}
+
+[sub_resource type="GDScript" id="GDScript_w3aip"]
+script/source = "extends Node
+# Toggles X
+
+signal toggled
+
+var is_on: bool
+
+@onready var label := $\"../ExitLabel/X\" as Label
+@onready var switch := $Switch as Switch
+
+
+func _ready() -> void:
+	switch.trigger_keys.append(GameManager.player)
+
+
+func _on_switch_switched_on() -> void:
+	is_on = true
+	label.show()
+	toggled.emit()
+
+
+func _on_switch_switched_off() -> void:
+	is_on = false
+	label.hide()
+"
+
+[sub_resource type="GDScript" id="GDScript_tkrr1"]
+script/source = "extends Node
+# Toggles I
+
+
+signal toggled
+
+var is_on: bool
+
+@onready var label := $\"../ExitLabel/I\" as Label
+
+
+func _on_switch_switched_on() -> void:
+	is_on = true
+	label.show()
+	toggled.emit()
+
+
+func _on_switch_switched_off() -> void:
+	is_on = false
+	label.hide()
+"
+
+[sub_resource type="GDScript" id="GDScript_mxpmq"]
+script/source = "extends Node
+# Toggles T
+
+
+signal toggled
+
+var is_on: bool
+
+@onready var label := $\"../ExitLabel/T\" as Label
+
+
+func _on_switch_switched_on() -> void:
+	is_on = true
+	label.show()
+	toggled.emit()
+
+
+func _on_switch_switched_off() -> void:
+	is_on = false
+	label.hide()
+"
+
+[node name="Level09" type="Node2D"]
+script = ExtResource("1_b22r5")
+level_id = 9
+next_level_id = 10
+
+[node name="LaboratoryTilemap" parent="." instance=ExtResource("2_jbk7o")]
+layer_0/tile_data = PackedInt32Array(1114133, 65536, 1, 1048597, 65536, 1, 983061, 65536, 1, 1114132, 65536, 1, 1048596, 65536, 1, 983060, 65536, 1, 1114131, 65536, 1, 1048595, 65536, 1, 983059, 65536, 1, 1114130, 65536, 1, 1048594, 65536, 1, 983058, 65536, 1, 1114129, 65536, 1, 1048593, 65536, 1, 983057, 65536, 1, 1114128, 65536, 1, 1048592, 65536, 1, 983056, 65536, 1, 917520, 65536, 0, 1114127, 65536, 1, 1048591, 65536, 1, 983055, 65536, 1, 917519, 196608, 1, 1114126, 65536, 1, 1048590, 65536, 1, 983054, 65536, 1, 917518, 65536, 1, 1114125, 65536, 1, 1048589, 65536, 1, 983053, 65536, 1, 917517, 262144, 1, 1114124, 65536, 1, 1048588, 65536, 1, 983052, 65536, 1, 917516, 65536, 0, 1114123, 65536, 1, 1048587, 65536, 1, 983051, 65536, 1, 917515, 65536, 0, 1114122, 65536, 1, 1048586, 65536, 1, 983050, 65536, 1, 917514, 65536, 0, 1114121, 65536, 1, 1048585, 65536, 1, 983049, 65536, 1, 917513, 65536, 0, 1114120, 65536, 1, 1048584, 65536, 1, 983048, 65536, 1, 917512, 65536, 0, 1114119, 65536, 1, 1048583, 65536, 1, 983047, 65536, 1, 917511, 65536, 0, 1114118, 65536, 1, 1048582, 65536, 1, 983046, 65536, 1, 917510, 65536, 0, 1114117, 65536, 1, 1048581, 65536, 1, 983045, 65536, 1, 917509, 65536, 0, 1114116, 65536, 1, 1048580, 65536, 1, 983044, 65536, 1, 917508, 65536, 0, 1114115, 65536, 1, 1048579, 65536, 1, 983043, 65536, 1, 917507, 65536, 0, 1114114, 65536, 1, 1048578, 65536, 1, 983042, 65536, 1, 917506, 65536, 0, 1114113, 65536, 1, 1048577, 65536, 1, 983041, 65536, 1, 917505, 65536, 0, 1114112, 65536, 1, 1048576, 65536, 1, 983040, 65536, 1, 917504, 65536, 0, 1245211, 131072, 1, 1179675, 131072, 1, 1245210, 65536, 1, 1179674, 65536, 1, 1245209, 65536, 1, 1179673, 65536, 1, 1245208, 65536, 1, 1179672, 65536, 1, 1245207, 65536, 1, 1179671, 65536, 1, 1245206, 65536, 1, 1179670, 65536, 1, 1245205, 65536, 1, 1179669, 65536, 1, 1245204, 65536, 1, 1179668, 65536, 1, 1245203, 65536, 1, 1179667, 65536, 1, 1245202, 65536, 1, 1179666, 65536, 1, 1245201, 65536, 1, 1179665, 65536, 1, 1245200, 65536, 1, 1179664, 65536, 1, 1245199, 65536, 1, 1179663, 65536, 1, 1245198, 65536, 1, 1179662, 65536, 1, 1245197, 65536, 1, 1179661, 65536, 1, 1245196, 65536, 1, 1179660, 65536, 1, 1245195, 65536, 1, 1179659, 65536, 1, 1245194, 65536, 1, 1179658, 65536, 1, 1245193, 65536, 1, 1179657, 65536, 1, 1245192, 65536, 1, 1179656, 65536, 1, 1245191, 65536, 1, 1179655, 65536, 1, 1245190, 65536, 1, 1179654, 65536, 1, 1245189, 65536, 1, 1179653, 65536, 1, 1245188, 65536, 1, 1179652, 65536, 1, 1245187, 65536, 1, 1179651, 65536, 1, 1245186, 65536, 1, 1179650, 65536, 1, 1245185, 65536, 1, 1179649, 65536, 1, 1245184, 65536, 1, 1179648, 65536, 1, 1310719, 65536, 1, 1245183, 65536, 1, 1179647, 65536, 1, 1114111, 65536, 1, 1048575, 65536, 1, 983039, 65536, 0, 196607, 196608, 0, 131071, 65536, 1, 65535, 65536, 1, 1310718, 65536, 1, 1245182, 65536, 1, 1179646, 65536, 1, 1114110, 65536, 1, 1048574, 65536, 1, 983038, 65536, 0, 196606, 262144, 0, 131070, 65536, 1, 65534, 65536, 1, 1310717, 65536, 1, 1245181, 65536, 1, 1179645, 65536, 1, 1114109, 65536, 1, 1048573, 65536, 1, 983037, 65536, 0, 196605, 65536, 2, 131069, 65536, 1, 65533, 65536, 1, 1310716, 65536, 1, 1245180, 65536, 1, 1179644, 65536, 1, 1114108, 65536, 1, 1048572, 65536, 1, 983036, 65536, 0, 196604, 65536, 2, 131068, 65536, 1, 65532, 65536, 1, 1310715, 65536, 1, 1245179, 65536, 1, 1179643, 65536, 1, 1114107, 65536, 1, 1048571, 65536, 1, 983035, 65536, 0, 196603, 65536, 2, 131067, 65536, 1, 65531, 65536, 1, 1310714, 65536, 1, 1245178, 65536, 1, 1179642, 65536, 1, 1114106, 65536, 1, 1048570, 65536, 1, 983034, 65536, 0, 196602, 65536, 2, 131066, 65536, 1, 65530, 65536, 1, 1310713, 65536, 1, 1245177, 65536, 1, 1179641, 65536, 1, 1114105, 65536, 1, 1048569, 65536, 1, 983033, 196608, 1, 196601, 196608, 0, 131065, 65536, 1, 65529, 65536, 1, 1310712, 65536, 1, 1245176, 65536, 1, 1179640, 65536, 1, 1114104, 65536, 1, 1048568, 65536, 1, 983032, 65536, 1, 196600, 65536, 1, 131064, 65536, 1, 65528, 65536, 1, 1310711, 65536, 1, 1245175, 65536, 1, 1179639, 65536, 1, 1114103, 65536, 1, 1048567, 65536, 1, 983031, 65536, 1, 196599, 65536, 1, 131063, 65536, 1, 65527, 65536, 1, 1310710, 65536, 1, 1245174, 65536, 1, 1179638, 65536, 1, 1114102, 65536, 1, 1048566, 65536, 1, 983030, 65536, 1, 196598, 65536, 1, 131062, 65536, 1, 65526, 65536, 1, -327653, 131072, 1, -393189, 131072, 0, -327654, 65536, 1, -393190, 65536, 0, -327655, 65536, 1, -393191, 65536, 0, -327656, 65536, 1, -393192, 65536, 0, -327657, 65536, 1, -393193, 65536, 0, -327658, 65536, 1, -393194, 65536, 0, -327659, 65536, 1, -393195, 65536, 0, -327660, 65536, 1, -393196, 65536, 0, -327661, 65536, 1, -393197, 65536, 0, -327662, 65536, 1, -393198, 65536, 0, -327663, 65536, 1, -393199, 65536, 0, -262117, 131072, 1, -262118, 65536, 1, -1, 65536, 1, -65537, 65536, 1, -131073, 65536, 1, -196609, 65536, 1, -262145, 65536, 1, -327681, 65536, 0, -2, 65536, 1, -65538, 65536, 1, -131074, 65536, 1, -196610, 65536, 1, -262146, 65536, 1, -327682, 65536, 0, -3, 65536, 1, -65539, 65536, 1, -131075, 65536, 1, -196611, 65536, 1, -262147, 65536, 1, -327683, 65536, 0, -4, 65536, 1, -65540, 65536, 1, -131076, 65536, 1, -196612, 65536, 1, -262148, 65536, 1, -327684, 65536, 0, -5, 65536, 1, -65541, 65536, 1, -131077, 65536, 1, -196613, 65536, 1, -262149, 65536, 1, -327685, 65536, 0, -6, 65536, 1, -65542, 65536, 1, -131078, 65536, 1, -196614, 65536, 1, -262150, 65536, 1, -327686, 65536, 0, -7, 65536, 1, -65543, 65536, 1, -131079, 65536, 1, -196615, 65536, 1, -262151, 65536, 1, -327687, 65536, 0, -8, 65536, 1, -65544, 65536, 1, -131080, 65536, 1, -196616, 65536, 1, -262152, 65536, 1, -327688, 65536, 0, -9, 65536, 1, -65545, 65536, 1, -131081, 65536, 1, -196617, 65536, 1, -262153, 65536, 1, -327689, 65536, 0, -10, 65536, 1, -65546, 65536, 1, -131082, 65536, 1, -196618, 65536, 1, -262154, 65536, 1, -327690, 65536, 0, -327664, 65536, 1, -393200, 65536, 0, -262129, 65536, 1, -327665, 65536, 1, -393201, 65536, 0, -262130, 65536, 1, -327666, 65536, 1, -393202, 65536, 0, -262131, 65536, 1, -327667, 65536, 1, -393203, 65536, 0, -262132, 65536, 1, -327668, 65536, 1, -393204, 65536, 0, -262133, 65536, 1, -327669, 65536, 1, -393205, 65536, 0, -262134, 65536, 1, -327670, 65536, 1, -393206, 65536, 0, -262135, 65536, 1, -327671, 65536, 1, -393207, 65536, 0, -262136, 65536, 1, -327672, 65536, 1, -393208, 65536, 0, -262137, 65536, 1, -327673, 65536, 1, -393209, 65536, 0, -262138, 65536, 1, -327674, 65536, 1, -393210, 65536, 0, -262139, 65536, 1, -327675, 65536, 1, -393211, 65536, 0, -262140, 65536, 1, -327676, 65536, 1, -393212, 65536, 0, -262141, 65536, 1, -327677, 65536, 1, -393213, 65536, 0, -262142, 65536, 1, -327678, 65536, 1, -393214, 65536, 0, -262143, 65536, 1, -327679, 65536, 1, -393215, 65536, 0, -262144, 65536, 1, -327680, 65536, 1, -393216, 65536, 0, -196595, 65536, 1, -196596, 65536, 1, -196597, 65536, 1, -196598, 65536, 1, -131063, 65536, 1, -196599, 65536, 1, -65528, 65536, 1, -131064, 65536, 1, -196600, 65536, 1, 917525, 65536, 0, 917524, 65536, 0, 917523, 65536, 0, 917522, 65536, 0, 917521, 65536, 0, -262119, 65536, 1, -262120, 65536, 1, -262121, 65536, 1, -262122, 65536, 1, -262123, 65536, 1, -262124, 65536, 1, -262125, 65536, 1, -262126, 65536, 1, -262127, 65536, 1, -262128, 65536, 1, -65529, 65536, 1, -131065, 65536, 1, -196601, 65536, 1, -65530, 65536, 1, -131066, 65536, 1, -196602, 65536, 1, -65531, 65536, 1, -131067, 65536, 1, -196603, 65536, 1, -65532, 65536, 1, -131068, 65536, 1, -196604, 65536, 1, -65533, 65536, 1, -131069, 65536, 1, -196605, 65536, 1, -65534, 65536, 1, -131070, 65536, 1, -196606, 65536, 1, -65535, 65536, 1, -131071, 65536, 1, -196607, 65536, 1, -65536, 65536, 1, -131072, 65536, 1, -196608, 65536, 1, 65543, 65536, 1, 7, 65536, 1, 65542, 65536, 1, 6, 65536, 1, 65541, 65536, 1, 5, 65536, 1, 65540, 65536, 1, 4, 65536, 1, 65539, 65536, 1, 3, 65536, 1, 65538, 65536, 1, 2, 65536, 1, 65537, 65536, 1, 1, 65536, 1, 65536, 65536, 1, 0, 65536, 1, 8, 65536, 1, -65527, 65536, 1, -131062, 65536, 1, -196594, 65536, 1, -196593, 65536, 1, -196592, 65536, 1, -196591, 65536, 1, 65553, 65536, 1, 17, 65536, 1, -65519, 65536, 1, -131055, 65536, 1, 65552, 65536, 1, 16, 65536, 1, -65520, 65536, 1, -131056, 65536, 1, 65551, 65536, 1, 15, 65536, 1, -65521, 65536, 1, -131057, 65536, 1, 65550, 65536, 1, 14, 65536, 1, -65522, 65536, 1, -131058, 65536, 1, 65549, 65536, 1, 13, 65536, 1, -65523, 65536, 1, -131059, 65536, 1, 65548, 65536, 1, 12, 65536, 1, -65524, 65536, 1, -131060, 65536, 1, 65547, 65536, 1, 11, 65536, 1, -65525, 65536, 1, -131061, 65536, 1, 65546, 65536, 1, 10, 65536, 1, -65526, 65536, 1, 65545, 65536, 1, 9, 65536, 1, 65544, 65536, 1, 65563, 131072, 1, 27, 131072, 1, 65562, 65536, 1, 26, 65536, 1, 65561, 65536, 1, 25, 65536, 1, 65560, 65536, 1, 24, 65536, 1, 65559, 65536, 1, 23, 65536, 1, 65558, 65536, 1, 22, 65536, 1, 65557, 65536, 1, 21, 65536, 1, 65556, 65536, 1, 20, 65536, 1, 65555, 65536, 1, 19, 65536, 1, 65554, 65536, 1, 18, 65536, 1, -65509, 131072, 1, -131045, 131072, 1, -196581, 131072, 1, -65510, 65536, 1, -131046, 65536, 1, -196582, 65536, 1, -65511, 65536, 1, -131047, 65536, 1, -196583, 65536, 1, -65512, 65536, 1, -131048, 65536, 1, -196584, 65536, 1, -65513, 65536, 1, -131049, 65536, 1, -196585, 65536, 1, -65514, 65536, 1, -131050, 65536, 1, -196586, 65536, 1, -65515, 65536, 1, -131051, 65536, 1, -196587, 65536, 1, -65516, 65536, 1, -131052, 65536, 1, -196588, 65536, 1, -65517, 65536, 1, -131053, 65536, 1, -196589, 65536, 1, -65518, 65536, 1, -131054, 65536, 1, -196590, 65536, 1, 131099, 131072, 1, 131098, 65536, 1, 131097, 65536, 1, 131096, 65536, 1, 131095, 65536, 1, 131094, 262144, 0, 131093, 65536, 2, 131092, 65536, 2, 131091, 65536, 2, 131090, 65536, 2, 131089, 196608, 0, 131088, 262144, 0, 131087, 65536, 2, 131086, 65536, 2, 131085, 65536, 2, 131084, 65536, 2, 131083, 65536, 2, 131082, 65536, 2, 131081, 65536, 2, 131080, 65536, 2, 131079, 65536, 2, 131078, 65536, 2, 131077, 65536, 2, 131076, 65536, 2, 131075, 65536, 2, 131074, 65536, 2, 131073, 65536, 2, 131072, 65536, 2, 1114139, 131072, 1, 1048603, 131072, 1, 1114138, 65536, 1, 1048602, 65536, 1, 1114137, 65536, 1, 1048601, 65536, 1, 1114136, 65536, 1, 1048600, 65536, 1, 1114135, 65536, 1, 1048599, 65536, 1, 1114134, 65536, 1, 1048598, 65536, 1, 983067, 131072, 1, 917531, 131072, 1, 983066, 65536, 1, 917530, 65536, 1, 983065, 65536, 1, 917529, 65536, 1, 983064, 65536, 1, 917528, 65536, 1, 983063, 65536, 1, 917527, 65536, 1, 983062, 65536, 1, 917526, 262144, 1, 1245173, 65536, 1, 1179637, 65536, 1, 1114101, 65536, 1, 1048565, 65536, 1, 983029, 65536, 1, 196597, 65536, 1, 131061, 65536, 1, 65525, 65536, 1, -11, 65536, 1, -65547, 65536, 1, -131083, 65536, 1, -196619, 65536, 1, -262155, 65536, 1, -327691, 65536, 0, 1245172, 0, 1, 1179636, 0, 1, 1114100, 0, 1, 1048564, 0, 1, 983028, 0, 1, 196596, 0, 1, 131060, 0, 1, 65524, 0, 1, -12, 0, 1, -65548, 0, 1, -131084, 0, 1, -196620, 0, 1, -262156, 0, 1, -327692, 0, 0, 1310709, 65536, 1, 1310708, 0, 1, 1310747, 131072, 2, 1310746, 65536, 2, 1310745, 65536, 2, 1310744, 65536, 2, 1310743, 65536, 2, 1310742, 65536, 2, 1310741, 65536, 2, 1310740, 65536, 2, 1310739, 65536, 2, 1310738, 65536, 2, 1310737, 65536, 2, 1310736, 65536, 2, 1310735, 65536, 2, 1310734, 65536, 2, 1310733, 65536, 2, 1310732, 65536, 2, 1310731, 65536, 2, 1310730, 65536, 2, 1310729, 65536, 2, 1310728, 65536, 2, 1310727, 65536, 2, 1310726, 65536, 2, 1310725, 65536, 2, 1310724, 65536, 2, 1310723, 65536, 2, 1310722, 65536, 2, 1310721, 65536, 2, 1310720, 65536, 2, 1376255, 65536, 2, 1376254, 65536, 2, 1376253, 65536, 2, 1376252, 65536, 2, 1376251, 65536, 2, 1376250, 65536, 2, 1376249, 65536, 2, 1376248, 65536, 2, 1376247, 65536, 2, 1376246, 65536, 2, 1376245, 65536, 2, 1376244, 0, 2, 917497, 131072, 1, 851961, 131072, 1, 786425, 131072, 1, 720889, 131072, 1, 655353, 131072, 1, 589817, 131072, 1, 524281, 131072, 1, 458745, 131072, 1, 393209, 131072, 1, 327673, 131072, 1, 262137, 131072, 1, 917496, 65536, 1, 851960, 65536, 1, 786424, 65536, 1, 720888, 65536, 1, 655352, 65536, 1, 589816, 65536, 1, 524280, 65536, 1, 458744, 65536, 1, 393208, 65536, 1, 327672, 65536, 1, 262136, 65536, 1, 917495, 65536, 1, 851959, 65536, 1, 786423, 65536, 1, 720887, 65536, 1, 655351, 65536, 1, 589815, 65536, 1, 524279, 65536, 1, 458743, 65536, 1, 393207, 65536, 1, 327671, 65536, 1, 262135, 65536, 1, 917494, 65536, 1, 851958, 65536, 1, 786422, 65536, 1, 720886, 65536, 1, 655350, 65536, 1, 589814, 65536, 1, 524278, 65536, 1, 458742, 65536, 1, 393206, 65536, 1, 327670, 65536, 1, 262134, 65536, 1, 917493, 65536, 1, 851957, 65536, 1, 786421, 65536, 1, 720885, 65536, 1, 655349, 65536, 1, 589813, 65536, 1, 524277, 65536, 1, 458741, 65536, 1, 393205, 65536, 1, 327669, 65536, 1, 262133, 65536, 1, 917492, 0, 1, 851956, 0, 1, 786420, 0, 1, 720884, 0, 1, 655348, 0, 1, 589812, 0, 1, 524276, 0, 1, 458740, 0, 1, 393204, 0, 1, 327668, 0, 1, 262132, 0, 1, 393215, 131072, 1, 327679, 131072, 1, 393214, 0, 1, 327678, 0, 1, 262143, 131072, 1, 262142, 0, 1, 851982, 65536, 0, 851981, 0, 0, 851983, 131072, 0, 458764, 65536, 2, 393228, 65536, 0, 327697, 131072, 1, 262161, 131072, 1, 196625, 131072, 1, 327696, 0, 1, 262160, 0, 1, 196624, 0, 1, 458763, 0, 2, 393227, 0, 0, 458769, 131072, 2, 393233, 131072, 1, 458768, 65536, 2, 393232, 262144, 1, 458767, 65536, 2, 393231, 65536, 0, 458766, 65536, 2, 393230, 65536, 0, 458765, 65536, 2, 393229, 65536, 0, 851995, 131072, 1, 786459, 131072, 1, 720923, 131072, 1, 655387, 131072, 1, 589851, 131072, 1, 524315, 131072, 1, 458779, 131072, 1, 393243, 131072, 1, 327707, 131072, 1, 262171, 131072, 1, 196635, 131072, 1, 851994, 65536, 1, 786458, 65536, 1, 720922, 65536, 1, 655386, 65536, 1, 589850, 65536, 1, 524314, 65536, 1, 458778, 65536, 1, 393242, 65536, 1, 327706, 65536, 1, 262170, 65536, 1, 196634, 65536, 1, 851993, 65536, 1, 786457, 65536, 1, 720921, 65536, 1, 655385, 65536, 1, 589849, 65536, 1, 524313, 65536, 1, 458777, 65536, 1, 393241, 65536, 1, 327705, 65536, 1, 262169, 65536, 1, 196633, 65536, 1, 851992, 65536, 1, 786456, 65536, 1, 720920, 65536, 1, 655384, 65536, 1, 589848, 65536, 1, 524312, 65536, 1, 458776, 65536, 1, 393240, 65536, 1, 327704, 65536, 1, 262168, 65536, 1, 196632, 65536, 1, 851991, 65536, 1, 786455, 65536, 1, 720919, 65536, 1, 655383, 65536, 1, 589847, 65536, 1, 524311, 65536, 1, 458775, 65536, 1, 393239, 65536, 1, 327703, 65536, 1, 262167, 65536, 1, 196631, 65536, 1, 851990, 0, 1, 786454, 0, 1, 720918, 0, 1, 655382, 0, 1, 589846, 0, 1, 524310, 0, 1, 458774, 0, 1, 393238, 0, 1, 327702, 0, 1, 262166, 0, 1, 196630, 0, 1, 655359, 131072, 1, 589823, 131072, 1, 524287, 131072, 1, 458751, 131072, 1, 655358, 0, 1, 589822, 0, 1, 524286, 0, 1, 458750, 0, 1, 720895, 131072, 2, 720894, 0, 2)
+
+[node name="StartZone" parent="." node_paths=PackedStringArray("level") instance=ExtResource("3_jufa4")]
+position = Vector2(-64, 219)
+level = NodePath("..")
+
+[node name="ExitZone" parent="." node_paths=PackedStringArray("level") instance=ExtResource("4_xdvdu")]
+position = Vector2(232, 201)
+level = NodePath("..")
+
+[node name="Puzzle01" type="Node" parent="." node_paths=PackedStringArray("exit_toggles")]
+script = SubResource("GDScript_1vdjq")
+exit_toggles = [NodePath("ToggleE"), NodePath("ToggleX"), NodePath("ToggleI"), NodePath("ToggleT")]
+
+[node name="CircleParticle" type="GPUParticles2D" parent="Puzzle01"]
+position = Vector2(230, 144)
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_0a3et")
+texture = ExtResource("6_o1ieg")
+local_coords = true
+
+[node name="ExitLabel" type="Control" parent="Puzzle01"]
+layout_mode = 3
+anchors_preset = 0
+metadata/_edit_group_ = true
+
+[node name="E" type="Label" parent="Puzzle01/ExitLabel"]
+visible = false
+layout_mode = 0
+offset_left = 212.0
+offset_top = 135.0
+offset_right = 224.0
+offset_bottom = 156.0
+text = "E"
+label_settings = SubResource("LabelSettings_otaod")
+
+[node name="X" type="Label" parent="Puzzle01/ExitLabel"]
+visible = false
+layout_mode = 0
+offset_left = 224.0
+offset_top = 135.0
+offset_right = 236.0
+offset_bottom = 156.0
+text = "X"
+label_settings = SubResource("LabelSettings_otaod")
+
+[node name="I" type="Label" parent="Puzzle01/ExitLabel"]
+visible = false
+layout_mode = 0
+offset_left = 236.0
+offset_top = 135.0
+offset_right = 248.0
+offset_bottom = 156.0
+text = "I"
+label_settings = SubResource("LabelSettings_otaod")
+
+[node name="T" type="Label" parent="Puzzle01/ExitLabel"]
+visible = false
+layout_mode = 0
+offset_left = 242.0
+offset_top = 135.0
+offset_right = 254.0
+offset_bottom = 156.0
+text = "T"
+label_settings = SubResource("LabelSettings_otaod")
+
+[node name="ToggleE" type="Node" parent="Puzzle01"]
+script = SubResource("GDScript_7py4d")
+
+[node name="MovingCrate" type="Path2D" parent="Puzzle01/ToggleE"]
+position = Vector2(-211, 1)
+curve = SubResource("Curve2D_vpdu6")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Puzzle01/ToggleE/MovingCrate"]
+position = Vector2(243, 79)
+rotation = 1.5708
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Puzzle01/ToggleE/MovingCrate/PathFollow2D"]
+rotation = -1.5708
+remote_path = NodePath("../../MagneticCrate")
+
+[node name="MagneticCrate" parent="Puzzle01/ToggleE/MovingCrate" node_paths=PackedStringArray("scalable_component", "freezable_component") instance=ExtResource("14_o5nji")]
+position = Vector2(243, 79)
+scalable_component = NodePath("ScalableComponent")
+freezable_component = NodePath("FreezableComponent")
+
+[node name="ScalableComponent" type="Node" parent="Puzzle01/ToggleE/MovingCrate/MagneticCrate" node_paths=PackedStringArray("target")]
+script = ExtResource("9_6r0s4")
+target = NodePath("..")
+shrink_factor = 2.0
+instantly_scale_collision = true
+
+[node name="FreezableComponent" type="Node" parent="Puzzle01/ToggleE/MovingCrate/MagneticCrate" node_paths=PackedStringArray("target", "animator")]
+script = ExtResource("11_vqofx")
+target = NodePath("..")
+animator = NodePath("../../AnimationPlayer")
+freeze_time = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle01/ToggleE/MovingCrate"]
+autoplay = "move_crate"
+libraries = {
+"": SubResource("AnimationLibrary_v1x12")
+}
+
+[node name="Switch" parent="Puzzle01/ToggleE" node_paths=PackedStringArray("trigger_keys") instance=ExtResource("12_eh5ot")]
+position = Vector2(32, 64)
+rotation = -3.14159
+trigger_keys = [null, NodePath("../MovingCrate/MagneticCrate")]
+
+[node name="SpikeTrap" parent="Puzzle01/ToggleE" instance=ExtResource("13_20vk3")]
+position = Vector2(304, 219)
+spike_count = 6
+
+[node name="ToggleX" type="Node" parent="Puzzle01"]
+script = SubResource("GDScript_w3aip")
+
+[node name="Switch" parent="Puzzle01/ToggleX" instance=ExtResource("12_eh5ot")]
+position = Vector2(128, 216)
+one_shot = true
+
+[node name="ToggleI" type="Node" parent="Puzzle01"]
+script = SubResource("GDScript_tkrr1")
+
+[node name="Switch" parent="Puzzle01/ToggleI" node_paths=PackedStringArray("trigger_keys") instance=ExtResource("12_eh5ot")]
+position = Vector2(320, 55)
+rotation = 3.14159
+trigger_keys = [NodePath("../MagneticCrate")]
+
+[node name="MagneticCrate" parent="Puzzle01/ToggleI" node_paths=PackedStringArray("scalable_component", "freezable_component") instance=ExtResource("14_o5nji")]
+position = Vector2(320, 71)
+scale = Vector2(0.5, 0.5)
+scalable_component = NodePath("ScalableComponent")
+freezable_component = NodePath("FreezableComponent")
+
+[node name="ScalableComponent" type="Node" parent="Puzzle01/ToggleI/MagneticCrate" node_paths=PackedStringArray("target")]
+script = ExtResource("9_6r0s4")
+target = NodePath("..")
+enlarge_factor = 2.0
+instantly_scale_collision = true
+
+[node name="FreezableComponent" type="Node" parent="Puzzle01/ToggleI/MagneticCrate" node_paths=PackedStringArray("target")]
+script = ExtResource("11_vqofx")
+target = NodePath("..")
+freeze_time = 3.0
+
+[node name="ToggleT" type="Node" parent="Puzzle01"]
+script = SubResource("GDScript_mxpmq")
+
+[node name="MetalCrate" parent="Puzzle01/ToggleT" node_paths=PackedStringArray("scalable_component") instance=ExtResource("8_kt870")]
+position = Vector2(233, 72)
+scale = Vector2(0.5, 0.5)
+scalable_component = NodePath("ScalableComponent")
+
+[node name="ScalableComponent" type="Node" parent="Puzzle01/ToggleT/MetalCrate" node_paths=PackedStringArray("target")]
+script = ExtResource("9_6r0s4")
+target = NodePath("..")
+enlarge_factor = 2.0
+instantly_scale_collision = true
+
+[node name="Switch" parent="Puzzle01/ToggleT" node_paths=PackedStringArray("trigger_keys") instance=ExtResource("12_eh5ot")]
+position = Vector2(248, 72)
+rotation = -1.5708
+trigger_keys = [NodePath("../MetalCrate")]
+
+[connection signal="toggled" from="Puzzle01/ToggleE" to="Puzzle01" method="_on_toggle_e_toggled"]
+[connection signal="switched_off" from="Puzzle01/ToggleE/Switch" to="Puzzle01/ToggleE" method="_on_switch_switched_off"]
+[connection signal="switched_on" from="Puzzle01/ToggleE/Switch" to="Puzzle01/ToggleE" method="_on_switch_switched_on"]
+[connection signal="toggled" from="Puzzle01/ToggleX" to="Puzzle01" method="_on_toggle_x_toggled"]
+[connection signal="switched_off" from="Puzzle01/ToggleX/Switch" to="Puzzle01/ToggleX" method="_on_switch_switched_off"]
+[connection signal="switched_on" from="Puzzle01/ToggleX/Switch" to="Puzzle01/ToggleX" method="_on_switch_switched_on"]
+[connection signal="toggled" from="Puzzle01/ToggleI" to="Puzzle01" method="_on_toggle_i_toggled"]
+[connection signal="switched_off" from="Puzzle01/ToggleI/Switch" to="Puzzle01/ToggleI" method="_on_switch_switched_off"]
+[connection signal="switched_on" from="Puzzle01/ToggleI/Switch" to="Puzzle01/ToggleI" method="_on_switch_switched_on"]
+[connection signal="toggled" from="Puzzle01/ToggleT" to="Puzzle01" method="_on_toggle_t_toggled"]
+[connection signal="switched_off" from="Puzzle01/ToggleT/Switch" to="Puzzle01/ToggleT" method="_on_switch_switched_off"]
+[connection signal="switched_on" from="Puzzle01/ToggleT/Switch" to="Puzzle01/ToggleT" method="_on_switch_switched_on"]

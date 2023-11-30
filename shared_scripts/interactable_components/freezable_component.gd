@@ -4,7 +4,7 @@ extends Node
 ##
 ## Use this component with composition.
 ##
-## NOTE: Currently only stopping the [member animator] built-in processing.
+## NOTE: Currently only stopping the target's animators built-in processing.
 ## We still want the node containing this component to interact with the game world,
 ## especially if [InteractableObject] contains other components.
 ## Use [member is_frozen], [signal froze] and [signal thawed] to determine outside behavior when component is frozen.
@@ -18,10 +18,8 @@ signal thawed
 ## Target node to be frozen.
 ## Built-in processing will be stopped once frozen.
 @export var target: Node2D
-## A reference to the target's animator. 
-## Will first attempt to find the [member target.animator] before using this one.
-## Currently supports [AnimatedSprite2D] and [AnimationPlayer].
-@export var animator: Node
+## A reference to the target's external animator.
+@export var animator: AnimationPlayer
 ## Time it takes to before thawing out in seconds.
 ## During this time, [method _process] and [method _physics_process] callbacks will be stopped.
 @export_range(0.0, 99.0, 0.1) var freeze_time: float = 1.0
@@ -47,7 +45,7 @@ func _ready() -> void:
 
 ## Freezes the animator's built-in processing.
 ##
-## NOTE: Currently only stopping the [member animator] built-in processing.
+## NOTE: Currently only stopping the target's animators built-in processing.
 ## We still want the node containing this component to interact with the game world,
 ## especially if [InteractableObject] contains other components.
 ## Use [member is_frozen], [signal froze] and [signal thawed] to determine outside behavior when component is frozen.
@@ -62,7 +60,9 @@ func freeze() -> void:
 	_frozen_timer.show()
 	_frozen_fx.emitting = true
 
-	Utils.ProcessUtils.toggle_processing(_get_animator(), false)
+	var target_animators := _get_animators()
+	for node in target_animators:
+		Utils.ProcessUtils.toggle_processing(node, false)
 
 
 ## Thaws the frozen object.
@@ -76,7 +76,9 @@ func thaw() -> void:
 	_frozen_timer.hide()
 	_frozen_fx.emitting = false
 
-	Utils.ProcessUtils.toggle_processing(_get_animator(), true)	
+	var target_animators := _get_animators()
+	for node in target_animators:
+		Utils.ProcessUtils.toggle_processing(node, true)
 
 
 ## Initializes dynamic signal connections.
@@ -85,27 +87,29 @@ func _init_connections() -> void:
 		target.scalable_component.scaled.connect(_on_scaled)
 
 
-## Attempts to get the target's animator.
-## Returns null if no animator is found.
-func _get_animator() -> Node:
+## Attempts to get the target's animators.
+func _get_animators() -> Array[Node]:
+	var animators: Array[Node] = []
+	
 	# Try to get the target's animator variable.
 	if target and target.animator:
-		return target.animator
+		animators.append(target.animator)
 	# Try to find the animator in the target's child nodes.
 	elif target and not target.animator:
 		for child in target.get_children():
 			var animated_sprite := child as AnimatedSprite2D
 			if animated_sprite:
-				return animated_sprite
-
+				animators.append(animated_sprite)
+	
 			var animation_player := child as AnimationPlayer
 			if animation_player:
-				return animation_player
-	# Try to get custom external animator specified in the export variable.
-	elif animator:
-		return animator
+				animators.append(animation_player)
 	
-	return null
+	# Try to get custom external animator specified in the export variable.
+	if animator:
+		animators.append(animator)
+	
+	return animators
 
 
 ## Adds a frozen fx particle to the target.

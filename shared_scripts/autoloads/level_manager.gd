@@ -43,6 +43,20 @@ func _on_level_started(level_id: int) -> void:
 
 ## Contains a list of all level ids and its associated resource.
 const LEVEL_RESOURCES = {
-	1: "res://scenes/world/levels/level_01.tscn",
-	2: "res://scenes/world/levels/level_02.tscn",
+	1: "res://scenes/world/levels/stage_01/level_01.tscn",
+	2: "res://scenes/world/levels/stage_01/level_02.tscn",
+	3: "res://scenes/world/levels/stage_01/level_03.tscn",
+	4: "res://scenes/world/levels/stage_01/level_04.tscn",
+	5: "res://scenes/world/levels/stage_01/level_05.tscn",
+	6: "res://scenes/world/levels/stage_01/level_06.tscn",
+	7: "res://scenes/world/levels/stage_01/level_07.tscn",
+	8: "res://scenes/world/levels/stage_01/level_08.tscn",
+	9: "res://scenes/world/levels/stage_01/level_09.tscn",
+	10: "res://scenes/world/levels/stage_01/level_10.tscn",
+}
+
+## For testing purposes
+const LEVEL_RESOURCES_TEST = {
+	1: "res://scenes/world/levels/test_levels/level_01.tscn",
+	2: "res://scenes/world/levels/test_levels/level_02.tscn",
 }
