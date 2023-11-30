@@ -13,6 +13,10 @@ func _ready() -> void:
 
 
 func _on_new_game_button_pressed() -> void:
+	# Reset weapon unlock flags
+	GameManager.player_unlockables.freeze_ray = false
+	GameManager.player_unlockables.bomb_launcher = false
+	
 	# Start from Level 1
 	AudioManager.play_sound(menu_clicked_audio_resource)
 	SignalBus.level_selected.emit(1, self)
