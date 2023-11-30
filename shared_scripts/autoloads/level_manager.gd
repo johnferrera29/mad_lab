@@ -48,6 +48,11 @@ const LEVEL_RESOURCES = {
 	3: "res://scenes/world/levels/stage_01/level_03.tscn",
 	4: "res://scenes/world/levels/stage_01/level_04.tscn",
 	5: "res://scenes/world/levels/stage_01/level_05.tscn",
+	6: "res://scenes/world/levels/stage_01/level_06.tscn",
+	7: "res://scenes/world/levels/stage_01/level_07.tscn",
+	8: "res://scenes/world/levels/stage_01/level_08.tscn",
+	9: "res://scenes/world/levels/stage_01/level_09.tscn",
+	10: "res://scenes/world/levels/stage_01/level_10.tscn",
 }
 
 ## For testing purposes
