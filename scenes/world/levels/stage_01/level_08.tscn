@@ -100,7 +100,7 @@ weapon_type = 2
 sprite_texture = ExtResource("6_ehrco")
 
 [node name="FreezeRayObtained" parent="FreezeRayUnlock" instance=ExtResource("7_mvcxk")]
-lines = Array[String](["Obtained Freeze Ray!", "Freeze Ray allows you to freeze different objects such as moving crates."])
+lines = Array[String](["Obtained Freeze Ray!", "Freeze Ray allows you to stop different objects such as moving crates."])
 one_shot = true
 auto_advance_time = 2.0
 

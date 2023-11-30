@@ -32,5 +32,5 @@ label_settings = SubResource("LabelSettings_r14dt")
 
 [node name="ThankYou2" parent="." instance=ExtResource("5_c218t")]
 position = Vector2(128, 192)
-lines = Array[String](["Thanks for making it to the end.", "Hope you had fun!", "Press [ESC] to go back to main menu."])
+lines = Array[String](["You made it!", "Hope you had fun!", "Press [ESC] to go back to main menu."])
 auto_advance_time = 2.0

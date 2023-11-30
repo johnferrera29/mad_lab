@@ -160,6 +160,5 @@ terrain_set_0/terrain_0/color = Color(0.501961, 0.345098, 0.25098, 1)
 sources/0 = SubResource("TileSetAtlasSource_mspri")
 
 [node name="LaboratoryTilemap" type="TileMap"]
-z_index = 1
 tile_set = SubResource("TileSet_8kj6x")
 format = 2

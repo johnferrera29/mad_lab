@@ -192,13 +192,13 @@ instantly_scale_collision = true
 
 [node name="MetalCrate2" parent="Puzzle02" node_paths=PackedStringArray("scalable_component") instance=ExtResource("8_rw70x")]
 position = Vector2(568, 257)
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 scalable_component = NodePath("ScalableComponent")
 
 [node name="ScalableComponent" type="Node" parent="Puzzle02/MetalCrate2" node_paths=PackedStringArray("target")]
 script = ExtResource("6_i34mq")
 target = NodePath("..")
-enlarge_factor = 4.0
+enlarge_factor = 2.0
 instantly_scale_collision = true
 
 [node name="MetalCrate3" parent="Puzzle02" node_paths=PackedStringArray("scalable_component") instance=ExtResource("8_rw70x")]
