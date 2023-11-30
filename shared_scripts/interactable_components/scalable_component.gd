@@ -26,6 +26,9 @@ var current_scale_mode: Enums.ScaleMode = Enums.ScaleMode.RESET
 var scaling_audio_resource = preload("res://shared_resources/audio/scaling.ogg")
 var scaling_audio: AudioStreamPlayer2D
 
+## Flag to temporarily prevent the target object from being scaled by a [ResizerDiscProjectile].
+var is_unscalable: bool
+
 
 func _ready() -> void:
 	_add_scaling_audio()
@@ -33,7 +36,8 @@ func _ready() -> void:
 
 ## Resizes the target based on the mode provided.
 func scale(mode: Enums.ScaleMode) -> void:
-	if mode == current_scale_mode: return
+	if mode == current_scale_mode or is_unscalable:
+		return
 
 	match mode:
 		Enums.ScaleMode.SHRINK:
@@ -48,7 +52,7 @@ func scale(mode: Enums.ScaleMode) -> void:
 
 ## Shrinks target by [param factor]. Negative values will be ignored.
 func shrink(factor: float) -> void:
-	if (factor <= 0.0): return
+	if (factor <= 0.0) or is_unscalable: return
 	
 	scaling_audio.pitch_scale = 4.0
 	scaling_audio.play()
@@ -58,7 +62,7 @@ func shrink(factor: float) -> void:
 
 ## Enlarges target by [param factor]. Negative values will be ignored.
 func enlarge(factor: float) -> void:
-	if (factor <= 0.0): return
+	if (factor <= 0.0)  or is_unscalable: return
 
 	scaling_audio.pitch_scale = 2.0
 	scaling_audio.play()
@@ -68,6 +72,8 @@ func enlarge(factor: float) -> void:
 
 ## Resets the scale to original value.
 func reset_scale() -> void:
+	if  is_unscalable: return
+	
 	scaling_audio.pitch_scale = 3.0
 	scaling_audio.play()
 
