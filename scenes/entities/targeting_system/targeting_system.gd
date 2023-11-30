@@ -82,6 +82,13 @@ func toggle_shader_effect(sprite: CanvasItem, flag: bool) -> void:
 	sprite.material = shader_material if flag else null
 
 
+## Removes the currently highlighted valid target,.
+func reset_targeting_highlight() -> void:
+	if is_instance_valid(last_detected_target):
+		toggle_shader_effect(last_detected_target.sprite, false)
+		last_detected_target = null
+
+
 func _init_line() -> void:
 	_line.width = line_width
 

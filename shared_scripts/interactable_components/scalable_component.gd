@@ -31,6 +31,7 @@ var is_unscalable: bool
 
 
 func _ready() -> void:
+	_set_initial_scale_mode()
 	_add_scaling_audio()
 
 
@@ -71,6 +72,7 @@ func enlarge(factor: float) -> void:
 
 
 ## Resets the scale to original value.
+## TODO: Possible removal since not being used.
 func reset_scale() -> void:
 	if  is_unscalable: return
 	
@@ -98,6 +100,9 @@ func _apply_scale(new_scale: Vector2) -> void:
 			if sprite:
 				target_sprite = sprite
 	
+	# Reset the sprite material to also reset target highlighting.
+	target.sprite.material = null
+
 	# Animate scaling
 	var tween = get_tree().create_tween()
 	tween.set_parallel(true)
@@ -117,3 +122,13 @@ func _add_scaling_audio() -> void:
 	scaling_audio.max_distance = 500.0
 
 	target.add_child.call_deferred(scaling_audio)
+
+
+# Determines the initial scale_mode based on shrink / enlarge factor
+func _set_initial_scale_mode() -> void:
+	if shrink_factor == 1.0:
+		current_scale_mode = Enums.ScaleMode.SHRINK
+	elif enlarge_factor == 1.0:
+		current_scale_mode = Enums.ScaleMode.ENLARGE
+	else:
+		current_scale_mode = Enums.ScaleMode.RESET
