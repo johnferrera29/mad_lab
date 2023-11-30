@@ -19,9 +19,11 @@ script/source = "extends Node
 
 @export var exit_toggles: Array[Node]
 
+@onready var exit_particle := $CircleParticle
 @onready var exit_zone := $\"../ExitZone\"
-@onready var animator := $ToggleE/MovingCrate/AnimationPlayer as AnimationPlayer
-@onready var particle := $CircleParticle
+@onready var moving_crate_animator := $ToggleE/MovingCrate/AnimationPlayer as AnimationPlayer
+@onready var toggle_x_switch := $ToggleX/Switch as Switch
+
 
 func _ready() -> void:
 	exit_zone.hide()
@@ -32,10 +34,12 @@ func _show_exit_zone() -> void:
 	if exit_zone.visible: return
 	
 	if exit_toggles.all(func(node): return node.is_on):
-		animator.stop()
-		animator.queue_free()
+		moving_crate_animator.stop()
+		moving_crate_animator.queue_free()
 		
-		particle.emitting = true
+		toggle_x_switch.one_shot = true
+		
+		exit_particle.emitting = true
 		
 		exit_zone.show()
 		Utils.ProcessUtils.toggle_processing(exit_zone, true)
@@ -364,7 +368,6 @@ script = SubResource("GDScript_w3aip")
 
 [node name="Switch" parent="Puzzle01/ToggleX" instance=ExtResource("12_eh5ot")]
 position = Vector2(128, 216)
-one_shot = true
 
 [node name="ToggleI" type="Node" parent="Puzzle01"]
 script = SubResource("GDScript_tkrr1")
