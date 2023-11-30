@@ -9,7 +9,7 @@ signal switched_off
 
 @onready var _trigger := $TriggerArea as TriggerArea
 @onready var _animated_sprite := $StaticBody2D/AnimatedSprite2D as AnimatedSprite2D
-@onready var _audio_queue := $AudioQueue as AudioQueue
+@onready var _audio_queue := $AudioQueue2D as AudioQueue2D
 
 func _ready() -> void:
 	_trigger.trigger_keys = trigger_keys
