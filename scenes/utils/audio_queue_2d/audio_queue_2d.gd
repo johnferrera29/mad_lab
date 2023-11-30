@@ -1,5 +1,5 @@
 class_name AudioQueue2D
-extends Node
+extends Node2D
 ## A variation of [AudioQueue] but for [AudioStreamPlayer2D]
 ##
 ## TODO: Find a way to dynamically set the type.
