@@ -62,9 +62,9 @@ shape = SubResource("RectangleShape2D_pey37")
 debug_color = Color(1, 1, 0, 0.419608)
 
 [node name="AudioQueue2D" parent="." instance=ExtResource("4_wmnhd")]
-instance_count = 2
+instance_count = 3
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="AudioQueue2D"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AudioQueue2D"]
 stream = ExtResource("5_3x2rr")
 max_distance = 500.0
 

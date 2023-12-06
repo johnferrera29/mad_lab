@@ -31,8 +31,10 @@ func _ready() -> void:
 
 
 func play_sound() -> void:
-	if not _audio_stream_players[_next].playing:
-		_audio_stream_players[_next].play()
+	var next_audio_player := _audio_stream_players[_next]
+	if is_inside_tree() and not next_audio_player.playing:
+		
+		next_audio_player.play()
 		_next += 1
 		_next %= _audio_stream_players.size()
 
