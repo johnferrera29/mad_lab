@@ -231,10 +231,10 @@ interactable_object = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MovingCrate/MetalCrate"]
 root_node = NodePath("../..")
-autoplay = "move_horizontally"
 libraries = {
 "": SubResource("AnimationLibrary_ylh5v")
 }
+autoplay = "move_horizontally"
 
 [node name="MagneticCrate" parent="." node_paths=PackedStringArray("scalable_component", "freezable_component", "breakable_component") instance=ExtResource("13_fu772")]
 position = Vector2(-111, 160)
