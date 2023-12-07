@@ -119,11 +119,11 @@ weapon_type = 1
 sprite_texture = ExtResource("6_dcyys")
 
 [node name="BombLauncherIntructions" parent="BombLauncherUnlock" instance=ExtResource("10_bd5gt")]
-lines = Array[String](["Click [Q or E] to scroll through available  weapons while in tool mode."])
+lines = Array[String](["Click [Q or E] or use your [SCROLL WHEEL] to change weapons while in tool mode."])
 auto_advance_time = 2.0
 
 [node name="BombLauncherObtained" parent="BombLauncherUnlock" instance=ExtResource("10_bd5gt")]
-lines = Array[String](["Obtained Bomb Launcher!", "Bomb Launcher allows you to destroy crates.", "Click [Q or E] to scroll through available  weapons while in tool mode."])
+lines = Array[String](["Obtained Bomb Launcher!", "Bomb Launcher allows you to destroy crates.", "Click [Q or E] or use your [SCROLL WHEEL] to change weapons while in tool mode."])
 one_shot = true
 auto_advance_time = 2.0
 

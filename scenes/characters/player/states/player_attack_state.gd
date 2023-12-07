@@ -43,9 +43,6 @@ func state_handle_input(event: InputEvent) -> void:
 	if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		actor_ran.emit()
 	
-	if Input.is_action_just_pressed("withdraw"):
-		actor_idle.emit()
-	
 	if Input.is_action_just_pressed("change_weapon_next"):
 		_remove_target_highlights()
 		var next_weapon := actor.weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.NEXT)

@@ -23,7 +23,7 @@ func state_handle_input(event: InputEvent) -> void:
 	if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		actor_ran.emit()
 
-	if Input.is_action_just_pressed("interact"):
+	if Input.is_action_just_pressed("interact") or Input.is_action_just_pressed("interact_alt"):
 		actor_attacked.emit()
 
 

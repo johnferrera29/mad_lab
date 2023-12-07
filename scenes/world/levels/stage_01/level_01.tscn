@@ -47,12 +47,12 @@ lines = Array[String](["Press [SPACE BAR] to jump."])
 
 [node name="WeaponInfo" parent="." instance=ExtResource("6_5243s")]
 position = Vector2(512, 209)
-lines = Array[String](["Click [MOUSE LEFT] to enter tool mode.", "Aim with your mouse then click again to launch resizer disc.", "Click [MOUSE RIGHT] to exit."])
+lines = Array[String](["Click [MOUSE LEFT] to enter tool mode.", "Aim with your mouse then click again to launch resizer disc.", "Move to exit tool mode."])
 auto_advance_time = 2.0
 
 [node name="WeaponInfo2" parent="." instance=ExtResource("6_5243s")]
 position = Vector2(1014, 209)
-lines = Array[String](["Press [SHIFT] when in tool mode to toggle between scaling presets."])
+lines = Array[String](["Press [SHIFT] when in tool mode to toggle between scaling presets.", "Alternatively, click [MOUSE LEFT] to instantly fire a Shrink Disc or [MOUSE RIGHT] to fire an Enlarge Disc."])
 auto_advance_time = 2.0
 
 [node name="RespawnZone" parent="." instance=ExtResource("9_nifti")]
