@@ -1,9 +1,9 @@
 [gd_scene load_steps=20 format=3 uid="uid://jlhmam4nb3xx"]
 
 [ext_resource type="Script" path="res://scenes/world/levels/stage_01/level_08.gd" id="1_8scvi"]
-[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory/laboratory_tilemap.tscn" id="2_ddjfj"]
-[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/triggers/zones/start_zone/start_zone.tscn" id="3_jr4qi"]
-[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/environment/triggers/zones/exit_zone/exit_zone.tscn" id="4_sta0v"]
+[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory_tilemap/laboratory_tilemap.tscn" id="2_ddjfj"]
+[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/zones/start_zone/start_zone.tscn" id="3_jr4qi"]
+[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/environment/zones/exit_zone/exit_zone.tscn" id="4_sta0v"]
 [ext_resource type="PackedScene" uid="uid://cbwhg5pr232l4" path="res://scenes/entities/weapons/weapon_unlocker/weapon_unlocker.tscn" id="5_tyo32"]
 [ext_resource type="Texture2D" uid="uid://p2agu02bqgm7" path="res://scenes/entities/weapons/freeze_ray/resources/textures/weapon_freeze_ray.png" id="6_ehrco"]
 [ext_resource type="PackedScene" uid="uid://dokhi7rmkj8wy" path="res://scenes/environment/triggers/dialog_trigger/dialog_trigger.tscn" id="7_mvcxk"]
@@ -11,8 +11,8 @@
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/breakable_component.gd" id="10_txogf"]
 [ext_resource type="PackedScene" uid="uid://sai6af3qayly" path="res://scenes/environment/metal_crate/metal_crate.tscn" id="11_bjhpy"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/freezable_component.gd" id="11_ynw6s"]
-[ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/triggers/traps/spike_trap/spike_trap.tscn" id="12_af4ku"]
-[ext_resource type="PackedScene" uid="uid://ddqbsbl3sn081" path="res://scenes/environment/triggers/switch/switch.tscn" id="13_yth81"]
+[ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/traps/spike_trap/spike_trap.tscn" id="12_af4ku"]
+[ext_resource type="PackedScene" uid="uid://ddqbsbl3sn081" path="res://scenes/environment/switch/switch.tscn" id="13_yth81"]
 [ext_resource type="PackedScene" uid="uid://bl0vd7ig72f4v" path="res://scenes/environment/magnetic_crate/magnetic_crate.tscn" id="14_son7s"]
 
 [sub_resource type="Curve2D" id="Curve2D_vpdu6"]

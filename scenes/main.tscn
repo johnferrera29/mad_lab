@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://y3jtk6s4tiwt" path="res://scenes/world/world.tscn" id="1_sb3ff"]
 [ext_resource type="PackedScene" uid="uid://ywvr54eggoyi" path="res://scenes/gui/gui.tscn" id="2_wh5uy"]
 [ext_resource type="AudioStream" uid="uid://d0gtf6yjmoks" path="res://shared_resources/audio/techno_music_02.mp3" id="3_0xfa5"]
-[ext_resource type="PackedScene" uid="uid://db0mpnbnvvkxc" path="res://scenes/gui/background/scrolling_background.tscn" id="4_3qxy5"]
-[ext_resource type="Texture2D" uid="uid://bie1e3p7dexag" path="res://scenes/gui/background/resources/textures/background-zig-zag.png" id="5_h1c55"]
+[ext_resource type="PackedScene" uid="uid://db0mpnbnvvkxc" path="res://scenes/gui/scrolling_background/scrolling_background.tscn" id="4_3qxy5"]
+[ext_resource type="Texture2D" uid="uid://bie1e3p7dexag" path="res://scenes/gui/scrolling_background/resources/textures/background-zig-zag.png" id="5_h1c55"]
 
 [node name="Main" type="Node2D"]
 

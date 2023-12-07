@@ -1,16 +1,16 @@
 [gd_scene load_steps=17 format=3 uid="uid://civkaknljpwww"]
 
 [ext_resource type="Script" path="res://scenes/world/levels/stage_01/level_07.gd" id="1_t6ba2"]
-[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory/laboratory_tilemap.tscn" id="2_rg0kq"]
-[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/triggers/zones/start_zone/start_zone.tscn" id="3_ub0mx"]
-[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/environment/triggers/zones/exit_zone/exit_zone.tscn" id="4_qujr3"]
+[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory_tilemap/laboratory_tilemap.tscn" id="2_rg0kq"]
+[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/zones/start_zone/start_zone.tscn" id="3_ub0mx"]
+[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/environment/zones/exit_zone/exit_zone.tscn" id="4_qujr3"]
 [ext_resource type="PackedScene" uid="uid://cylkxg60m55a7" path="res://scenes/environment/wooden_box/wooden_box.tscn" id="5_y4gr8"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/scalable_component.gd" id="6_i34mq"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/breakable_component.gd" id="7_g2ood"]
 [ext_resource type="PackedScene" uid="uid://sai6af3qayly" path="res://scenes/environment/metal_crate/metal_crate.tscn" id="8_rw70x"]
-[ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/triggers/traps/spike_trap/spike_trap.tscn" id="9_7325g"]
-[ext_resource type="PackedScene" uid="uid://ddqbsbl3sn081" path="res://scenes/environment/triggers/switch/switch.tscn" id="11_p48jd"]
-[ext_resource type="PackedScene" uid="uid://wqoln4sangsd" path="res://scenes/environment/triggers/zones/respawn_zone/respawn_zone.tscn" id="11_s3des"]
+[ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/traps/spike_trap/spike_trap.tscn" id="9_7325g"]
+[ext_resource type="PackedScene" uid="uid://ddqbsbl3sn081" path="res://scenes/environment/switch/switch.tscn" id="11_p48jd"]
+[ext_resource type="PackedScene" uid="uid://wqoln4sangsd" path="res://scenes/environment/zones/respawn_zone/respawn_zone.tscn" id="11_s3des"]
 
 [sub_resource type="Curve2D" id="Curve2D_6eo7j"]
 _data = {

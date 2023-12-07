@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://cd3v1umsqb0g1"]
 
 [ext_resource type="Script" path="res://scenes/world/levels/stage_01/level_10.gd" id="1_gr07w"]
-[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory/laboratory_tilemap.tscn" id="2_oacao"]
-[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/triggers/zones/start_zone/start_zone.tscn" id="3_1qn3v"]
+[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory_tilemap/laboratory_tilemap.tscn" id="2_oacao"]
+[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/zones/start_zone/start_zone.tscn" id="3_1qn3v"]
 [ext_resource type="PackedScene" uid="uid://dokhi7rmkj8wy" path="res://scenes/environment/triggers/dialog_trigger/dialog_trigger.tscn" id="5_c218t"]
 [ext_resource type="FontFile" uid="uid://7ifmntxrukr8" path="res://shared_resources/fonts/kenvector_future_thin.ttf" id="6_8fau1"]
 

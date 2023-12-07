@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://d64772xurfok"]
 
 [ext_resource type="Script" path="res://scenes/world/levels/stage_01/level_02.gd" id="1_pfgdt"]
-[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory/laboratory_tilemap.tscn" id="2_mrndr"]
-[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/triggers/zones/start_zone/start_zone.tscn" id="3_1vmlt"]
-[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/environment/triggers/zones/exit_zone/exit_zone.tscn" id="4_e3r3u"]
+[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory_tilemap/laboratory_tilemap.tscn" id="2_mrndr"]
+[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/zones/start_zone/start_zone.tscn" id="3_1vmlt"]
+[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/environment/zones/exit_zone/exit_zone.tscn" id="4_e3r3u"]
 [ext_resource type="PackedScene" uid="uid://cylkxg60m55a7" path="res://scenes/environment/wooden_box/wooden_box.tscn" id="5_qesp3"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/scalable_component.gd" id="6_vs4fh"]
-[ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/triggers/traps/spike_trap/spike_trap.tscn" id="7_jd4of"]
-[ext_resource type="PackedScene" uid="uid://wqoln4sangsd" path="res://scenes/environment/triggers/zones/respawn_zone/respawn_zone.tscn" id="8_dwrf2"]
+[ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/traps/spike_trap/spike_trap.tscn" id="7_jd4of"]
+[ext_resource type="PackedScene" uid="uid://wqoln4sangsd" path="res://scenes/environment/zones/respawn_zone/respawn_zone.tscn" id="8_dwrf2"]
 
 [node name="Level02" type="Node2D"]
 script = ExtResource("1_pfgdt")
