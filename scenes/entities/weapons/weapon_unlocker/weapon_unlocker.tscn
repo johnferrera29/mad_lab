@@ -21,14 +21,12 @@ point_count = 2
 curve = SubResource("Curve_wqy2l")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kkxaw"]
-emission_shape = 3
-emission_box_extents = Vector3(16, 16, 0)
 particle_flag_align_y = true
 particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(16, 16, 0)
 direction = Vector3(0, 0, 0)
 gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
 radial_accel_min = 50.0
 radial_accel_max = 100.0
 scale_min = 0.1
@@ -94,9 +92,9 @@ shape = SubResource("CircleShape2D_sspp6")
 rotation = -0.174533
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "bobble"
 libraries = {
 "": SubResource("AnimationLibrary_ly2jt")
 }
+autoplay = "bobble"
 
 [connection signal="triggered" from="TriggerArea" to="." method="_on_trigger_area_triggered"]

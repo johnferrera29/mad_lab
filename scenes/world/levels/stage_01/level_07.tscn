@@ -164,10 +164,10 @@ shrink_factor = 2.0
 instantly_scale_collision = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle01/MovingCrate"]
-autoplay = "move_crate"
 libraries = {
 "": SubResource("AnimationLibrary_v1x12")
 }
+autoplay = "move_crate"
 
 [node name="SpikeTrap" parent="Puzzle01" instance=ExtResource("9_7325g")]
 position = Vector2(192, 297)

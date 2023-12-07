@@ -143,10 +143,10 @@ animator = NodePath("../../AnimationPlayer")
 freeze_time = 2.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle01/MovingCrate"]
-autoplay = "move_crate"
 libraries = {
 "": SubResource("AnimationLibrary_v1x12")
 }
+autoplay = "move_crate"
 
 [node name="ToggleSpikeTraps" type="Node" parent="Puzzle01"]
 script = SubResource("GDScript_w3aip")

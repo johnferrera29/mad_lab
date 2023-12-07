@@ -183,10 +183,10 @@ target = NodePath("..")
 enlarge_factor = 4.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle02/MovingCrate"]
-autoplay = "move_crate"
 libraries = {
 "": SubResource("AnimationLibrary_v1x12")
 }
+autoplay = "move_crate"
 
 [connection signal="switched_off" from="Puzzle01/TriggerTrapsBox/Switch" to="Puzzle01/TriggerTrapsBox" method="_on_switch_switched_off"]
 [connection signal="switched_on" from="Puzzle01/TriggerTrapsBox/Switch" to="Puzzle01/TriggerTrapsBox" method="_on_switch_switched_on"]
