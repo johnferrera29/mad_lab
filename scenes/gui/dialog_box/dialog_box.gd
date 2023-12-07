@@ -38,16 +38,19 @@ func display_text(text_to_display: String) -> void:
 	text = text_to_display
 	label.text = text_to_display
 	
-	await resized
+	await label.resized
 	
 	custom_minimum_size.x = min(size.x, MAX_WIDTH)
 	
 	if size.x > MAX_WIDTH:
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD
 		
-		await resized
+		await label.resized
 		
 		custom_minimum_size.y = size.y
+	
+	# FIXME: Randomly throwing error that causes some lag and on rare occasions a crash.
+	# Happens after script has returned from awaiting the control's resized signal.
 	
 	# Center position
 	global_position.x -= size.x / 2 + (horizontal_offset if horizontal_offset != 0 else _default_horizontal_offset)
