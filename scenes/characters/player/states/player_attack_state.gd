@@ -22,6 +22,8 @@ func state_enter(msg: Dictionary = {}) -> void:
 
 	SignalBus.weapon_drawn.emit(actor.weapon_manager.weapon_list.size())
 
+	_tween_camera_zoom(Vector2(0.95, 0.95))
+
 
 func state_exit() -> void:
 	actor.weapon_manager.toggle_weapon_manager(false)
@@ -30,6 +32,8 @@ func state_exit() -> void:
 	aiming_audio.stop()
 	
 	SignalBus.weapon_withdrawn.emit()
+
+	_tween_camera_zoom(Vector2.ONE)
 
 
 func state_handle_input(event: InputEvent) -> void:
@@ -65,3 +69,8 @@ func _remove_target_highlights() -> void:
 	var targeting_system = actor.weapon_manager.current_weapon.targeting_system
 	if targeting_system:
 		targeting_system.reset_targeting_highlight()
+
+
+func _tween_camera_zoom(zoom: Vector2) -> void:
+	var tween = get_tree().create_tween()
+	tween.tween_property(actor.camera, "zoom", zoom, 0.2)

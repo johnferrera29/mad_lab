@@ -36,6 +36,9 @@ extends CharacterBody2D
 # Weapon manager.
 @onready var weapon_manager := $WeaponManager as WeaponManager
 
+## Reference to the player camera
+@onready var camera := $PlayerCamera as Camera2D
+
 
 func _ready() -> void:
 	_connect_state_transitions()
