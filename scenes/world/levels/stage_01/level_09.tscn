@@ -318,7 +318,7 @@ label_settings = SubResource("LabelSettings_otaod")
 script = SubResource("GDScript_7py4d")
 
 [node name="MovingCrate" type="Path2D" parent="Puzzle01/ToggleE"]
-position = Vector2(-211, 1)
+position = Vector2(-211, -8)
 curve = SubResource("Curve2D_vpdu6")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Puzzle01/ToggleE/MovingCrate"]
@@ -353,12 +353,12 @@ libraries = {
 autoplay = "move_crate"
 
 [node name="Switch" parent="Puzzle01/ToggleE" node_paths=PackedStringArray("trigger_keys") instance=ExtResource("12_eh5ot")]
-position = Vector2(32, 64)
+position = Vector2(32, 55)
 rotation = -3.14159
 trigger_keys = [null, NodePath("../MovingCrate/MagneticCrate")]
 
 [node name="SpikeTrap" parent="Puzzle01/ToggleE" instance=ExtResource("13_20vk3")]
-position = Vector2(304, 219)
+position = Vector2(304, 217)
 spike_count = 6
 
 [node name="ToggleX" type="Node" parent="Puzzle01"]

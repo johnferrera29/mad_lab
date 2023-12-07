@@ -91,7 +91,7 @@ shrink_factor = 2.5
 [node name="Puzzle02" type="Node" parent="."]
 
 [node name="RespawnZone" parent="Puzzle02" instance=ExtResource("8_8lb8y")]
-position = Vector2(-64, -52)
+position = Vector2(-64, -56)
 
 [node name="ShowHiddenBoxTrap" type="Node" parent="Puzzle02"]
 script = SubResource("GDScript_yl0ml")

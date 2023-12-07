@@ -273,7 +273,6 @@ scalable_component = NodePath("ScalableComponent")
 script = ExtResource("9_hyfhi")
 target = NodePath("..")
 shrink_factor = 2.0
-instantly_scale_collision = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle02/MovingCrate"]
 libraries = {
