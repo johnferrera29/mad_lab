@@ -39,7 +39,7 @@ func _init_connections() -> void:
 func _proceed_to_level(level_id: int, scene_to_unload: Node = null) -> void:
 	await LoadingScreen.start_trasition()
 
-	var params = SceneManager.SceneChangeParams.new()
+	var params := SceneManager.SceneChangeParams.new()
 
 	params.scene_to_load_path = _LEVEL_RESOURCES[level_id]
 	params.parent_scene = GameManager.world

@@ -65,7 +65,7 @@ func _toggle_magnetic_field_fx(flag: bool) -> void:
 	else:
 		_magnetic_audio.stop()
 	
-	var animation_player = animator as AnimationPlayer
+	var animation_player := animator as AnimationPlayer
 	if flag and not animation_player.is_playing():
 		animation_player.play("jiggle")
 	else:

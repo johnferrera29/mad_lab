@@ -44,7 +44,7 @@ func launch_projectile(projectile: Projectile) -> bool:
 
 ## Returns a projectile configured based on parameters.
 func create_projectile(spawn_position: Vector2, spawn_rotation: float, velocity: Vector2, lifespan: float) -> Projectile:
-	var projectile = projectile_scene.instantiate() as Projectile
+	var projectile := projectile_scene.instantiate() as Projectile
 
 	projectile.global_position = spawn_position
 	projectile.global_rotation = spawn_rotation

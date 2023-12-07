@@ -30,6 +30,7 @@ LoadingScreen="*res://shared_scripts/autoloads/loading_screen/loading_screen.tsc
 [debug]
 
 gdscript/warnings/unused_parameter=0
+gdscript/warnings/untyped_declaration=1
 
 [display]
 

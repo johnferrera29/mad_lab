@@ -35,7 +35,7 @@ func destroy() -> void:
 		_play_explosion_audio()
 		
 		# Animate explosion
-		var tween = get_tree().create_tween()
+		var tween := get_tree().create_tween()
 		tween.set_parallel(true)
 		tween.tween_property(interactable_object.sprite, "scale", interactable_object.sprite.scale * 2, _EXPLOSION_TIME)
 		tween.tween_method(_update_explosion_dissolve, 1.0, 0.0, _EXPLOSION_TIME)

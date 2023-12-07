@@ -26,7 +26,7 @@ var _is_auto_advance: bool = true
 ## Default time it takes to advance to the next dialog box when using auto advance dialog.
 var _auto_advance_time: float = 1.0
 
-@onready var _dialog_box_resource = preload("res://scenes/gui/dialog_box/dialog_box.tscn")
+@onready var _dialog_box_resource := preload("res://scenes/gui/dialog_box/dialog_box.tscn")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -84,7 +84,7 @@ func _show_dialog_box() -> void:
 	if _is_auto_advance:
 		await _dialog_box.finished
 
-		var timing = _auto_advance_time
+		var timing: float = _auto_advance_time
 		if _dialog_params.auto_advance_time != timing:
 			timing = _dialog_params.auto_advance_time
 		

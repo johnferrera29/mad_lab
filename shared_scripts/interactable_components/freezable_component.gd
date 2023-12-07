@@ -27,9 +27,9 @@ signal thawed
 ## Flag to determine if target is frozen or not.
 var is_frozen: bool
 
-var _frozen_fx_resource = preload("res://scenes/vfx/frozen_fx/frozen_fx.tscn")
-var _frozen_timer_resource = preload("res://scenes/vfx/frozen_timer_fx/frozen_timer.tscn")
-var _frozen_audio_resource = preload("res://shared_resources/audio/frozen.wav")
+var _frozen_fx_resource := preload("res://scenes/vfx/frozen_fx/frozen_fx.tscn")
+var _frozen_timer_resource := preload("res://scenes/vfx/frozen_timer_fx/frozen_timer.tscn")
+var _frozen_audio_resource := preload("res://shared_resources/audio/frozen.wav")
 
 var _frozen_fx: GPUParticles2D
 var _frozen_timer: FrozenTimer

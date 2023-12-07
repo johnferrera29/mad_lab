@@ -10,7 +10,7 @@ var world: Node2D
 ## A reference to the player.
 var player: Player
 ## Unlockable flags for the player.
-var player_unlockables = {
+var player_unlockables: Dictionary = {
 	scale_gun = true,
 	freeze_ray = false,
 	bomb_launcher = false
@@ -39,7 +39,7 @@ func _respawn_player() -> void:
 
 
 #region Signal Callbacks.
-func _on_player_respawn_point_set(respawn_position: Vector2):
+func _on_player_respawn_point_set(respawn_position: Vector2) -> void:
 	last_respawn_position = respawn_position
 
 
@@ -47,7 +47,7 @@ func _on_player_died() -> void:
 	player.hide()
 	Utils.ProcessUtils.toggle_processing(player.state_machine, false)
 	
-	var audio_resource = preload("res://shared_resources/audio/died.ogg") as AudioStream
+	var audio_resource := preload("res://shared_resources/audio/died.ogg") as AudioStream
 	var params := AudioManager.PlaySoundParams.new()
 	params.pitch_scale = 0.5
 	

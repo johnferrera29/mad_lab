@@ -22,7 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _back_to_menu() -> void:
-	var params = SceneManager.SceneChangeParams.new()
+	var params := SceneManager.SceneChangeParams.new()
 	params.scene_to_load_path = "res://scenes/gui/main_menu/main_menu.tscn"
 	params.parent_scene = get_tree().get_first_node_in_group("gui")
 	params.scenes_to_unload.append_array([
@@ -34,7 +34,7 @@ func _back_to_menu() -> void:
 
 
 func _load_hud() -> void:
-	var params = SceneManager.SceneChangeParams.new()
+	var params := SceneManager.SceneChangeParams.new()
 	params.scene_to_load_path = "res://scenes/gui/hud/hud.tscn"
 	params.parent_scene = get_tree().get_first_node_in_group("gui")
 	params.scenes_to_unload.append_array([

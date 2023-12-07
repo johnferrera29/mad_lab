@@ -63,11 +63,11 @@ func state_physics_process(delta: float) -> void:
 
 ## Removes any remaining target highlights applied to the last detected target.
 func _remove_target_highlights() -> void:
-	var targeting_system = actor.weapon_manager.current_weapon.targeting_system
+	var targeting_system := actor.weapon_manager.current_weapon.targeting_system as TargetingSystem
 	if targeting_system:
 		targeting_system.reset_targeting_highlight()
 
 
 func _tween_camera_zoom(zoom: Vector2) -> void:
-	var tween = get_tree().create_tween()
+	var tween := get_tree().create_tween()
 	tween.tween_property(actor.camera, "zoom", zoom, 0.2)

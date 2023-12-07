@@ -26,7 +26,7 @@ var current_scale_mode: Enums.ScaleMode = Enums.ScaleMode.RESET
 ## Flag to temporarily prevent the target object from being scaled by a [ResizerDiscProjectile].
 var is_unscalable: bool
 
-var _scaling_audio_resource = preload("res://shared_resources/audio/scaling.ogg")
+var _scaling_audio_resource := preload("res://shared_resources/audio/scaling.ogg")
 var _scaling_audio: AudioStreamPlayer2D
 
 
@@ -104,7 +104,7 @@ func _apply_scale(new_scale: Vector2) -> void:
 	target.sprite.material = null
 
 	# Animate scaling
-	var tween = get_tree().create_tween()
+	var tween := get_tree().create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(target_sprite, "scale", new_scale, _SCALING_TIME)
 	
