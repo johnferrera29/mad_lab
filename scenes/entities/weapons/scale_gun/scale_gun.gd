@@ -58,7 +58,6 @@ func change_scale_mode(mode: Enums.ScaleMode) -> void:
 
 	targeting_system.reset_targeting_highlight()
 	
-	# TODO: Make weapon mode more generic to Weapon class.
 	SignalBus.weapon_mode_changed.emit(Enums.ScaleMode.keys()[mode])
 
 

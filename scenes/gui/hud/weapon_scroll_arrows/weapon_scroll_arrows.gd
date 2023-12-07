@@ -1,9 +1,9 @@
 extends Control
 
 
-@onready var weapon_next := $WeaponNext as WeaponArrow
-@onready var weapon_prev := $WeaponPrevious as WeaponArrow
-@onready var arrow_cliked_audio := $ArrowClickedAudio as AudioStreamPlayer
+@onready var _weapon_next := $WeaponNext as WeaponArrow
+@onready var _weapon_prev := $WeaponPrevious as WeaponArrow
+@onready var _arrow_cliked_audio := $ArrowClickedAudio as AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -23,9 +23,9 @@ func _on_weapon_drawn(weapon_count: int) -> void:
 
 
 func _on_weapon_scrolled(scroll_direction: int) -> void:
-	arrow_cliked_audio.play()
+	_arrow_cliked_audio.play()
 	
 	if scroll_direction == 1:
-		weapon_next.play_clicked_animation()
+		_weapon_next.play_clicked_animation()
 	else:
-		weapon_prev.play_clicked_animation()
+		_weapon_prev.play_clicked_animation()

@@ -3,10 +3,11 @@ extends Node2D
 ##
 ## Make sure to put this as the first node under the level scene.
 
+
 ## Reference to the current level.
 @export var level: Level
 
-var _player_scene := preload("res://scenes/characters/player/player.tscn")
+var _player_resource := preload("res://scenes/characters/player/player.tscn")
 
 @onready var _spawn_point := $PlayerSpawnPoint as Marker2D
 @onready var _trigger := $TriggerArea as TriggerArea
@@ -18,7 +19,7 @@ func _ready() -> void:
 
 
 func _spawn_player() -> void:
-	GameManager.player = _player_scene.instantiate() as Player
+	GameManager.player = _player_resource.instantiate() as Player
 	GameManager.player.global_position = _spawn_point.global_position
 	
 	_trigger.trigger_keys.append(GameManager.player)

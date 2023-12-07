@@ -1,6 +1,8 @@
 class_name TargetingSystem
 extends RayCast2D
 ## A component that can detect and interact with an [InteractableObject].
+##
+## Use this with composition.
 
 
 ## Signal emitted once target is detected.

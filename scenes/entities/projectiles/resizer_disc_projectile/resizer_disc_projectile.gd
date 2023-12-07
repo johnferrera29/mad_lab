@@ -6,6 +6,7 @@ extends Projectile
 
 
 var scale_mode: Enums.ScaleMode
+var is_metallic: bool = true
 
 
 func _on_body_entered(body: Node2D) -> void:

@@ -1,8 +1,6 @@
 class_name AudioQueue2D
 extends Node2D
 ## A variation of [AudioQueue] but for [AudioStreamPlayer2D]
-##
-## TODO: Find a way to dynamically set the type.
 
 
 @export var instance_count: int = 1
