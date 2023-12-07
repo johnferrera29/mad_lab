@@ -7,7 +7,6 @@ extends CollisionObject2D
 
 @export_group("Components")
 @export var scalable_component: ScalableComponent
-@export var anchor_component: AnchorComponent
 @export var freezable_component: FreezableComponent
 @export var breakable_component: BreakableComponent
 
