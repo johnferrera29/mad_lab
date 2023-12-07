@@ -1,6 +1,6 @@
 class_name ScalableComponent
 extends Node
-## A component that enables a particular [member target] to be scaled.
+## A component that enables a particular [member target] to be resized by a [ResizerDiscProjectile].
 ##
 ## Use this component with composition.
 
@@ -21,13 +21,13 @@ const _SCALING_TIME := 0.2
 ## Useful for triggers and switches.
 @export var instantly_scale_collision: bool
 
+## The current scaling mode of the target.
 var current_scale_mode: Enums.ScaleMode = Enums.ScaleMode.RESET
-
-var scaling_audio_resource = preload("res://shared_resources/audio/scaling.ogg")
-var scaling_audio: AudioStreamPlayer2D
-
 ## Flag to temporarily prevent the target object from being scaled by a [ResizerDiscProjectile].
 var is_unscalable: bool
+
+var _scaling_audio_resource = preload("res://shared_resources/audio/scaling.ogg")
+var _scaling_audio: AudioStreamPlayer2D
 
 
 func _ready() -> void:
@@ -42,47 +42,47 @@ func scale(mode: Enums.ScaleMode) -> void:
 
 	match mode:
 		Enums.ScaleMode.SHRINK:
-			shrink(shrink_factor)
+			_shrink(shrink_factor)
 		Enums.ScaleMode.ENLARGE:
-			enlarge(enlarge_factor)
+			_enlarge(enlarge_factor)
 		Enums.ScaleMode.RESET:
-			reset_scale()
+			_reset_scale()
 	
 	current_scale_mode = mode
 
 
 ## Shrinks target by [param factor]. Negative values will be ignored.
-func shrink(factor: float) -> void:
+func _shrink(factor: float) -> void:
 	if (factor <= 0.0) or is_unscalable: return
 	
-	scaling_audio.pitch_scale = 4.0
-	scaling_audio.play()
+	_scaling_audio.pitch_scale = 4.0
+	_scaling_audio.play()
 
 	_apply_scale(Vector2.ONE / factor)
 
 
 ## Enlarges target by [param factor]. Negative values will be ignored.
-func enlarge(factor: float) -> void:
-	if (factor <= 0.0)  or is_unscalable: return
+func _enlarge(factor: float) -> void:
+	if (factor <= 0.0) or is_unscalable: return
 
-	scaling_audio.pitch_scale = 2.0
-	scaling_audio.play()
+	_scaling_audio.pitch_scale = 2.0
+	_scaling_audio.play()
 
 	_apply_scale(Vector2.ONE * factor)
 
 
 ## Resets the scale to original value.
-## TODO: Possible removal since not being used.
-func reset_scale() -> void:
-	if  is_unscalable: return
+## TODO: Possible deprecation since not being used.
+func _reset_scale() -> void:
+	if is_unscalable: return
 	
-	scaling_audio.pitch_scale = 3.0
-	scaling_audio.play()
+	_scaling_audio.pitch_scale = 3.0
+	_scaling_audio.play()
 
 	_apply_scale(Vector2.ONE)
 
 
-## Apply the scaling to target's the [Sprite2D] and [CollisionShape2D].
+## Apply the scaling to target's [Sprite2D] and [CollisionShape2D].
 ## If [member target.sprite] and [member target.collision_shape] not present, will attempt to find them from its children nodes.
 ## Doing this since updating the target's (parent) scale introduces some issues with collision.
 func _apply_scale(new_scale: Vector2) -> void:
@@ -116,15 +116,16 @@ func _apply_scale(new_scale: Vector2) -> void:
 	scaled.emit(new_scale)
 
 
+## Add scaling audio to the target.
 func _add_scaling_audio() -> void:
-	scaling_audio = AudioStreamPlayer2D.new()
-	scaling_audio.stream = scaling_audio_resource
-	scaling_audio.max_distance = 500.0
+	_scaling_audio = AudioStreamPlayer2D.new()
+	_scaling_audio.stream = _scaling_audio_resource
+	_scaling_audio.max_distance = 500.0
 
-	target.add_child.call_deferred(scaling_audio)
+	target.add_child.call_deferred(_scaling_audio)
 
 
-# Determines the initial scale_mode based on shrink / enlarge factor
+## Determines the initial scale_mode based on shrink / enlarge factor
 func _set_initial_scale_mode() -> void:
 	if shrink_factor == 1.0:
 		current_scale_mode = Enums.ScaleMode.SHRINK

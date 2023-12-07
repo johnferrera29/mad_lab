@@ -29,6 +29,13 @@ func _physics_process(delta: float) -> void:
 		destroy()
 
 
+## Destroys the projectile. This will play the destroy animation if configured.
+func destroy() -> void:
+	_is_destroyed = true
+	await Utils.AnimationUtils.play_animation(animator, destroy_animation_name)
+	queue_free()
+
+
 func _init_timer() -> void:
 	_lifespan_timer = Timer.new()
 	_lifespan_timer.name = "ProjectileLifespanTimer"
@@ -37,10 +44,3 @@ func _init_timer() -> void:
 	_lifespan_timer.wait_time = projectile_lifespan
 	
 	add_child(_lifespan_timer)
-
-
-## Destroys the projectile. This will play the destroy animation if configured.
-func destroy() -> void:
-	_is_destroyed = true
-	await Utils.AnimationUtils.play_animation(animator, destroy_animation_name)
-	queue_free()

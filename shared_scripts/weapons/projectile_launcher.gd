@@ -66,8 +66,8 @@ func _init_timer() -> void:
 
 
 func _check_reload_progress() -> void:
-	# TODO: Cleanup this workaround condition for checking reload progress.
-	# Added get_parent().visible to only emit progress if this is the currently selected weapon.
-	if not launch_timer.is_stopped() and get_parent().visible:
+	# Only emit progress if the parent's process mode is not disabled.
+	# Doing this to prevent incorrect reload progress in the HUD weapon indicator.
+	if not launch_timer.is_stopped() and get_parent().process_mode != PROCESS_MODE_DISABLED:
 		var reload_progress := 1 - (launch_timer.time_left / launch_timer.wait_time)
 		SignalBus.weapon_reload_progressed.emit(reload_progress)
