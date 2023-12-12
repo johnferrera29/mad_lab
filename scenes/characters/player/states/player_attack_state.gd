@@ -43,12 +43,12 @@ func state_handle_input(event: InputEvent) -> void:
 	if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 		actor_ran.emit()
 	
-	if Input.is_action_just_pressed("change_weapon_next"):
+	if Input.is_action_just_pressed("change_weapon_next") or Input.is_action_just_released("change_weapon_next_scroll"):
 		_remove_target_highlights()
 		var next_weapon := actor.weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.NEXT)
 		actor.weapon_manager.change_weapon(next_weapon)
 	
-	if Input.is_action_just_pressed("change_weapon_prev"):
+	if Input.is_action_just_pressed("change_weapon_prev") or Input.is_action_just_released("change_weapon_prev_scroll"):
 		_remove_target_highlights()
 		var previous_weapon := actor.weapon_manager.scroll_through_weapons(WeaponManager.SCROLL_DIRECTION.PREVIOUS)
 		actor.weapon_manager.change_weapon(previous_weapon)

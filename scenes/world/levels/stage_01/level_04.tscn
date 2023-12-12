@@ -166,8 +166,7 @@ spike_count = 18
 curve = SubResource("Curve2D_vpdu6")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Puzzle02/MovingCrate"]
-position = Vector2(972.78, 144)
-progress = 252.78
+position = Vector2(720, 144)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Puzzle02/MovingCrate/PathFollow2D"]
 remote_path = NodePath("../../WoodenBox3")
