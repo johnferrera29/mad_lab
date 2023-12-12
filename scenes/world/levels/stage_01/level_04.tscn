@@ -172,7 +172,7 @@ position = Vector2(720, 144)
 remote_path = NodePath("../../WoodenBox3")
 
 [node name="WoodenBox3" parent="Puzzle02/MovingCrate" node_paths=PackedStringArray("scalable_component") instance=ExtResource("5_cg1q6")]
-position = Vector2(972.78, 144)
+position = Vector2(720, 144)
 scalable_component = NodePath("ScalableComponent")
 metadata/_edit_group_ = true
 
