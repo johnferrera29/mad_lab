@@ -284,8 +284,7 @@ autoplay = "move_crate"
 curve = SubResource("Curve2D_pirpu")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Puzzle02/MovingSpikeball"]
-position = Vector2(1280, 96)
-progress = 512.0
+position = Vector2(768, 96)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Puzzle02/MovingSpikeball/PathFollow2D"]
 remote_path = NodePath("../../SpikeBallTrap")
