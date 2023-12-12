@@ -26,9 +26,9 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("change_weapon_mode"):
-		var new_mode := _scroll_through_scale_modes()
-		change_scale_mode(new_mode)
+	# if Input.is_action_just_pressed("change_weapon_mode"):
+	# 	var new_mode := _scroll_through_scale_modes()
+	# 	change_scale_mode(new_mode)
 	
 	if Input.is_action_just_pressed("interact") and projectile_launcher.launch_timer.is_stopped():
 		change_scale_mode(Enums.ScaleMode.SHRINK)

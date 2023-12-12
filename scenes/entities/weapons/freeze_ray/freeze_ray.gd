@@ -18,7 +18,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("interact") and projectile_launcher.launch_timer.is_stopped():
+	if (Input.is_action_just_pressed("interact") or Input.is_action_just_pressed("interact_alt")) and projectile_launcher.launch_timer.is_stopped():
 		var target_position := get_global_mouse_position()
 		var projectile_velocity := projectile_launcher.launch_speed * global_position.direction_to(target_position)
 		var projectile := projectile_launcher.create_projectile(
