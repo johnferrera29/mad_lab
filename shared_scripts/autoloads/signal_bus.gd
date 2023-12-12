@@ -1,7 +1,7 @@
 extends Node
 ## Signal Bus autoload containing global signals.
 ##
-## Commonly used to connect a deeply nested node to other nodes or updating the GUI.
+## Commonly used to connect behavior of a deeply nested or sibling nodes with no direct relation.
 
 
 # Player related signals.

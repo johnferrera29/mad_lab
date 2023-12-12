@@ -1,26 +1,22 @@
 extends Node
 ## Manages the game state.
 ## 
-## TODO: Make this a scene and cleanup GameManager.
+## TODO: Make this an autoloaded scene scene and cleanup GameManager.
 ## Research what should be in the GameManager.
 
 
+## A reference to the World scene.
+var world: Node2D
 ## A reference to the player.
 var player: Player
 ## Unlockable flags for the player.
-var player_unlockables = {
+var player_unlockables: Dictionary = {
 	scale_gun = true,
 	freeze_ray = false,
 	bomb_launcher = false
 }
 ## Marks the position where the player will respawn.
 var last_respawn_position: Vector2
-
-## A reference to the World scene.
-var world: Node2D
-
-# Audio stream resources
-var _player_died_audio_resource = preload("res://shared_resources/audio/died.ogg") as AudioStream
 
 
 func _ready() -> void:
@@ -42,8 +38,8 @@ func _respawn_player() -> void:
 	player.state_machine.change_state(player.idle_state)
 
 
-# Signal callbacks.
-func _on_player_respawn_point_set(respawn_position: Vector2):
+#region Signal Callbacks.
+func _on_player_respawn_point_set(respawn_position: Vector2) -> void:
 	last_respawn_position = respawn_position
 
 
@@ -51,10 +47,11 @@ func _on_player_died() -> void:
 	player.hide()
 	Utils.ProcessUtils.toggle_processing(player.state_machine, false)
 	
+	var audio_resource := preload("res://shared_resources/audio/died.ogg") as AudioStream
 	var params := AudioManager.PlaySoundParams.new()
 	params.pitch_scale = 0.5
-
-	await AudioManager.play_sound(_player_died_audio_resource, params).finished
+	
+	await AudioManager.play_sound(audio_resource, params)
 	
 	_respawn_player()
 
@@ -69,3 +66,4 @@ func _on_unlock_weapon(weapon_type: Enums.WeaponType) -> void:
 			player_unlockables.freeze_ray = true
 	
 	GameManager.player.weapon_manager.unlock_weapons()
+#endregion

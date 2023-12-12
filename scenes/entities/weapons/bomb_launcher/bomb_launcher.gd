@@ -1,6 +1,6 @@
 class_name BombLauncher
 extends Weapon
-## A bomb launcher... that launches bombs. Launches a [BombProjectile] towards a target position.
+## A bomb launcher... that launches bombs. Launches a [BombProjectile].
 ##
 ## Target object must extend an [InteractableObject] and contain a [BreakableComponent].
 

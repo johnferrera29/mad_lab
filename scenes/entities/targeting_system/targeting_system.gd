@@ -1,6 +1,8 @@
 class_name TargetingSystem
 extends RayCast2D
 ## A component that can detect and interact with an [InteractableObject].
+##
+## Use this with composition.
 
 
 ## Signal emitted once target is detected.
@@ -47,7 +49,7 @@ func _physics_process(delta: float) -> void:
 
 	# Create the raycast line.
 	if visible_raycast_line:
-		var starting_position = global_position if not line_starting_point else line_starting_point.global_position
+		var starting_position: Vector2 = global_position if not line_starting_point else line_starting_point.global_position
 		_draw_raycast_line(starting_position, global_mouse_position)
 
 		if line_length:
@@ -64,7 +66,7 @@ func _physics_process(delta: float) -> void:
 		# TODO: Redraw raycast if colliding with another object.
 
 		# Check if target extends InteractableObject.
-		var target = get_collider() as InteractableObject
+		var target := get_collider() as InteractableObject
 		if target:
 			# Check if object same as last detected object.
 			# This prevents [signal target_detected] from being emitted multiple times.
@@ -99,7 +101,7 @@ func _init_line() -> void:
 
 
 func _init_shader_params() -> void:
-	for key in shader_parameters:
+	for key: String in shader_parameters:
 		shader_material.set_shader_parameter(key, shader_parameters[key])
 
 
@@ -114,7 +116,7 @@ func _caculate_end_position(start: Vector2, end: Vector2, length: float) -> Vect
 
 ## Draws a visible line from [param start] to [param end].
 func _draw_raycast_line(start: Vector2, end: Vector2) -> void:
-	var adjusted_end = end if not line_length else _caculate_end_position(start, end, line_length)
+	var adjusted_end := end if not line_length else _caculate_end_position(start, end, line_length)
 
 	_line.points = PackedVector2Array([
 		start,

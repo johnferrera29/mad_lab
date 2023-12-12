@@ -1,8 +1,6 @@
 class_name WeaponManager
 extends Node2D
-## Class that handles switching between different availble weapons.
-##
-## TODO: Make this extend StateMachine for better state handling.
+## Class that handles switching between different available weapons.
 
 
 ## Determines the scroll direction when calling [method scroll_through_weapons].
@@ -21,18 +19,17 @@ enum SCROLL_DIRECTION {
 
 ## Currently selected weaon.
 var current_weapon: Weapon
-## A dictionary of weapons inside Weapon Manager. Node's lowercased name is used as the key.
+## A dictionary of weapons inside Weapon Manager.
 var weapon_dictionary: Dictionary = {}
 ## An array of weapons. Contains the same weapons as [member weapon_dictionary] but in array form.
-## The order of the array is based on the child's order in the editor.
 var weapon_list: Array[Weapon]
-
 
 
 func _ready() -> void:
 	unlock_weapons()
 
 
+## Unlocks weapons based on player unlockable flags in [GameManager].
 func unlock_weapons() -> void:
 	if GameManager.player_unlockables.scale_gun:
 		_unlock_weapon(Enums.WeaponType.SCALE_GUN)
@@ -91,6 +88,7 @@ func toggle_weapon_manager(flag: bool) -> void:
 		self.hide()
 
 
+## Unlock a specific type of weapon.
 func _unlock_weapon(weapon_type: Enums.WeaponType) -> void:
 	match weapon_type:
 		Enums.WeaponType.SCALE_GUN:
@@ -113,6 +111,7 @@ func _unlock_weapon(weapon_type: Enums.WeaponType) -> void:
 				_add_weapon(instance)
 
 
+## Adds a weapon to the weapons dictionary and list
 func _add_weapon(weapon: Weapon) -> void:
 	add_child(weapon)
 	weapon_dictionary[weapon.name.to_lower()] = weapon

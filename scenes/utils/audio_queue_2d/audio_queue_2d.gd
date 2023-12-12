@@ -1,8 +1,6 @@
 class_name AudioQueue2D
 extends Node2D
 ## A variation of [AudioQueue] but for [AudioStreamPlayer2D]
-##
-## TODO: Find a way to dynamically set the type.
 
 
 @export var instance_count: int = 1
@@ -16,7 +14,7 @@ func _ready() -> void:
 		push_warning("Audio Queue contains no child node of type AudioStreamPlayer2D.")
 		return
 
-	var audio_stream_player = get_child(0) as AudioStreamPlayer2D
+	var audio_stream_player := get_child(0) as AudioStreamPlayer2D
 
 	if audio_stream_player:
 		_audio_stream_players.append(audio_stream_player)
@@ -31,8 +29,10 @@ func _ready() -> void:
 
 
 func play_sound() -> void:
-	if not _audio_stream_players[_next].playing:
-		_audio_stream_players[_next].play()
+	var next_audio_player := _audio_stream_players[_next]
+	if is_inside_tree() and not next_audio_player.playing:
+		
+		next_audio_player.play()
 		_next += 1
 		_next %= _audio_stream_players.size()
 

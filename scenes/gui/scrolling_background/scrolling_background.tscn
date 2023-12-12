@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://db0mpnbnvvkxc"]
+
+[ext_resource type="Script" path="res://scenes/gui/scrolling_background/scrolling_background.gd" id="1_4cnue"]
+
+[node name="ScrollingBackground" type="ParallaxBackground"]
+script = ExtResource("1_4cnue")
+scroll_speed = Vector2(4, 4)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(640, 640)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
+texture_repeat = 2
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 640, 640)

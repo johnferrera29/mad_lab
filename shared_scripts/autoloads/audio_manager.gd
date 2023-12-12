@@ -5,11 +5,15 @@ extends Node
 ## AudioStreamPlayers will use the SFX audio bus.
 
 
-const SFX_BUS_NAME: String = "SFX"
+const _SFX_BUS_NAME: String = "SFX"
 
-func play_sound(stream: AudioStream, params: PlaySoundParams = PlaySoundParams.new()) -> AudioStreamPlayer:
+
+## Plays a one shot sound.
+## Use [param params] to customize behavior of [AudioStreamPlayer].
+## Returns the [signal finished] of the [AudioStreamPlayer].
+func play_sound(stream: AudioStream, params: PlaySoundParams = PlaySoundParams.new()) -> Signal:
 	var audio_stream_player := AudioStreamPlayer.new()
-	audio_stream_player.bus = SFX_BUS_NAME
+	audio_stream_player.bus = _SFX_BUS_NAME
 
 	audio_stream_player.stream = stream
 	audio_stream_player.volume_db = params.volume_db
@@ -21,14 +25,14 @@ func play_sound(stream: AudioStream, params: PlaySoundParams = PlaySoundParams.n
 
 	audio_stream_player.play()
 
-	return audio_stream_player
+	return audio_stream_player.finished
 
 
 func _on_audio_stream_player_finished(audio_stream_player: AudioStreamPlayer) -> void:
 	audio_stream_player.queue_free()
 
 
+## An optional parameter class for customizing the behavior of the [AudioStreamPlayer] when [method play_sound] is called.
 class PlaySoundParams:
 	var volume_db: float = 0.0
 	var pitch_scale: float = 1.0
-

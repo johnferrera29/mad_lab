@@ -48,7 +48,7 @@ func state_physics_process(delta: float) -> void:
 		decelerate(actor.movement_speed)
 	
 	if not actor.is_on_floor():
-		check_for_coyote_time(delta)
+		check_for_coyote_time()
 
 		# Only apply gravity if actor is falling and coyote timer is inactive.
 		if coyote_timer.is_stopped():
@@ -56,7 +56,7 @@ func state_physics_process(delta: float) -> void:
 		
 		_was_on_floor = false
 	else:
-		check_for_buffered_jump(delta, actor.jump_force)
+		check_for_buffered_jump(actor.jump_force)
 		
 		if is_zero_approx(actor.velocity.y):
 			_was_on_floor = true
@@ -99,7 +99,7 @@ func jump(force: float) -> void:
 
 
 ## Checks for a buffered jump and executes [method jump] with a [param force].
-func check_for_buffered_jump(delta: float, force: float) -> bool:
+func check_for_buffered_jump(force: float) -> bool:
 	if not jump_buffer_timer.is_stopped():
 		jump_buffer_timer.stop()
 		jump(force)
@@ -109,7 +109,7 @@ func check_for_buffered_jump(delta: float, force: float) -> bool:
 
 
 # Checks if actor is previously on floor and not jumping. If true activate coyote time.
-func check_for_coyote_time(delta: float) -> bool:
+func check_for_coyote_time() -> bool:
 	if _was_on_floor and not _is_jumping:
 		coyote_timer.start()
 		return true

@@ -5,7 +5,7 @@ extends Node
 ## Contains methods to be overriden by derived classes.
 
 
-## Virtual function. Receives events from the '_unhandled_input()' callback.
+## Virtual function. Receives events from the '_input()' callback.
 func state_handle_input(event: InputEvent) -> void:
 	pass
 
@@ -31,7 +31,7 @@ func state_physics_process(delta: float) -> void:
 	pass
 
 
-# TODO: Try to create virtual function once varargs has been implmented in Godot.
+# TODO: Try to create virtual function once varargs has been implemented in Godot.
 # @reference: https://github.com/godotengine/godot/pull/82808
 # func create_state_params(...args) -> Dictionary:
 # 	return {}

@@ -1,13 +1,18 @@
 extends CanvasLayer
+## A screen that can be used to transition between different scenes.
+##
+## TODO: Implement actual background loading instead of faking loading progress.
 
-@onready var animator := $AnimationPlayer as AnimationPlayer
+
+@onready var _animator := $AnimationPlayer as AnimationPlayer
 
 
-## Awaitable transition screen.
-func start_trasition(play_backwards: bool = false) -> void:
+## Starts the screen transition
+## Returns an awaitable [signal animation_finished].
+func start_trasition(play_backwards: bool = false) -> Signal:
 	if play_backwards:
-		animator.play_backwards("fade")
+		_animator.play_backwards("fade")
 	else:
-		animator.play("fade")
+		_animator.play("fade")
 	
-	await animator.animation_finished
+	return _animator.animation_finished

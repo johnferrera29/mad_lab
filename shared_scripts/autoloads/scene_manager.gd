@@ -1,5 +1,5 @@
 extends Node
-## Manages scene transitions.
+## Manages scene loading and unloading.
 
 
 func _ready() -> void:
@@ -16,20 +16,26 @@ func _init_connections() -> void:
 func _change_scene_deferred(params: SceneChangeParams) -> void:
 	if not params: return
 
+	# Unload all the scenes that needs to be unloaded.
 	for scene_to_unload in params.scenes_to_unload:
 		if scene_to_unload and not scene_to_unload.is_queued_for_deletion():
 			scene_to_unload.free()
 	
-	var new_scene
+	var new_scene: Node
 	if params.scene_to_load:
 		new_scene = params.scene_to_load.instantiate()
 	elif params.scene_to_load_path:
 		var scene_resource: Resource = ResourceLoader.load(params.scene_to_load_path)
 		new_scene = scene_resource.instantiate()
 	
-	DialogManager.clear_all_dialog()
-	
+	_call_auxiliary_methods()
+
 	params.parent_scene.add_child(new_scene)
+
+
+## Calls any additional methods used for cleanup or other essential tasks before loading a new scene.
+func _call_auxiliary_methods() -> void:
+	DialogManager.clear_all_dialog()
 
 
 func _on_scene_change_triggered(params: SceneChangeParams) -> void:
@@ -41,10 +47,10 @@ func _on_scene_change_triggered(params: SceneChangeParams) -> void:
 
 ## Class to construct the scene change parameters when emitting [signal SignalBus.scene_change_triggered].
 class SceneChangeParams:
-	## The scene to be loaded.
+	## The packed scene resource to be loaded.
 	var scene_to_load: PackedScene
 	
-	## The scene path to be loaded.
+	## The scene resource path to be loaded.
 	## Ignored if [member scene_to_load] already provided.
 	var scene_to_load_path: String
 
@@ -52,7 +58,7 @@ class SceneChangeParams:
 	var parent_scene: Node
 
 	## Optional array of scenes to be unloaded.
-	## Usuaully best practice to pass the scene in cases we want to replace it (e.g. changing levels).
+	## Usually best practice to pass the scene in cases we want to replace it (e.g. changing levels).
 	var scenes_to_unload: Array[Node] = []
 
 	## Delay in seconds before loading the new scene.

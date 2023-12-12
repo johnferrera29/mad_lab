@@ -20,7 +20,6 @@ extends CharacterBody2D
 ## Max [member CharacterBody2D.velocity.y] the player can achieve while falling.
 @export var terminal_velocity: float
 
-
 # Jump related variables.
 # @tutorial: https://www.youtube.com/watch?v=IOe1aGY6hXA
 @onready var jump_force: float = (jump_height * 2.0) / jump_time_to_peak
@@ -33,10 +32,12 @@ extends CharacterBody2D
 @onready var run_state := $StateMachine/Run as PlayerRunState
 @onready var air_state := $StateMachine/Air as PlayerAirState
 @onready var attack_state := $StateMachine/Attack as PlayerAttackState
-@onready var grappling_state := $StateMachine/Grappling as PlayerGrapplingState
 
 # Weapon manager.
 @onready var weapon_manager := $WeaponManager as WeaponManager
+
+## Reference to the player camera
+@onready var camera := $PlayerCamera as Camera2D
 
 
 func _ready() -> void:
@@ -72,7 +73,3 @@ func _connect_state_transitions() -> void:
 	attack_state.actor_fell.connect(change_to_fall_state)
 	attack_state.actor_jumped.connect(change_to_jump_state)
 	attack_state.actor_ran.connect(change_to_run_state)
-
-	# Connect player grappling transition states.
-	grappling_state.actor_idle.connect(change_to_idle_state)
-	grappling_state.actor_fell.connect(change_to_fall_state)

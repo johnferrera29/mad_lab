@@ -5,12 +5,12 @@ extends Node2D
 @export var one_shot: bool
 @export var auto_advance_time: float = 1.0
 
-@onready var trigger := $TriggerArea as TriggerArea
+@onready var _trigger := $TriggerArea as TriggerArea
 
 
 func _ready() -> void:
-	trigger.trigger_keys.append(GameManager.player)
-	trigger.one_shot = one_shot
+	_trigger.trigger_keys.append(GameManager.player)
+	_trigger.one_shot = one_shot
 
 
 func _on_trigger_area_triggered() -> void:

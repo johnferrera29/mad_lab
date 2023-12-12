@@ -1,6 +1,6 @@
 class_name FreezableComponent
 extends Node
-## A component that allows [member target] to be frozen by [FreezeRay].
+## A component that allows [member target] to be frozen by [IceBeamProjectile].
 ##
 ## Use this component with composition.
 ##
@@ -16,7 +16,7 @@ signal froze
 signal thawed
 
 ## Target node to be frozen.
-## Built-in processing will be stopped once frozen.
+## Built-in processing of animators inside the target will be stopped once frozen.
 @export var target: Node2D
 ## A reference to the target's external animator.
 @export var animator: AnimationPlayer
@@ -27,9 +27,9 @@ signal thawed
 ## Flag to determine if target is frozen or not.
 var is_frozen: bool
 
-var _frozen_fx_resource = preload("res://scenes/vfx/frozen_fx/frozen_fx.tscn")
-var _frozen_timer_resource = preload("res://scenes/vfx/frozen_timer_fx/frozen_timer.tscn")
-var _frozen_audio_resource = preload("res://shared_resources/audio/frozen.wav")
+var _frozen_fx_resource := preload("res://scenes/vfx/frozen_fx/frozen_fx.tscn")
+var _frozen_timer_resource := preload("res://scenes/vfx/frozen_timer_fx/frozen_timer.tscn")
+var _frozen_audio_resource := preload("res://shared_resources/audio/frozen.wav")
 
 var _frozen_fx: GPUParticles2D
 var _frozen_timer: FrozenTimer
@@ -129,6 +129,7 @@ func _add_frozen_timer() -> void:
 	target.add_child.call_deferred(_frozen_timer)
 
 
+## Adds freezing audio to the target.
 func _add_frozen_audio() -> void:
 	_frozen_audio = AudioStreamPlayer2D.new()
 	_frozen_audio.stream = _frozen_audio_resource

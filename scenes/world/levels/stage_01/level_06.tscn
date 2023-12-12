@@ -1,18 +1,18 @@
 [gd_scene load_steps=24 format=3 uid="uid://durjuxfbpttwb"]
 
 [ext_resource type="Script" path="res://scenes/world/levels/stage_01/level_06.gd" id="1_48pbk"]
-[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory/laboratory_tilemap.tscn" id="2_ppgur"]
-[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/triggers/zones/start_zone/start_zone.tscn" id="3_7oo0v"]
-[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/environment/triggers/zones/exit_zone/exit_zone.tscn" id="4_501bp"]
+[ext_resource type="PackedScene" uid="uid://b7a0wjhlvt5s8" path="res://scenes/environment/laboratory_tilemap/laboratory_tilemap.tscn" id="2_ppgur"]
+[ext_resource type="PackedScene" uid="uid://5aw78krg1h6c" path="res://scenes/environment/zones/start_zone/start_zone.tscn" id="3_7oo0v"]
+[ext_resource type="PackedScene" uid="uid://dyjdvoppye5lh" path="res://scenes/environment/zones/exit_zone/exit_zone.tscn" id="4_501bp"]
 [ext_resource type="PackedScene" uid="uid://cylkxg60m55a7" path="res://scenes/environment/wooden_box/wooden_box.tscn" id="8_cbpwd"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/scalable_component.gd" id="9_hyfhi"]
 [ext_resource type="PackedScene" uid="uid://bl0vd7ig72f4v" path="res://scenes/environment/magnetic_crate/magnetic_crate.tscn" id="9_mp41t"]
 [ext_resource type="Script" path="res://shared_scripts/interactable_components/breakable_component.gd" id="10_erq4w"]
 [ext_resource type="PackedScene" uid="uid://sai6af3qayly" path="res://scenes/environment/metal_crate/metal_crate.tscn" id="11_l8o45"]
-[ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/triggers/traps/spike_trap/spike_trap.tscn" id="12_xcc80"]
-[ext_resource type="PackedScene" uid="uid://ddqbsbl3sn081" path="res://scenes/environment/triggers/switch/switch.tscn" id="13_0gxdd"]
-[ext_resource type="PackedScene" uid="uid://dht1iuocmqv78" path="res://scenes/environment/triggers/traps/spike_ball_trap/spike_ball_trap.tscn" id="13_0vexy"]
-[ext_resource type="PackedScene" uid="uid://wqoln4sangsd" path="res://scenes/environment/triggers/zones/respawn_zone/respawn_zone.tscn" id="14_s3oiu"]
+[ext_resource type="PackedScene" uid="uid://cgutr7pwiivvu" path="res://scenes/environment/traps/spike_trap/spike_trap.tscn" id="12_xcc80"]
+[ext_resource type="PackedScene" uid="uid://ddqbsbl3sn081" path="res://scenes/environment/switch/switch.tscn" id="13_0gxdd"]
+[ext_resource type="PackedScene" uid="uid://dht1iuocmqv78" path="res://scenes/environment/traps/spike_ball_trap/spike_ball_trap.tscn" id="13_0vexy"]
+[ext_resource type="PackedScene" uid="uid://wqoln4sangsd" path="res://scenes/environment/zones/respawn_zone/respawn_zone.tscn" id="14_s3oiu"]
 
 [sub_resource type="GDScript" id="GDScript_ch40w"]
 script/source = "extends Node
@@ -273,13 +273,12 @@ scalable_component = NodePath("ScalableComponent")
 script = ExtResource("9_hyfhi")
 target = NodePath("..")
 shrink_factor = 2.0
-instantly_scale_collision = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle02/MovingCrate"]
-autoplay = "move_crate"
 libraries = {
 "": SubResource("AnimationLibrary_v1x12")
 }
+autoplay = "move_crate"
 
 [node name="MovingSpikeball" type="Path2D" parent="Puzzle02"]
 curve = SubResource("Curve2D_pirpu")
@@ -295,10 +294,10 @@ remote_path = NodePath("../../SpikeBallTrap")
 position = Vector2(1280, 96)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Puzzle02/MovingSpikeball"]
-autoplay = "move_spikeball"
 libraries = {
 "": SubResource("AnimationLibrary_833ey")
 }
+autoplay = "move_spikeball"
 
 [node name="SpikeTrap" parent="Puzzle02" instance=ExtResource("12_xcc80")]
 position = Vector2(1015, 250)

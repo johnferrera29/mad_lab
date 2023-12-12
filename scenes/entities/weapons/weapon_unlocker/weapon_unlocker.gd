@@ -5,7 +5,7 @@ extends Node2D
 @export var weapon_type: Enums.WeaponType
 @export var sprite_texture: CompressedTexture2D
 
-var unlock_weapon_audio_resrouce = preload("res://scenes/entities/weapons/weapon_unlocker/resources/audio/unlock_weapon.ogg")
+var unlock_weapon_audio_resrouce := preload("res://scenes/entities/weapons/weapon_unlocker/resources/audio/unlock_weapon.ogg")
 
 @onready var sprite := $Sprite2D as Sprite2D
 @onready var trigger := $TriggerArea as TriggerArea

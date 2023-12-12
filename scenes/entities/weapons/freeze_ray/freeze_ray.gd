@@ -2,7 +2,7 @@ class_name FreezeRay
 extends Weapon
 ## A gun that fires an ice beam that freezes everything in its path.
 ##
-## "Freezing" in this case is stoping the target's built-in processes (e.g. _physics_process, _input, etc.) and any attached animators.
+## "Freezing" in this case is stopping the target animators' built-in processes (e.g. _physics_process, _input, etc.).
 ## Target object must extend an [InteractableObject] and contains a [FreezableComponent].
 
 

@@ -13,7 +13,7 @@ func _ready() -> void:
 		push_warning("Audio Queue contains no child node of type AudioStreamPlayer.")
 		return
 
-	var audio_stream_player = get_child(0) as AudioStreamPlayer
+	var audio_stream_player := get_child(0) as AudioStreamPlayer
 
 	if audio_stream_player:
 		_audio_stream_players.append(audio_stream_player)

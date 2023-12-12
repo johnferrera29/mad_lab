@@ -27,29 +27,37 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("change_weapon_mode"):
-		var new_mode = _scroll_through_scale_modes()
+		var new_mode := _scroll_through_scale_modes()
 		change_scale_mode(new_mode)
-
-
+	
 	if Input.is_action_just_pressed("interact") and projectile_launcher.launch_timer.is_stopped():
-		var target_position := get_global_mouse_position()
-		var projectile_velocity := projectile_launcher.launch_speed * global_position.direction_to(target_position)
-		var projectile := projectile_launcher.create_projectile(
-			projectile_spawn_point.global_position,
-			targeting_system.target_angle,
-			projectile_velocity,
-			projectile_launcher.projectile_lifespan
-		) as ResizerDiscProjectile
-
-		projectile.scale_mode = current_mode
-
-		projectile_launcher.launch_projectile(projectile)
-		
-		audio_queue.play_sound()
+		change_scale_mode(Enums.ScaleMode.SHRINK)
+		_fire()
+	if Input.is_action_just_pressed("interact_alt") and projectile_launcher.launch_timer.is_stopped():
+		change_scale_mode(Enums.ScaleMode.ENLARGE)
+		_fire()
 
 
 func _physics_process(delta: float) -> void:
 	update_sprite_rotation()
+
+
+## Fires the projectile.
+func _fire() -> void:
+	var target_position := get_global_mouse_position()
+	var projectile_velocity := projectile_launcher.launch_speed * global_position.direction_to(target_position)
+	var projectile := projectile_launcher.create_projectile(
+		projectile_spawn_point.global_position,
+		targeting_system.target_angle,
+		projectile_velocity,
+		projectile_launcher.projectile_lifespan
+	) as ResizerDiscProjectile
+
+	projectile.scale_mode = current_mode
+
+	projectile_launcher.launch_projectile(projectile)
+	
+	audio_queue.play_sound()
 
 
 ## Change the gun's current scale mode.
@@ -58,7 +66,6 @@ func change_scale_mode(mode: Enums.ScaleMode) -> void:
 
 	targeting_system.reset_targeting_highlight()
 	
-	# TODO: Make weapon mode more generic to Weapon class.
 	SignalBus.weapon_mode_changed.emit(Enums.ScaleMode.keys()[mode])
 
 
